@@ -55,11 +55,11 @@ namespace Server
                 // Create an RSA key from the private key PEM and password
                 using (RSA rsa = RSA.Create())
                 {
-                    rsa.ImportFromEncryptedPem(keyPath, password);
+                    rsa.ImportFromEncryptedPem(keyPem, password);
                     // Load the certificate from fileCertPath
-                    var certificate = new X509Certificate2(fileCertPath);
+                    var certificate = new X509Certificate2(fileCertPath, password);
 
-                    var certificate2 = certificate.CopyWithPrivateKey(rsa);
+                    //certificate = certificate.CopyWithPrivateKey(rsa);
                     // Associate the private key with the certificate
 
 
@@ -80,14 +80,14 @@ namespace Server
             string serverCertPath = "../../../PKI/Server/server.pfx";
             string keyCertPath = "../../../PKI/Server/key.pem";
             // WITH THIS DOES NOT WORK
-            var certificate = ReadCertificateWithPrivateKey(serverCertPath,keyCertPath, "password");
+            var certificate = ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
             
             // WITH THIS DOES WORK
             
-            var certificate2 = CreateSelfSignedCertificate("1.3.6.1.5.5.7.3.1");
+            // var certificate2 = CreateSelfSignedCertificate("1.3.6.1.5.5.7.3.1");
 
-            var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionCertificate(certificate.Export(X509ContentType.Pfx)).WithEncryptedEndpoint().Build();
+            var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionCertificate(certificate).WithEncryptedEndpoint().Build();
 
             using (var mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions))
             {
