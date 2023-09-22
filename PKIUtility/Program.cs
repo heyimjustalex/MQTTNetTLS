@@ -30,9 +30,11 @@ namespace PKIUtility
             string certificateToServerPath = "../../../../Server/PKI/Server/server.pfx";
             string certificateServerPathPassword = "password";
 
+            string serverKeyToServerPath = "../../../../Server/PKI/Server/key.pem";
+
             Console.WriteLine("GENERATING CA CERTIFICATE AND SERVER CERTIFICATE");
             X509Certificate2 rootCertificate = GenerateCACertificate("RootCA-IOT");
-            X509Certificate2 certificate = GenerateSignedCertificate("BROKER1-IOT", rootCertificate);
+            X509Certificate2 certificate = GenerateSignedCertificate("BROKER1-IOT",serverKeyToServerPath, rootCertificate, "password");
 
             ExportCertificateToFile(rootCertificate, caCertificateFilePath);
             ExportCertificateToFile(rootCertificate, caCertificateToServerPath);
@@ -142,53 +144,38 @@ namespace PKIUtility
                 Console.WriteLine($"Error exporting certificate: {ex.Message}");
             }
         }
-        static X509Certificate2 GenerateSignedCertificate(string subjectName, X509Certificate2 issuerCertificate)
+        static X509Certificate2 GenerateSignedCertificate(string subjectName, string keyFilePath, X509Certificate2 issuerCertificate, string password)
         {
-
-            var sanBuilder = new SubjectAlternativeNameBuilder();
-            sanBuilder.AddIpAddress(IPAddress.Loopback);
-            sanBuilder.AddIpAddress(IPAddress.IPv6Loopback);
-            sanBuilder.AddDnsName("localhost");
-
-            string oid = "1.3.6.1.5.5.7.3.1";
-
-
+            // Step 1: Generate a key pair and export the private key as key.pem
             using (RSA rsa = RSA.Create(2048))
             {
+                // Step 2: Create a certificate request
                 var request = new CertificateRequest(
                     new X500DistinguishedName($"CN={subjectName}"),
                     rsa,
-                    HashAlgorithmName.SHA512, RSASignaturePadding.Pkcs1);
-                request.CertificateExtensions.Add(
-                   new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature, false));
+                    HashAlgorithmName.SHA512,
+                    RSASignaturePadding.Pkcs1);
 
-                request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(new OidCollection { new(oid) }, false));
+                // Step 3: Build the certificate
+                var certificate = request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(8));
 
-                request.CertificateExtensions.Add(sanBuilder.Build());
-
-                // Create the certificate and sign it with the CA's private key
-                var certificate = request.Create(
-                    issuerCertificate,
-                    DateTimeOffset.Now,
-                    DateTimeOffset.Now.AddYears(8),
-                    Guid.NewGuid().ToByteArray());
-
-                // Include the issuer certificate (CA certificate) in the certificate chain
+                // Step 4: Create a certificate chain
                 var chain = new X509Chain();
-                chain.ChainPolicy.ExtraStore.Add(issuerCertificate);
                 chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // Skip revocation check
-                
-                // This is so you dont have to install CA to build chain. You might check if deleted does it make chain not build
                 chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
 
-                // Build and verify the certificate chain
+                // Step 5: Include the issuer certificate (CA certificate) in the certificate chain
+                chain.ChainPolicy.ExtraStore.Add(issuerCertificate);
+
+                // Step 6: Build and verify the certificate chain
                 if (chain.Build(certificate))
                 {
-                    // Export the certificate and private key as a PFX (PKCS#12) file
-                    var pfxCertificate = new X509Certificate2(
-                        certificate.Export(X509ContentType.Pfx),
-                        (string)null!,
-                        X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.Exportable);
+                    // Step 7: Export the certificate and private key as a PFX (PKCS#12) file with a password
+                    var pfxBytes = certificate.Export(X509ContentType.Pkcs12, password);
+                    var pfxCertificate = new X509Certificate2(pfxBytes, password, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
+
+                    // Step 8: Export the private key as key.pem file
+                    ExportPrivateKeyToPemFile(rsa, password, keyFilePath);
 
                     return pfxCertificate;
                 }
@@ -197,9 +184,44 @@ namespace PKIUtility
                     // Handle certificate chain validation failure (e.g., CA certificate not trusted)
                     throw new Exception("Certificate chain validation failed.");
                 }
-
             }
         }
+
+        private static void ExportPrivateKeyToPemFile(RSA privateKey, string password, string filePath)
+        {
+            var privateKeyBytes = privateKey.ExportEncryptedPkcs8PrivateKey(password, new PbeParameters(PbeEncryptionAlgorithm.Aes256Cbc, HashAlgorithmName.SHA256, 1000));
+
+            var pemBuilder = new StringBuilder();
+            pemBuilder.AppendLine("-----BEGIN ENCRYPTED PRIVATE KEY-----");
+            pemBuilder.AppendLine(Convert.ToBase64String(privateKeyBytes, Base64FormattingOptions.InsertLineBreaks));
+            pemBuilder.AppendLine("-----END ENCRYPTED PRIVATE KEY-----");
+
+            File.WriteAllText(filePath, pemBuilder.ToString());
+        }
+
+
+        private static byte[] EncryptPrivateKey(byte[] privateKeyBytes, string password)
+        {
+            using (var rsa = new RSACryptoServiceProvider())
+            {
+                var keyBytes = Encoding.UTF8.GetBytes(password);
+                rsa.ImportEncryptedPkcs8PrivateKey(keyBytes, privateKeyBytes, out _);
+                return rsa.ExportRSAPrivateKey();
+            }
+        }
+
+        static void ExportPrivateKeyToPemFile(RSA privateKey, string filePath)
+    {
+        var privateKeyBytes = privateKey.ExportRSAPrivateKey();
+        var pemBuilder = new StringBuilder();
+        pemBuilder.AppendLine("-----BEGIN PRIVATE KEY-----");
+        pemBuilder.AppendLine(Convert.ToBase64String(privateKeyBytes, Base64FormattingOptions.InsertLineBreaks));
+        pemBuilder.AppendLine("-----END PRIVATE KEY-----");
+        File.WriteAllText(filePath, pemBuilder.ToString());
+    }
+
+
+
         public static void ExportCertificateToFile(X509Certificate2 certificate, string filePath)
         {
             File.WriteAllBytes(filePath, certificate.Export(X509ContentType.Cert));

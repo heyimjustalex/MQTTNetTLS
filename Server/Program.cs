@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Server
 {
@@ -44,15 +45,30 @@ namespace Server
                 }
             }
         }
-        public static X509Certificate2 ReadCertificateFromFile(string filePath, string password = null)
+        public static X509Certificate2 ReadCertificateWithPrivateKey(string fileCertPath, string keyPath, string password)
         {
             try
             {
-                return new X509Certificate2(filePath, password);
+                // Read the private key from key.pem file
+                string keyPem = File.ReadAllText(keyPath);
+
+                // Create an RSA key from the private key PEM and password
+                using (RSA rsa = RSA.Create())
+                {
+                    rsa.ImportFromEncryptedPem(keyPath, password);
+                    // Load the certificate from fileCertPath
+                    var certificate = new X509Certificate2(fileCertPath);
+
+                    var certificate2 = certificate.CopyWithPrivateKey(rsa);
+                    // Associate the private key with the certificate
+
+
+                    return certificate;
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error reading certificate: {ex.Message} {ex.StackTrace}");
+                Console.WriteLine($"Error reading certificate with private key: {ex.Message} {ex.StackTrace}");
                 return null;
             }
         }
@@ -62,8 +78,10 @@ namespace Server
 
 
             string serverCertPath = "../../../PKI/Server/server.pfx";
+            string keyCertPath = "../../../PKI/Server/key.pem";
             // WITH THIS DOES NOT WORK
-            var certificate = ReadCertificateFromFile(serverCertPath,"password");
+            var certificate = ReadCertificateWithPrivateKey(serverCertPath,keyCertPath, "password");
+
             
             // WITH THIS DOES WORK
             
