@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "gQKeBZrrgG5kzjRfoZ95nWCiMuTDS6abvOvY8HK1Q0L50N762ZQKhndx5ox9QWjiLYqVixpg8OsZ2wUkj+nqKQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Server\\Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alex\\.nuget\\packages\\mqttnet\\4.3.1.873\\mqttnet.4.3.1.873.nupkg.sha512"
+  ],
+  "logs": []
+}

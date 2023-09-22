@@ -1,0 +1,15 @@
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.AssemblyInfoInputs.cache
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.AssemblyInfo.cs
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.csproj.CoreCompileInputs.cache
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.exe
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.deps.json
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.runtimeconfig.json
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.runtimeconfig.dev.json
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.dll
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\bin\Debug\net5.0\PKIUtility.pdb
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.dll
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\refint\PKIUtility.dll
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.pdb
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\PKIUtility.genruntimeconfig.cache
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\PKIUtility\obj\Debug\net5.0\ref\PKIUtility.dll
