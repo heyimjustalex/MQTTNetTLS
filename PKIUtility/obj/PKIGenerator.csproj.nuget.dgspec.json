@@ -1,36 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj": {}
+    "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj": {
+    "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj",
+        "projectUniqueName": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj",
         "projectName": "PKIGenerator",
-        "projectPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj",
-        "packagesPath": "C:\\Users\\alex\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\obj\\",
+        "projectPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj",
+        "packagesPath": "C:\\Users\\Natalia\\.nuget\\packages\\",
+        "outputPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Natalia\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net7.0"
+          "net5.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net7.0": {
-            "targetAlias": "net7.0",
+          "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -41,8 +40,8 @@
         }
       },
       "frameworks": {
-        "net7.0": {
-          "targetAlias": "net7.0",
+        "net5.0": {
+          "targetAlias": "net5.0",
           "imports": [
             "net461",
             "net462",

@@ -16,6 +16,7 @@ namespace Server
             Console.WriteLine("New Client, calling OnNewClient ");  
                 
         }
+        /*
         public static X509Certificate2 CreateSelfSignedCertificate(string oid)
         {
             var sanBuilder = new SubjectAlternativeNameBuilder();
@@ -44,7 +45,7 @@ namespace Server
                     return pfxCertificate;
                 }
             }
-        }
+        }*/
         public static X509Certificate2 ReadCertificateWithPrivateKey(string fileCertPath, string keyPath, string password)
         {
             try
@@ -59,11 +60,11 @@ namespace Server
                     // Load the certificate from fileCertPath
                     var certificate = new X509Certificate2(fileCertPath, password);
 
-                    //certificate = certificate.CopyWithPrivateKey(rsa);
+                    var certificate2 = certificate.CopyWithPrivateKey(rsa);
                     // Associate the private key with the certificate
 
 
-                    return certificate;
+                    return certificate2;
                 }
             }
             catch (Exception ex)
@@ -82,12 +83,14 @@ namespace Server
             // WITH THIS DOES NOT WORK
             var certificate = ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
-            
+
             // WITH THIS DOES WORK
-            
+
             // var certificate2 = CreateSelfSignedCertificate("1.3.6.1.5.5.7.3.1");
 
-            var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionCertificate(certificate).WithEncryptedEndpoint().Build();
+            // var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12).WithEncryptionCertificate(certificate).WithEncryptedEndpoint().Build();
+
+            var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionCertificate(certificate.Export(X509ContentType.Pfx)).WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12).WithEncryptedEndpoint().Build();
 
             using (var mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions))
             {

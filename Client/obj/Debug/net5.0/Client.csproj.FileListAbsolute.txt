@@ -16,3 +16,21 @@ C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\obj\Debug\net5.0\refint\Cl
 C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\obj\Debug\net5.0\Client.pdb
 C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\obj\Debug\net5.0\Client.genruntimeconfig.cache
 C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\obj\Debug\net5.0\ref\Client.dll
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.exe
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.deps.json
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.runtimeconfig.json
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.runtimeconfig.dev.json
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.dll
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\Client.pdb
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\bin\Debug\net5.0\MQTTnet.dll
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.GeneratedMSBuildEditorConfig.editorconfig
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.AssemblyInfoInputs.cache
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.AssemblyInfo.cs
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.csproj.CoreCompileInputs.cache
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.csproj.CopyComplete
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.dll
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\ref\Client.dll
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.pdb
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.genruntimeconfig.cache
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.csproj.AssemblyReference.cache
+E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\refint\Client.dll

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "shY9XCLUNQAFOYZbIVNuGDTQqTYNNy5JXaMUFCs78Ge0KhiQ+dSsaxY2t6Ghc5x3FqRjhcMu05o4ulq7Oxbopw==",
+  "dgSpecHash": "ebf81J3AU2i6uWDobaVk8UmdgFhds03iAeShrKl/9ezR7TwFUDn2lq6F3IoyIvfd0YAYiaZ6xoC40oeSb6NMrQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj",
+  "projectFilePath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

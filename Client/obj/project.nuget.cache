@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "GTtpGHcRaF6NUUStwOcJs/DG1uZrAEaOzDf2Ep/7EN6OONV+ne2QTndt0TqScDFgTopCuyG9XKeXS4cIMhF1Vg==",
+  "dgSpecHash": "6O/Qa+z+YcuD0zLiMH8LoL42Tz5dvdJIIeNLrdUHE9UxI2jmaLhqs3beP4YHH6ad/X0DD42494WJEuUe7MkRHA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj",
+  "projectFilePath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\Client.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alex\\.nuget\\packages\\mqttnet\\4.3.1.873\\mqttnet.4.3.1.873.nupkg.sha512"
+    "C:\\Users\\Natalia\\.nuget\\packages\\mqttnet\\4.3.1.873\\mqttnet.4.3.1.873.nupkg.sha512"
   ],
   "logs": []
 }

@@ -156,26 +156,24 @@ namespace PKIUtility
                     HashAlgorithmName.SHA512,
                     RSASignaturePadding.Pkcs1);
 
-                // Step 3: Build the certificate
-                var certificate = request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(8));
+                // Step 3: Create the certificate and sign it with the issuer's private key
+                var certificate = request.Create(issuerCertificate, DateTimeOffset.Now, DateTimeOffset.Now.AddYears(8), Guid.NewGuid().ToByteArray());
 
-                // Step 4: Create a certificate chain
-                var chain = new X509Chain();
+                // Step 4: Create a certificate chain with the issuer's certificate
+                X509Chain chain = new X509Chain();
                 chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck; // Skip revocation check
                 chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-
-                // Step 5: Include the issuer certificate (CA certificate) in the certificate chain
                 chain.ChainPolicy.ExtraStore.Add(issuerCertificate);
 
-                // Step 6: Build and verify the certificate chain
+                // Step 5: Build and verify the certificate chain
                 if (chain.Build(certificate))
                 {
-                    // Step 7: Export the certificate and private key as a PFX (PKCS#12) file with a password
+                    // Step 6: Export the certificate and private key as a PFX (PKCS#12) file with a password
                     var pfxBytes = certificate.Export(X509ContentType.Pkcs12, password);
                     var pfxCertificate = new X509Certificate2(pfxBytes, password, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
 
-                    // Step 8: Export the private key as key.pem file
-                    ExportPrivateKeyToPemFile(rsa, password, keyFilePath);
+                    // Step 7: Export the private key as key.pem file
+                    ExportPrivateKeyToPemFile(rsa,password, keyFilePath);
 
                     return pfxCertificate;
                 }

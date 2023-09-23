@@ -17,22 +17,54 @@ namespace Client
         private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
         {
 
-            return true;
+            // return true;
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
             X509Certificate2 CACertificate = ReadCertificateFromFile("../../../PKI/CA/RootCA.cer");
             AddCAToTrusted(CACertificate);
-
-            if (isCertificateValid(serverCertificate, CACertificate))
+            try
             {
-                Console.WriteLine("CERT IS VALID");
-                return true;
+                args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
+                args.Chain.ChainPolicy.CustomTrustStore.Add(CACertificate);
+                args.Chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+
+                var chain = args.Chain.Build(serverCertificate);
+
+                args.Chain.ChainStatus.ToList().ForEach(x => { Console.WriteLine(x.Status.ToString()); });
+                if (chain)
+                {
+
+                    Console.WriteLine("CERT BUILD TRUE");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("CERT BUILD FALSE");
+                    return false;
+                }
+
 
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("CERT IS INVALID");
-            }
-            return false;
+                Console.WriteLine(ex);
+                Console.WriteLine(ex.StackTrace);
+                return false;
+            };
+
+
+
+
+            // if (isCertificateValid(serverCertificate, CACertificate))
+            //{
+            //    Console.WriteLine("CERT IS VALID");
+            //    return true;
+
+            //}
+            //else
+            //{
+            //    Console.WriteLine("CERT IS INVALID");
+            //}
+            //return false;
 
         }
         static async Task Main(string[] args)
@@ -45,8 +77,20 @@ namespace Client
             {
                 using (var mqtttClient = mqttFactory.CreateMqttClient())
                 {
-                    var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 8883)
-                        .WithTlsOptions(o => o.WithCertificateValidationHandler(OnCertificateValidation)).Build();
+                    // var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer("localhost", 8883)
+                    //     .WithTlsOptions(o => o.WithCertificateValidationHandler(OnCertificateValidation).WithSslProtocols(System.Security.Authentication.SslProtocols.Tls12)).Build();
+                    var mqttClientOptions = new MqttClientOptionsBuilder()
+                        .WithClientId("ClientId")
+                        .WithTcpServer("localhost", 8883)
+                        //.WithCredentials("Username", "Password")
+                        .WithTls(new MqttClientOptionsBuilderTlsParameters()
+                        {
+                            UseTls = true,
+                            SslProtocol = SslProtocols.Tls12,
+                            CertificateValidationHandler = OnCertificateValidation
+                        })
+                        .WithCleanSession()
+                        .Build();
 
                     using (var timeout = new CancellationTokenSource(5000))
                     {
@@ -57,6 +101,7 @@ namespace Client
                             Console.WriteLine(response.ResultCode);
                             connected = true; 
                         }
+                        
                         catch (Exception ex)
                         {
                             Console.WriteLine("EXCEPTION CLIENT CANNOT CONNECT");
@@ -127,6 +172,7 @@ namespace Client
                     // Check the entire certificate chain, including the root certificate
                     //  chain.ChainPolicy.VerificationFlags = X509VerificationFlags.NoFlag;
 
+                    // THIS BREAKS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     if (chain.Build(certificate))
                     {
                         // Check if the certificate chain is valid
