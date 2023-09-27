@@ -8,23 +8,24 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Natalia\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\alex\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj",
+      "projectUniqueName": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj",
       "projectName": "PKIGenerator",
-      "projectPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\PKIGenerator.csproj",
-      "packagesPath": "C:\\Users\\Natalia\\.nuget\\packages\\",
-      "outputPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\PKIUtility\\obj\\",
+      "projectPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\PKIGenerator.csproj",
+      "packagesPath": "C:\\Users\\alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\PKIUtility\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Natalia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

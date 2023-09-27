@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v5.0": {
       "Client/1.0.0": {
         "dependencies": {
-          "MQTTnet": "4.3.1.873"
+          "MQTTnet": "4.3.1.873",
+          "MQTTnet.Extensions.ManagedClient": "4.3.1.873"
         },
         "runtime": {
           "Client.dll": {}
@@ -17,6 +18,17 @@
       "MQTTnet/4.3.1.873": {
         "runtime": {
           "lib/net5.0/MQTTnet.dll": {
+            "assemblyVersion": "4.3.1.873",
+            "fileVersion": "4.3.1.873"
+          }
+        }
+      },
+      "MQTTnet.Extensions.ManagedClient/4.3.1.873": {
+        "dependencies": {
+          "MQTTnet": "4.3.1.873"
+        },
+        "runtime": {
+          "lib/net5.0/MQTTnet.Extensions.ManagedClient.dll": {
             "assemblyVersion": "4.3.1.873",
             "fileVersion": "4.3.1.873"
           }
@@ -36,6 +48,13 @@
       "sha512": "sha512-5Btmzjv9TWQewlHL6QPB3/deTxAfHf0cR1ixehH/4311oKUpiYrgt1uQZFTbyBWjR7zVKv1U3+s4o3IPm/++Ww==",
       "path": "mqttnet/4.3.1.873",
       "hashPath": "mqttnet.4.3.1.873.nupkg.sha512"
+    },
+    "MQTTnet.Extensions.ManagedClient/4.3.1.873": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mIGan9zPDnZUSsaXbAhkbnsnTBo+cQzH1Uccq2S19FPbol3HJ6xhT0keBtxzk6nbF2iXvoQGXepk9LR8u1iY5g==",
+      "path": "mqttnet.extensions.managedclient/4.3.1.873",
+      "hashPath": "mqttnet.extensions.managedclient.4.3.1.873.nupkg.sha512"
     }
   }
 }

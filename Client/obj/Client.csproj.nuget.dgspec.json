@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\Client.csproj": {}
+    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj": {}
   },
   "projects": {
-    "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\Client.csproj": {
+    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\Client.csproj",
+        "projectUniqueName": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\Client.csproj",
-        "packagesPath": "C:\\Users\\Natalia\\.nuget\\packages\\",
-        "outputPath": "E:\\studia\\Aarhus\\Internet Of Things\\MQTT\\MQTTNetTLS\\Client\\obj\\",
+        "projectPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj",
+        "packagesPath": "C:\\Users\\alex\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Natalia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -44,6 +45,10 @@
           "targetAlias": "net5.0",
           "dependencies": {
             "MQTTnet": {
+              "target": "Package",
+              "version": "[4.3.1.873, )"
+            },
+            "MQTTnet.Extensions.ManagedClient": {
               "target": "Package",
               "version": "[4.3.1.873, )"
             }
