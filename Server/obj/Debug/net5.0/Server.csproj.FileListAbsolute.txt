@@ -34,3 +34,4 @@ E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Server\obj\Debug\net5.0\Serv
 E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Server\obj\Debug\net5.0\Server.genruntimeconfig.cache
 E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Server\obj\Debug\net5.0\Server.csproj.AssemblyReference.cache
 E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Server\obj\Debug\net5.0\refint\Server.dll
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Server\bin\Debug\net5.0\Newtonsoft.Json.dll

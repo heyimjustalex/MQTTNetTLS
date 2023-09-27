@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "gQKeBZrrgG5kzjRfoZ95nWCiMuTDS6abvOvY8HK1Q0L50N762ZQKhndx5ox9QWjiLYqVixpg8OsZ2wUkj+nqKQ==",
+  "dgSpecHash": "uIk5NDoVn2wi4Jl05JF12u4jaq+XvbAk4kgWvMlmz0PBdDrPRsqOy8QtCtK/N4Y7phjRJMo+2VCfj14fY/RonA==",
   "success": true,
   "projectFilePath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Server\\Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alex\\.nuget\\packages\\mqttnet\\4.3.1.873\\mqttnet.4.3.1.873.nupkg.sha512"
+    "C:\\Users\\alex\\.nuget\\packages\\mqttnet\\4.3.1.873\\mqttnet.4.3.1.873.nupkg.sha512",
+    "C:\\Users\\alex\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
   "logs": []
 }

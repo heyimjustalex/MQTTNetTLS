@@ -8,6 +8,6 @@ namespace Client.Sensor
 {
     internal interface ISensorSetData
     {
-        public SensorData set();
+        public void set(SensorData sensorData);
     }
 }

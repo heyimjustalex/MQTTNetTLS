@@ -13,6 +13,8 @@ using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Server;
 using MQTTnet.Exceptions;
+using MQTTnet.Protocol;
+using System.Text.Json;
 
 namespace Client
 {
@@ -26,17 +28,37 @@ namespace Client
         {
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
-            initConfiguration();     
+            initConfiguration();   
 
         }
 
+
+        private static async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
+        {
+            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            var payloadText = string.Empty;
+            if (e.ApplicationMessage.PayloadSegment.Count > 0)
+            {
+                payloadText = Encoding.UTF8.GetString(
+                    e.ApplicationMessage.PayloadSegment.Array,
+                    e.ApplicationMessage.PayloadSegment.Offset,
+                    e.ApplicationMessage.PayloadSegment.Count);
+            }
+                        
+            Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+            Console.WriteLine($"+ Payload = {payloadText}");
+            Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+            Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+            Console.WriteLine();                     
+        }
         private void initConfiguration()
         {
             var mqttClientOptions = new MqttClientOptionsBuilder()
                  .WithClientId("alarm1")
                  .WithTcpServer("localhost", 8883)
                  .WithCleanSession()
-                 .WithCredentials("alarm1", "password")
+                 
+                // .WithCredentials("alarm1", "password")
                  .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
 
                  .WithTlsOptions(new MqttClientTlsOptionsBuilder()
@@ -44,6 +66,7 @@ namespace Client
                                  .WithCertificateValidationHandler(OnCertificateValidation)
                                  .WithAllowRenegotiation(true)
                                  .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
+                                 
 
                                  .Build())
                  .Build();
@@ -54,9 +77,11 @@ namespace Client
 
                                             .Build();
 
-        //    managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
+            managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
             managedMqttClient.ConnectedAsync += OnConnectAsync;
-         //   managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
+            managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
+            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
+    
 
         }
 
@@ -91,6 +116,8 @@ namespace Client
                   
                     // Reconnect the MQTT client
                     await managedMqttClient.StartAsync(mqttManagedClientOptions);
+                 
+               
 
                     Console.WriteLine("Task OnDisconnectAsync: Reconnected to the MQTT broker.");
                 }
@@ -103,14 +130,21 @@ namespace Client
 
         private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
         {
-            Console.WriteLine("Task OnConnectAsync: Success connecting to broker. Waiting 100s ...");
+            Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
 
-            // here start publish logic
+            // Create an MQTT message
+            //var message = new MqttApplicationMessageBuilder()
+            //    .WithTopic("test/topic") // Specify the MQTT topic to publish to
+            //    .WithPayload("Hello, MQTT!") // Your message payload
+            //    .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce) // QoS level               
+            //    .Build();
 
-            await Task.Delay(TimeSpan.FromSeconds(10));
+        
+            //await Task.Delay(TimeSpan.FromSeconds(20));
 
             Console.WriteLine("Task OnConnectAsync: Ending OnConnectAsync");
         }
+
 
         private async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
         {
@@ -154,7 +188,17 @@ namespace Client
 
         public async Task start()
         {         
-                await managedMqttClient.StartAsync(mqttManagedClientOptions);            
+                await managedMqttClient.StartAsync(mqttManagedClientOptions);
+                await managedMqttClient.SubscribeAsync("alarm/fromBroker");
+            while (true)
+            {
+                string json = JsonSerializer.Serialize(new { message = "SENDING MESSAGE FROM CLIENT TO BROKER", sent = DateTime.UtcNow });
+                await managedMqttClient.EnqueueAsync("alarm/fromClient", json, MqttQualityOfServiceLevel.ExactlyOnce);
+
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                Console.WriteLine("Task OnConnectAsync: Message published to broker.");
+
+            }
         }
         public static X509Certificate2 ReadCertificateFromFile(string filePath, string password = null)
         {
@@ -201,19 +245,10 @@ namespace Client
                 Console.WriteLine(ex);
                 Console.WriteLine(ex.StackTrace);
                 return false;
-            };
+            };                     
 
-
-          
-
-        }
-           
+        }            
      
-     
-
-
-
-
     }
 
 
