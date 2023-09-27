@@ -12,12 +12,150 @@ using System.Threading.Tasks;
 using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Server;
+using MQTTnet.Exceptions;
 
 namespace Client
 {
-    class Program
+    class Client
     {
-        private static bool isConnected = false;
+        MqttFactory mqttFactory;
+        public IManagedMqttClient managedMqttClient;
+        ManagedMqttClientOptions mqttManagedClientOptions;
+        
+        public Client()
+        {
+            mqttFactory = new MqttFactory();
+            managedMqttClient = mqttFactory.CreateManagedMqttClient();
+            initConfiguration();     
+
+        }
+
+        private void initConfiguration()
+        {
+            var mqttClientOptions = new MqttClientOptionsBuilder()
+                 .WithClientId("alarm1")
+                 .WithTcpServer("localhost", 8883)
+                 .WithCleanSession()
+                 .WithCredentials("alarm1", "password")
+                 .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
+
+                 .WithTlsOptions(new MqttClientTlsOptionsBuilder()
+                                 .WithSslProtocols(SslProtocols.Tls12)
+                                 .WithCertificateValidationHandler(OnCertificateValidation)
+                                 .WithAllowRenegotiation(true)
+                                 .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
+
+                                 .Build())
+                 .Build();
+
+            mqttManagedClientOptions = new ManagedMqttClientOptionsBuilder()
+                                            .WithClientOptions(mqttClientOptions)
+                                            //.WithPendingMessagesOverflowStrategy(MQTTnet.Server.MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage)
+
+                                            .Build();
+
+        //    managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
+            managedMqttClient.ConnectedAsync += OnConnectAsync;
+         //   managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
+
+        }
+
+        private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
+        {
+            if (args.Exception != null)
+            {
+                if (args.Exception is MqttCommunicationException)
+                {
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off)");
+                }
+                else
+                {
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to an exception: {args.Exception}");
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
+            }
+
+            // Attempt to reconnect only if the client is not already connected
+            if (!managedMqttClient.IsConnected && !managedMqttClient.IsStarted)
+            {
+                Console.WriteLine("Task OnDisconnectAsync: Reconnecting...");
+
+                try
+                {
+                    // Add a brief delay before attempting to reconnect
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                  
+                    // Reconnect the MQTT client
+                    await managedMqttClient.StartAsync(mqttManagedClientOptions);
+
+                    Console.WriteLine("Task OnDisconnectAsync: Reconnected to the MQTT broker.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Task OnDisconnectAsync: Failed to reconnect: {ex.Message}");
+                }
+            }
+        }
+
+        private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
+        {
+            Console.WriteLine("Task OnConnectAsync: Success connecting to broker. Waiting 100s ...");
+
+            // here start publish logic
+
+            await Task.Delay(TimeSpan.FromSeconds(10));
+
+            Console.WriteLine("Task OnConnectAsync: Ending OnConnectAsync");
+        }
+
+        private async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
+        {
+            if (args.Exception != null)
+            {
+                if (args.Exception is MqttCommunicationException)
+                {
+                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off)");
+                }
+                else
+                {
+                    Console.WriteLine($"Task OnConnectFailedAsync: Connection attempt failed due to an exception: {args.Exception}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Task OnConnectFailedAsync: Connection attempt failed for an unknown reason.");
+            }
+
+            // Attempt to reconnect only if the client is not already connected if (args.Exception is MqttCommunicationException)
+            if (!managedMqttClient.IsConnected && !managedMqttClient.IsStarted)
+            {
+                Console.WriteLine("Task OnConnectFailedAsync: Reconnecting...");
+
+                try
+                {
+                    // Add a brief delay before attempting to reconnect
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+
+                    // Reconnect the MQTT client
+                    await managedMqttClient.StartAsync(mqttManagedClientOptions);
+
+                    Console.WriteLine("Task OnConnectFailedAsync: Reconnected to the MQTT broker.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Task OnConnectFailedAsync: Failed to reconnect: {ex.Message}");
+                }
+            }
+        }
+
+        public async Task start()
+        {         
+                await managedMqttClient.StartAsync(mqttManagedClientOptions);            
+        }
         public static X509Certificate2 ReadCertificateFromFile(string filePath, string password = null)
         {
             try
@@ -66,103 +204,32 @@ namespace Client
             };
 
 
+          
 
         }
+           
+     
+     
+
+
+
+
+    }
+
+
+    class Program
+    {
         static async Task Main(string[] args)
         {
-            var mqttFactory = new MqttFactory();          
-
-
-            while (true)
-            {
-                using (var managedMqttClient = mqttFactory.CreateManagedMqttClient())
-                {                  
-              
-                    var mqttClientOptions = new MqttClientOptionsBuilder()
-                        .WithClientId("alarm1")
-                        .WithTcpServer("localhost", 8883)
-                        .WithCleanSession()
-                        .WithCredentials("alarm1","password")
-                        .WithKeepAlivePeriod(new TimeSpan(0,0,5)) // how much time before assuming connection failure
-                        
-                        .WithTlsOptions(new MqttClientTlsOptionsBuilder()
-                                        .WithSslProtocols(SslProtocols.Tls12)
-                                        .WithCertificateValidationHandler(OnCertificateValidation)
-                                        .WithAllowRenegotiation(true)
-                                        .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
-
-                                        .Build())
-                        .Build();
-
-                    var mqttManagedClientOptions = new ManagedMqttClientOptionsBuilder()
-                                                    .WithClientOptions(mqttClientOptions)
-                                                    //.WithPendingMessagesOverflowStrategy(MQTTnet.Server.MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage)
-                                                    
-                                                    .Build();
-
-                    managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
-                    managedMqttClient.ConnectedAsync += OnConnectAsync;
-                    managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
-
-
-                    await StartAsync(managedMqttClient, mqttManagedClientOptions);                   
-
-                }
-            }
-
-            Console.Read();
-        }
-              
-        private static async Task StartAsync(IManagedMqttClient managedMqttClient, ManagedMqttClientOptions mqttManagedClientOptions)
-        {
-            Console.WriteLine("Task StartAsync: Trying to start client");
-          
-                try
-                {
-                    await managedMqttClient.StartAsync(mqttManagedClientOptions);
-                    Console.WriteLine("Task StartAsync: I made try to connect");
-
-              
-            }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Task StartAsync: Failed to start MQTT client: {ex.Message}");
-                 
-                }
+            Client client = new Client();
+            await client.start();
+            var c = true;
+            var t = client.managedMqttClient.IsStarted;
+            var g = client.managedMqttClient.IsConnected;
             
+            Console.WriteLine("Client program has ended"+t.ToString()+g.ToString());
+            Console.ReadLine();
         }
-        public static async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
-        {
-            Console.WriteLine("Task OnDisconnectAsync: OnDisconnectAsync was called because connection was lost. Waiting 10s...");
-
-            await Task.Delay(TimeSpan.FromSeconds(10));
-
-            Console.WriteLine("Task OnDisconnectAsync: Exiting OnDisconnectAsync");
-        }
-
-        public static async Task OnConnectAsync(MqttClientConnectedEventArgs args)
-        {
-            Console.WriteLine("Task OnConnectAsync: Success connecting to broker. Waiting 10s ...");
-
-            // here start publish logic
-
-            await Task.Delay(TimeSpan.FromSeconds(-1));
-
-            Console.WriteLine("Task OnConnectAsync: Ending OnConnectAsync");
-        }
-
-
-        public static async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
-        {
-            Console.WriteLine("Task OnConnectFailedAsync: Calling OnConnectFailedAsync... Waiting 10s... ");
-
-            // Implement your custom reconnection logic here.
-            await Task.Delay(TimeSpan.FromSeconds(10)); // Example delay.
-
-            Console.WriteLine("Task OnConnectFailedAsync: End of OnConnectFailedAsync");
-        }
-
-
 
     }
 
