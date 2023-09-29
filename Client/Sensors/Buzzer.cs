@@ -1,4 +1,5 @@
 ﻿using Client.Sensor;
+using Client.SensorBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Client.Sensors
 {
-    internal class Buzzer : ISensorSetData, ISensorGetData
+    internal class Buzzer : ISensorGetSetData
     {
         String state;
         public Buzzer() {
-            state = "TRUE";
+            state = "FALSE";
 
             // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE)
             // YOU CAN REMOVE STATE VARIABE CUZ IT'S ONLY FOR MY TESTS
