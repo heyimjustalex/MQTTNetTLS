@@ -15,6 +15,7 @@ using Client.SensorService;
 using Client.PKI;
 using Client.Sensor;
 using Client.MqttManager.Configuration;
+using Newtonsoft.Json;
 
 namespace Client.MqttManager
 {
@@ -104,7 +105,7 @@ namespace Client.MqttManager
 
         private static async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
         {
-            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            Console.WriteLine("### RECEIVED INITIAL MESSAGE FROM BROKER ###");
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count > 0)
             {
@@ -113,6 +114,16 @@ namespace Client.MqttManager
                     e.ApplicationMessage.PayloadSegment.Offset,
                     e.ApplicationMessage.PayloadSegment.Count);
             }
+
+            List<SensorData> parametersFromBroker = JsonConvert.DeserializeObject<List<SensorData>>(payloadText);
+            Console.WriteLine("HERE!!!");
+            foreach (SensorData sensorData in parametersFromBroker)
+            {
+                Console.WriteLine(sensorData.ParameterName);
+                Console.WriteLine(sensorData.ParameterValue);
+            }
+            Console.WriteLine("END OF HERE");
+            
 
             Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
             Console.WriteLine($"+ Payload = {payloadText}");
@@ -200,7 +211,7 @@ namespace Client.MqttManager
         private async Task enqueueToAllSpecifiedTopics()
         {
             var allSensorData = getAllSensorData();
-            string json = JsonSerializer.Serialize(new { message = allSensorData, sent = DateTime.UtcNow });
+            string json = System.Text.Json.JsonSerializer.Serialize(new { message = allSensorData, sent = DateTime.UtcNow });
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
@@ -209,8 +220,7 @@ namespace Client.MqttManager
         }
 
         private async Task subscribeToAllSpecifiedTopics()
-        {      
-
+        {   
             foreach (var topic in _mqttClientConfiguration.TopicsClientSubscribesTo)
             {
                 await managedMqttClient.SubscribeAsync(topic,MqttQualityOfServiceLevel.ExactlyOnce);
@@ -219,25 +229,20 @@ namespace Client.MqttManager
         }
         public async Task start()
         {
-            await managedMqttClient.StartAsync(mqttManagedClientOptions);
-           // await managedMqttClient.SubscribeAsync("alarm/fromBroker");
+           await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
         
             while (true)
             {
-
-
-                //string json = JsonSerializer.Serialize(new { message = "SENDING TEST MESSAGE FROM CLIENT TO BROKER", sent = DateTime.UtcNow });
-                //await managedMqttClient.EnqueueAsync("alarm/fromClient", json, MqttQualityOfServiceLevel.ExactlyOnce);
                 await enqueueToAllSpecifiedTopics();
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 if (managedMqttClient.IsConnected)
                 {
-                    Console.WriteLine("Task OnConnectAsync: Message published to broker.");
+                    Console.WriteLine("Task start: Message published to broker.");
                 }
                 else
                 {
-                    Console.WriteLine("Task OnConnectAsync: Message queued locally. I will send them when I connect to server");
+                    Console.WriteLine("Task start: Message queued locally. I will send them when I connect to server");
                 }
 
             }

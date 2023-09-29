@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Client.Sensor
+namespace Server.Sensor
 {
     public class SensorData
     {
@@ -17,7 +17,6 @@ namespace Client.Sensor
             ParameterName = parameterName;
             ParameterValue = parameterValue;
         }
-
         [JsonProperty("ParameterName")]
         public string ParameterName
         {

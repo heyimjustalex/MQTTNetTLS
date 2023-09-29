@@ -35,3 +35,4 @@ E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Clie
 E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\Client.csproj.AssemblyReference.cache
 E:\studia\Aarhus\Internet Of Things\MQTT\MQTTNetTLS\Client\obj\Debug\net5.0\refint\Client.dll
 C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\bin\Debug\net5.0\MQTTnet.Extensions.ManagedClient.dll
+C:\Users\alex\Desktop\Studia\issue\MqttTlsTest\Client\bin\Debug\net5.0\Newtonsoft.Json.dll

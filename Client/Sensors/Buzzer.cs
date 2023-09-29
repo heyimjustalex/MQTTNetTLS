@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Sensors
 {
-    internal class Buzzer : ISensorGetSetData
+    internal class Buzzer : ISensorGetSetCheckData
     {
         String state;
         public Buzzer() {
@@ -16,7 +16,14 @@ namespace Client.Sensors
 
             // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE)
             // YOU CAN REMOVE STATE VARIABE CUZ IT'S ONLY FOR MY TESTS
-        } 
+        }
+
+        public bool check()
+        {
+
+            return get().ParameterValue == "TRUE";
+        }
+
         public SensorData get()
         {
             // Here you get state from buzzer pins  
@@ -24,11 +31,7 @@ namespace Client.Sensors
           
             return new SensorData("BUZZER", state);
         }
-
-        public bool isBuzzing()
-        {
-            return get().ParameterValue == "TRUE";
-        }
+     
 
         public void set(SensorData sensorData)
         {   

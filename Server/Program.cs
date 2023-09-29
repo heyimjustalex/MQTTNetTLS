@@ -97,21 +97,26 @@ namespace Server
                
                     mqttServer.StartAsync().GetAwaiter().GetResult(); 
                     // Expire does not work it's a bug 
-                    var message = new MqttApplicationMessageBuilder().WithTopic("alarm/fromBroker").WithMessageExpiryInterval(1000).WithRetainFlag(true).WithPayload("Hello, World from server!").Build();
+                    var message = new MqttApplicationMessageBuilder().WithTopic("alarm/fromBroker").WithMessageExpiryInterval(1000).WithRetainFlag(true).WithPayload("[{\"ParameterName\":\"BUZZER\",\"ParameterValue\":\"TRUE\"}]").Build();
 
-                    try
+                    while (true)
                     {
-                        Console.WriteLine("SENDING MESSAGE");
-                        await mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
-                        Console.WriteLine("Message sent");
-                        Console.ReadLine();
+                        try
+                        {
+                            Console.WriteLine("SENDING MESSAGE");
+                            await mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
+                            Console.WriteLine("MESSAGE SENT TO CLIENTS");
+                            await Task.Delay(TimeSpan.FromSeconds(2));
+                            //Console.ReadLine();
+                        }
+                        catch (Exception ex)
+                        {
+                            // Handle the exception here
+                            Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
+                            throw;
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        // Handle the exception here
-                        Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
-                        throw;
-                    }
+                 
 
 
 

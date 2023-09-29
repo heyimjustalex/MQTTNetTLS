@@ -11,7 +11,7 @@ namespace Client.SensorService
 {
     internal class SensorBuzzerService
     {
-        ISensorGetSetData buzzer;
+        ISensorGetSetCheckData buzzer;
         public SensorBuzzerService() {
 
             buzzer = new Buzzer();        
@@ -20,6 +20,11 @@ namespace Client.SensorService
         public SensorData getBuzzerState()
         {
             return buzzer.get();
+        }
+
+        public bool isBuzzerEnabled()
+        {
+            return buzzer.check();
         }
 
         public void setBuzzerState(bool state)

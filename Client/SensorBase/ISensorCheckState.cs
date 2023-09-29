@@ -1,5 +1,4 @@
-﻿using Client.Sensor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Client.SensorBase
 {
-    internal interface ISensorGetSetCheckData : ISensorGetData, ISensorSetData, ISensorCheckState
+    internal interface ISensorCheckState
     {
-
+        public bool check();
     }
 }
