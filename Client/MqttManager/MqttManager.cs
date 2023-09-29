@@ -103,7 +103,7 @@ namespace Client.MqttManager
             }
         }
 
-        private static async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
+        private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
         {
             Console.WriteLine("### RECEIVED INITIAL MESSAGE FROM BROKER ###");
             var payloadText = string.Empty;
@@ -121,6 +121,25 @@ namespace Client.MqttManager
             {
                 Console.WriteLine(sensorData.ParameterName);
                 Console.WriteLine(sensorData.ParameterValue);
+                string ParameterName = sensorData.ParameterName;
+                string ParameterValue = sensorData.ParameterValue;
+                switch (ParameterName)
+                {
+                    case "BUZZER":
+                        Console.WriteLine("IN BUZZZER CASE");
+                        bool result = bool.Parse(ParameterValue);                     
+                      //  if (_sensorBuzzerService.isBuzzerEnabled()!=result)
+                      //  {                   
+                            _sensorBuzzerService.setBuzzerState(result);
+                            Console.WriteLine($"Setting buzzer state to {result}");
+                      //  }
+                            break;
+
+                       
+                    default:
+                        Console.WriteLine($"Unknow parameter:{ParameterName}:{ParameterValue}");
+                        break;
+                };
             }
             Console.WriteLine("END OF HERE");
             
