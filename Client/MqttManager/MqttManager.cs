@@ -12,45 +12,56 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.SensorService;
+using Client.PKI;
+using Client.Sensor;
+using Client.MqttManager.Configuration;
 
 namespace Client.MqttManager
 {
     class MqttManager
     {
-            MqttClientConfiguration _mqttClientConfiguration;
-            
+        MqttClientConfiguration _mqttClientConfiguration;
+        SensorBuzzerService _sensorBuzzerService;
+        SensorSmokeDetectorService _sensorSmokeDetectorService;
 
-            MqttFactory mqttFactory;
-            public IManagedMqttClient managedMqttClient;
-            ManagedMqttClientOptions mqttManagedClientOptions;
-            public MqttManager(MqttClientConfiguration mqttClientConfiguration)
-            {
-                _mqttClientConfiguration = mqttClientConfiguration;   
-                mqttFactory = new MqttFactory();
-                managedMqttClient = mqttFactory.CreateManagedMqttClient();
-                initConfiguration();
-            }
+        MqttFactory mqttFactory;
+        IManagedMqttClient managedMqttClient;
+        ManagedMqttClientOptions mqttManagedClientOptions;
+
+        public MqttManager(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
+        {
+            _mqttClientConfiguration = mqttClientConfiguration;
+            _sensorBuzzerService = sensorBuzzerService;
+            _sensorSmokeDetectorService = smokeDetectorService;
+
+            mqttFactory = new MqttFactory();
+            managedMqttClient = mqttFactory.CreateManagedMqttClient();
+            initConfiguration();
+        }
+        private void initConfiguration()
+        {
+            initClientConfigurationOptions();
+            initClientFunctionHandlers();
+        }
+        private void initClientConfigurationOptions()
+        {
+
+            var mqttClientOptions = new MqttClientOptionsBuilder()
+                    .WithClientId(_mqttClientConfiguration.Id)
+                    .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
+                    .WithCleanSession()
+                    // .WithCredentials(mqttClientConfiguration.Username, mqttClientConfiguration.Password)
+                    .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
+
+                    .WithTlsOptions(new MqttClientTlsOptionsBuilder()
+                                    .WithSslProtocols(SslProtocols.Tls12)
+                                    .WithCertificateValidationHandler(OnCertificateValidation)
+                                    .WithAllowRenegotiation(true)
+                                    .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
 
 
-            private void initConfiguration()
-            {
-
-                var mqttClientOptions = new MqttClientOptionsBuilder()
-                 .WithClientId(_mqttClientConfiguration.Id)
-                 .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
-                 .WithCleanSession()
-                // .WithCredentials(mqttClientConfiguration.Username, mqttClientConfiguration.Password)
-                 .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
-
-                 .WithTlsOptions(new MqttClientTlsOptionsBuilder()
-                                 .WithSslProtocols(SslProtocols.Tls12)
-                                 .WithCertificateValidationHandler(OnCertificateValidation)
-                                 .WithAllowRenegotiation(true)
-                                 .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
-
-
-                                 .Build())
-                 .Build();
+                                    .Build())
+                    .Build();
 
             mqttManagedClientOptions = new ManagedMqttClientOptionsBuilder()
                                             .WithClientOptions(mqttClientOptions)
@@ -58,198 +69,180 @@ namespace Client.MqttManager
 
                                             .Build();
 
+
+        }
+        private void initClientFunctionHandlers()
+        {
+
             managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
             managedMqttClient.ConnectedAsync += OnConnectAsync;
             managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
             managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
 
+        }
+        private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
+        {
+            // we might add loger instead of loggin to console
+            // Reconnect mechanism is internal so we do not need to reconnect when disconnected
+            if (args.Exception != null)
+            {
+                if (args.Exception is MqttCommunicationException)
+                {
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off)");
+                }
+                else
+                {
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to an exception: {args.Exception}");
 
+                }
+            }
+            else
+            {
+                Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
+            }
         }
 
         private static async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
+        {
+            Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+            var payloadText = string.Empty;
+            if (e.ApplicationMessage.PayloadSegment.Count > 0)
             {
-                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                var payloadText = string.Empty;
-                if (e.ApplicationMessage.PayloadSegment.Count > 0)
-                {
-                    payloadText = Encoding.UTF8.GetString(
-                        e.ApplicationMessage.PayloadSegment.Array,
-                        e.ApplicationMessage.PayloadSegment.Offset,
-                        e.ApplicationMessage.PayloadSegment.Count);
-                }
-
-                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-                Console.WriteLine($"+ Payload = {payloadText}");
-                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
-                Console.WriteLine();
-            }
-       
-
-            private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
-            {
-                if (args.Exception != null)
-                {
-                    if (args.Exception is MqttCommunicationException)
-                    {
-                        Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off)");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to an exception: {args.Exception}");
-
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
-                }
-
-                // Attempt to reconnect only if the client is not already connected
-                if (!managedMqttClient.IsConnected && !managedMqttClient.IsStarted)
-                {
-                    Console.WriteLine("Task OnDisconnectAsync: Reconnecting...");
-
-                    try
-                    {
-                        // Add a brief delay before attempting to reconnect
-                        await Task.Delay(TimeSpan.FromSeconds(10));
-
-                        // Reconnect the MQTT client
-                        await managedMqttClient.StartAsync(mqttManagedClientOptions);
-
-
-
-                        Console.WriteLine("Task OnDisconnectAsync: Reconnected to the MQTT broker.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Task OnDisconnectAsync: Failed to reconnect: {ex.Message}");
-                    }
-                }
+                payloadText = Encoding.UTF8.GetString(
+                    e.ApplicationMessage.PayloadSegment.Array,
+                    e.ApplicationMessage.PayloadSegment.Offset,
+                    e.ApplicationMessage.PayloadSegment.Count);
             }
 
-            private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
-            {
-                Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
+            Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+            Console.WriteLine($"+ Payload = {payloadText}");
+            Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+            Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+            Console.WriteLine();
+        }
 
-                // Create an MQTT message
-                //var message = new MqttApplicationMessageBuilder()
-                //    .WithTopic("test/topic") // Specify the MQTT topic to publish to
-                //    .WithPayload("Hello, MQTT!") // Your message payload
-                //    .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce) // QoS level               
-                //    .Build();
-
-
-                //await Task.Delay(TimeSpan.FromSeconds(20));
-
-                Console.WriteLine("Task OnConnectAsync: Ending OnConnectAsync");
-            }
-
-
-            private async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
-            {
-                if (args.Exception != null)
-                {
-                    if (args.Exception is MqttCommunicationException)
-                    {
-                        Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off)");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Task OnConnectFailedAsync: Connection attempt failed due to an exception: {args.Exception}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Task OnConnectFailedAsync: Connection attempt failed for an unknown reason.");
-                }
-
-                // Attempt to reconnect only if the client is not already connected if (args.Exception is MqttCommunicationException)
-                if (!managedMqttClient.IsConnected && !managedMqttClient.IsStarted)
-                {
-                    Console.WriteLine("Task OnConnectFailedAsync: Reconnecting...");
-
-                    try
-                    {
-                        // Add a brief delay before attempting to reconnect
-                        await Task.Delay(TimeSpan.FromSeconds(10));
-
-                        // Reconnect the MQTT client
-                        await managedMqttClient.StartAsync(mqttManagedClientOptions);
-
-                        Console.WriteLine("Task OnConnectFailedAsync: Reconnected to the MQTT broker.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Task OnConnectFailedAsync: Failed to reconnect: {ex.Message}");
-                    }
-                }
-            }
-
-            public async Task start()
-            {
-                await managedMqttClient.StartAsync(mqttManagedClientOptions);
-                await managedMqttClient.SubscribeAsync("alarm/fromBroker");
-                while (true)
-                {
-                    string json = JsonSerializer.Serialize(new { message = "SENDING MESSAGE FROM CLIENT TO BROKER", sent = DateTime.UtcNow });
-                    await managedMqttClient.EnqueueAsync("alarm/fromClient", json, MqttQualityOfServiceLevel.ExactlyOnce);
-
-                    await Task.Delay(TimeSpan.FromSeconds(2));
-                    Console.WriteLine("Task OnConnectAsync: Message published to broker.");
-
-                }
-            }
-            public static X509Certificate2 ReadCertificateFromFile(string filePath, string password = null)
-            {
-                try
-                {
-                    return new X509Certificate2(filePath, password);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error reading CA certificate: {ex.Message}");
-                    return null;
-                }
-            }
-            private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
-            {
-
-                X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
-                X509Certificate2 CACertificate = ReadCertificateFromFile("../../../PKI/CA/RootCA.cer");
-
-                try
-                {
-                    args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
-                    args.Chain.ChainPolicy.CustomTrustStore.Add(CACertificate);
-                    args.Chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-
-                    var chain = args.Chain.Build(serverCertificate);
-
-                    args.Chain.ChainStatus.ToList().ForEach(x => { Console.WriteLine(x.Status.ToString()); });
-                    if (chain)
-                    {
-
-                        Console.WriteLine("OnCertificateValidation: Building certificate chain success");
-                        return true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("OnCertificateValidation: Building certificate chain FAILURE");
-                        return false;
-                    }
-                }
-
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    Console.WriteLine(ex.StackTrace);
-                    return false;
-                };
-
-            }
+        private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
+        {
+            // Successful connect
+            Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
 
         }
-    
+
+        private async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
+        {
+            // Connect failed
+            if (args.Exception != null)
+            {
+                if (args.Exception is MqttCommunicationException)
+                {
+                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off)");
+                }
+                else
+                {
+                    Console.WriteLine($"Task OnConnectFailedAsync: Connection attempt failed due to an exception: {args.Exception}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Task OnConnectFailedAsync: Connection attempt failed for an unknown reason.");
+            }
+        }
+
+        private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
+        {
+
+            X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
+            X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile("../../../PKI/CA/RootCA.cer");
+
+            try
+            {
+                args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
+                args.Chain.ChainPolicy.CustomTrustStore.Add(CACertificate);
+                args.Chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+
+                var chain = args.Chain.Build(serverCertificate);
+
+                args.Chain.ChainStatus.ToList().ForEach(x => { Console.WriteLine(x.Status.ToString()); });
+                if (chain)
+                {
+
+                    Console.WriteLine("OnCertificateValidation: Building certificate chain success");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("OnCertificateValidation: Building certificate chain FAILURE");
+                    return false;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine(ex.StackTrace);
+                return false;
+            };
+
+        }      
+
+        private List<SensorData> getAllSensorData() {
+
+            List<SensorData> allSensorData = new List<SensorData>
+            {
+                _sensorBuzzerService.getBuzzerState(),
+                _sensorSmokeDetectorService.getSmokeDetectorState()
+            };
+
+            return allSensorData;
+
+        }
+
+        private async Task enqueueToAllSpecifiedTopics()
+        {
+            var allSensorData = getAllSensorData();
+            string json = JsonSerializer.Serialize(new { message = allSensorData, sent = DateTime.UtcNow });
+            foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
+            {
+                await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
+
+            }
+        }
+
+        private async Task subscribeToAllSpecifiedTopics()
+        {      
+
+            foreach (var topic in _mqttClientConfiguration.TopicsClientSubscribesTo)
+            {
+                await managedMqttClient.SubscribeAsync(topic,MqttQualityOfServiceLevel.ExactlyOnce);
+
+            }
+        }
+        public async Task start()
+        {
+            await managedMqttClient.StartAsync(mqttManagedClientOptions);
+           // await managedMqttClient.SubscribeAsync("alarm/fromBroker");
+           await subscribeToAllSpecifiedTopics();
+        
+            while (true)
+            {
+
+
+                //string json = JsonSerializer.Serialize(new { message = "SENDING TEST MESSAGE FROM CLIENT TO BROKER", sent = DateTime.UtcNow });
+                //await managedMqttClient.EnqueueAsync("alarm/fromClient", json, MqttQualityOfServiceLevel.ExactlyOnce);
+                await enqueueToAllSpecifiedTopics();
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                if (managedMqttClient.IsConnected)
+                {
+                    Console.WriteLine("Task OnConnectAsync: Message published to broker.");
+                }
+                else
+                {
+                    Console.WriteLine("Task OnConnectAsync: Message queued locally. I will send them when I connect to server");
+                }
+
+            }
+        }       
+
+    }
+
 }

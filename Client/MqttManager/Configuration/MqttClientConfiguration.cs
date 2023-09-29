@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.MqttManager
+namespace Client.MqttManager.Configuration
 {
     internal class MqttClientConfiguration
     {
@@ -14,14 +14,18 @@ namespace Client.MqttManager
         private string _id;
         private string _username;
         private string _password;
+        private string[] _topicsClientEnqueuesTo;
+        private string[] _topicsClientSubscribesTo;
 
-        public MqttClientConfiguration(int port, string ipAddress, string id, string username, string password)
+        public MqttClientConfiguration(int port, string ipAddress, string id, string username, string password, string[] topicsClientEnqueuesTo, string[] topicsClientSubscribesTo)
         {
             _port = port;
             _ipAddress = ipAddress;
             _id = id;
             _username = username;
             _password = password;
+            _topicsClientEnqueuesTo = topicsClientEnqueuesTo;
+            _topicsClientSubscribesTo = topicsClientSubscribesTo;
         }
 
         public int Port
@@ -59,7 +63,20 @@ namespace Client.MqttManager
             get => _password;
             set => _password = value;
         }
+
+        public string[] TopicsClientEnqueuesTo
+        {
+            get => _topicsClientEnqueuesTo;
+            set => _topicsClientEnqueuesTo = value;
+        }
+
+        public string[] TopicsClientSubscribesTo
+        {
+            get => _topicsClientSubscribesTo;
+            set => _topicsClientSubscribesTo = value;
+        }
     }
+
 
 }
 
