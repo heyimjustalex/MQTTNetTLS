@@ -105,49 +105,61 @@ namespace Client.MqttManager
 
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
         {
-            Console.WriteLine("### RECEIVED INITIAL MESSAGE FROM BROKER ###");
+            Console.WriteLine("\n### RECEIVED MESSAGE FROM BROKER ###\n");
             var payloadText = string.Empty;
-            if (e.ApplicationMessage.PayloadSegment.Count > 0)
+            if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
-                payloadText = Encoding.UTF8.GetString(
+                return;
+            }
+
+             payloadText = Encoding.UTF8.GetString(
                     e.ApplicationMessage.PayloadSegment.Array,
                     e.ApplicationMessage.PayloadSegment.Offset,
                     e.ApplicationMessage.PayloadSegment.Count);
-            }
+            
 
             List<SensorData> parametersFromBroker = JsonConvert.DeserializeObject<List<SensorData>>(payloadText);
-            Console.WriteLine("HERE!!!");
             foreach (SensorData sensorData in parametersFromBroker)
             {
-                Console.WriteLine(sensorData.ParameterName);
-                Console.WriteLine(sensorData.ParameterValue);
+                //Console.WriteLine(sensorData.ParameterName);
+                //Console.WriteLine(sensorData.ParameterValue);
                 string ParameterName = sensorData.ParameterName;
                 string ParameterValue = sensorData.ParameterValue;
                 switch (ParameterName)
                 {
                     case "BUZZER":
-                        Console.WriteLine("IN BUZZZER CASE");
-                        bool result = bool.Parse(ParameterValue);                     
-                      //  if (_sensorBuzzerService.isBuzzerEnabled()!=result)
-                      //  {                   
-                            _sensorBuzzerService.setBuzzerState(result);
-                            Console.WriteLine($"Setting buzzer state to {result}");
-                      //  }
-                            break;
+                        bool result = bool.Parse(ParameterValue);
+                        if (result)
+                        {
+                            Console.WriteLine("DECISION BASED ON BROKER: Checking if buzzer enabled...");
+                            if (!_sensorBuzzerService.isBuzzerEnabled())
+                            {
+                                Console.WriteLine("DECISION BASED ON BROKER: I'm enabling my buzzer as client (checked buzzer was off)");
+                                _sensorBuzzerService.setBuzzerState(true);
+                            }
+                            else
+                            {
+                                Console.WriteLine("DECISION BASED ON BROKER: Buzzer was enabled");
+                            }
 
-                       
+                        }
+                        else
+                        {
+                            Console.WriteLine("DECISION BASED ON BROKER: Buzzer has been disabled");
+                            _sensorBuzzerService.setBuzzerState(false);
+                        }
+                
+                            break;                       
                     default:
                         Console.WriteLine($"Unknow parameter:{ParameterName}:{ParameterValue}");
                         break;
                 };
-            }
-            Console.WriteLine("END OF HERE");
-            
+            }                    
 
-            Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-            Console.WriteLine($"+ Payload = {payloadText}");
-            Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-            Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+            //Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+            //Console.WriteLine($"+ Payload = {payloadText}");
+            //Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+            //Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
             Console.WriteLine();
         }
 
@@ -215,6 +227,50 @@ namespace Client.MqttManager
 
         }      
 
+        private void localBuzzerEnableIfSmokeDetected(List<SensorData> allSensorData)
+        {
+            foreach (var sensorData in allSensorData)
+            {
+                string ParameterName = sensorData.ParameterName;
+                string ParameterValue = sensorData.ParameterValue;
+                switch (ParameterName)
+                {
+                    case "SMOKE":
+                        bool result = bool.Parse(ParameterValue);
+                        if (result)
+                        {
+                            Console.WriteLine("LOCAL DECISION: localBuzzerEnableIfSmokeDetected(): I detected smoke. Checking if buzzer enabled...");
+                            if(!_sensorBuzzerService.isBuzzerEnabled())
+                            {
+                                Console.WriteLine("LOCAL DECISION: I'm enabling my buzzer as client (checked buzzer was off)");
+                               _sensorBuzzerService.setBuzzerState(true);
+                            }
+                            else
+                            {
+                                Console.WriteLine("LOCAL DECISION: Buzzer was enabled");
+                            }
+
+                        }
+                        else
+                        {
+                            // we don't want to switch it if sensor hasnt detected smoke (brokers might know about smoke in other room)
+                        }
+                        break;
+                    case "BUZZER":
+                        //Console.WriteLine("LOCAL DECISION: localBuzzerEnableIfSmokeDetected(): Omitting Buzzer data, cuz not relevant for local decision");
+                       
+                        break;
+                    default:
+                        Console.WriteLine($"localBuzzerEnableIfSmokeDetected: Unknow parameter:{ParameterName}:{ParameterValue}");
+                        break;
+                };
+
+            }
+
+         
+
+        }
+
         private List<SensorData> getAllSensorData() {
 
             List<SensorData> allSensorData = new List<SensorData>
@@ -227,13 +283,14 @@ namespace Client.MqttManager
 
         }
 
-        private async Task enqueueToAllSpecifiedTopics()
+        private async Task enqueueToAllSpecifiedTopics(List<SensorData> allSensorData)
         {
-            var allSensorData = getAllSensorData();
+            
             string json = System.Text.Json.JsonSerializer.Serialize(new { message = allSensorData, sent = DateTime.UtcNow });
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
+
 
             }
         }
@@ -253,15 +310,18 @@ namespace Client.MqttManager
         
             while (true)
             {
-                await enqueueToAllSpecifiedTopics();
+                List<SensorData> allSensorData = getAllSensorData();
+                localBuzzerEnableIfSmokeDetected(allSensorData);
+
+                await enqueueToAllSpecifiedTopics(allSensorData);
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 if (managedMqttClient.IsConnected)
                 {
-                    Console.WriteLine("Task start: Message published to broker.");
+                    Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True.");
                 }
                 else
                 {
-                    Console.WriteLine("Task start: Message queued locally. I will send them when I connect to server");
+                    Console.WriteLine("Task start: Message queued locally cuz managedClient.IsConnected = False. I will send them when I connect to server");
                 }
 
             }
