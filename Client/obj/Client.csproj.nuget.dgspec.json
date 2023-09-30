@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj": {}
+    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MQTTAlarmSystem\\Client\\Client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj": {
+    "C:\\Users\\alex\\Desktop\\Studia\\issue\\MQTTAlarmSystem\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj",
+        "projectUniqueName": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MQTTAlarmSystem\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\Client.csproj",
+        "projectPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MQTTAlarmSystem\\Client\\Client.csproj",
         "packagesPath": "C:\\Users\\alex\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MqttTlsTest\\Client\\obj\\",
+        "outputPath": "C:\\Users\\alex\\Desktop\\Studia\\issue\\MQTTAlarmSystem\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

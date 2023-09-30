@@ -16,7 +16,6 @@ using Client.PKI;
 using Client.Sensor;
 using Client.MqttManager.Configuration;
 using Newtonsoft.Json;
-using Client.DecisionManager;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -32,7 +31,7 @@ namespace Client.MqttManager
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
         SensorSmokeDetectorService _sensorSmokeDetectorService;
-        ILocalDecisionMaker _localDecisionMaker;
+  
 
         MqttFactory mqttFactory;
         IManagedMqttClient managedMqttClient;
@@ -44,8 +43,7 @@ namespace Client.MqttManager
             _mqttClientConfiguration = mqttClientConfiguration;
             _sensorBuzzerService = sensorBuzzerService;
             _sensorSmokeDetectorService = smokeDetectorService;
-            _localDecisionMaker = new LocalDecisionMaker();
-
+         
 
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
@@ -91,6 +89,7 @@ namespace Client.MqttManager
             managedMqttClient.ConnectedAsync += OnConnectAsync;
             managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
             managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
+          
 
         }
         private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
@@ -148,6 +147,8 @@ namespace Client.MqttManager
         {
             // Successful connect
             Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
+            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
+            await enqueueToAllSpecifiedTopics(smokeDetectorStateData);
 
         }
 
@@ -237,7 +238,7 @@ namespace Client.MqttManager
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
 
-            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
+           SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
 
         
             while (true)
@@ -248,7 +249,7 @@ namespace Client.MqttManager
 
                 if (managedMqttClient.IsConnected)
                 {                               
-                    if(!(ParameterValueSmokeDetectedNew && ParameterValueSmokeDetectedOld))
+                    if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(smokeDetectorStateData);
                        Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True state CHANGED");
@@ -261,15 +262,18 @@ namespace Client.MqttManager
                 }
                 else
                 {
+                        Console.WriteLine("Task start: Detector managed locally cuz managedClient.IsConnected = False.");
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
+                        Console.WriteLine("Task start: (LOCAL DECISION): BUZZER SET TO TRUE I DETECTED SMOKE!");
                         _sensorBuzzerService.set(true);
                     }
                     else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
                     {
+                        Console.WriteLine("Task start: (LOCAL DECISION): BUZZER SET TO FALSE I SEE NO MORE SMOKE!");
                         _sensorBuzzerService.set(false);
                     }
-                    Console.WriteLine("Task start: Message queued locally cuz managedClient.IsConnected = False. I will send them when I connect to server");
+                    
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(2));
