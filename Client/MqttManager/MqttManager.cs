@@ -24,91 +24,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Client.MqttManager
 {
 
-    public class SharedSensorResource
-    {
-        private List<SensorData> _sensorDataList = new List<SensorData>();
-        private object lockObject = new object();
-        private object stateChangeLock = new object();
 
-        // Constructor without state change notification
- 
-
-        public List<SensorData> SensorDataList
-        {
-            get
-            {
-                lock (lockObject)
-                {
-                    return new List<SensorData>(_sensorDataList);
-                }
-            }
-            set
-            {
-                lock (lockObject)
-                {
-                    // Check if the new list is different from the old one using SequenceEqual
-                    if (!_sensorDataList.SequenceEqual(value))
-                    {
-                        _sensorDataList = value;
-
-                        // Notify waiting threads of the state change
-                        lock (stateChangeLock)
-                        {
-                            Monitor.PulseAll(stateChangeLock);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void Work()
-        {
-            Console.WriteLine("Work method called because SensorData changed.");
-            // Add your work logic here
-        }
-
-        // Monitoring thread that invokes Work when SensorData changes
-        // Custom delegate for the monitoring function
-         public delegate Task CustomMonitoringFunction(List<SensorData> currentSensorData, SharedSensorResource resource);
-
-        // Monitoring thread that invokes a custom function when SensorData changes
-        public void StartMonitoringThread(CustomMonitoringFunction customFunction)
-        {
-            Thread monitoringThread = new Thread(() =>
-            {
-                while (true)
-                {
-                    List<SensorData> previousSensorData;
-                    lock (lockObject)
-                    {
-                        previousSensorData = new List<SensorData>(_sensorDataList);
-                    }
-
-                    lock (stateChangeLock)
-                    {
-                        Console.WriteLine("IN THREAD WAITING FOR STATE CHANGE");
-                        Monitor.Wait(stateChangeLock); // Wait for a state change
-                    }
-
-                    //List<SensorData> currentSensorData;
-                    //lock (lockObject)
-                    //{
-                    //    currentSensorData = new List<SensorData>(_sensorDataList);
-                    //}
-
-                    //// Check if SensorData has changed and invoke the custom function
-                    //if (!previousSensorData.SequenceEqual(currentSensorData))
-                    //{
-                    Console.WriteLine("STATE CHANGED I PUBLISH MESSAGE TO BROKER");
-                    List<SensorData> currentSensorData = new List<SensorData>(_sensorDataList); 
-                    customFunction(currentSensorData, this); // Invoke the custom function
-                    //}
-                }
-            });
-
-            monitoringThread.Start();
-        }
-    }
 
 
         class MqttManager
@@ -121,7 +37,7 @@ namespace Client.MqttManager
         MqttFactory mqttFactory;
         IManagedMqttClient managedMqttClient;
         ManagedMqttClientOptions mqttManagedClientOptions;
-            SharedSensorResource _sharedSensorResource;
+
 
         public MqttManager(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
         {
@@ -129,7 +45,7 @@ namespace Client.MqttManager
             _sensorBuzzerService = sensorBuzzerService;
             _sensorSmokeDetectorService = smokeDetectorService;
             _localDecisionMaker = new LocalDecisionMaker();
-            _sharedSensorResource = new SharedSensorResource();
+
 
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
@@ -149,7 +65,7 @@ namespace Client.MqttManager
                     .WithCleanSession()
                     // .WithCredentials(mqttClientConfiguration.Username, mqttClientConfiguration.Password)
                     .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
-
+                    
                     .WithTlsOptions(new MqttClientTlsOptionsBuilder()
                                     .WithSslProtocols(SslProtocols.Tls12)
                                     .WithCertificateValidationHandler(OnCertificateValidation)
@@ -214,9 +130,11 @@ namespace Client.MqttManager
                     e.ApplicationMessage.PayloadSegment.Count);
             
 
-            List<SensorData> parametersFromBroker = JsonConvert.DeserializeObject<List<SensorData>>(payloadText);
+            SensorData buzzerDataState = JsonConvert.DeserializeObject<SensorData>(payloadText);
            
-            
+            bool buzzerStateSetByBroker = bool.Parse( buzzerDataState.ParameterValue );
+            _sensorBuzzerService.set(buzzerStateSetByBroker);
+                       
 
 
             //Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
@@ -292,27 +210,15 @@ namespace Client.MqttManager
 
       ///  private List<SensorData> sortOutJsonedSensorData() { }
 
-        private List<SensorData> getAllSensorData() {
 
-            List<SensorData> allSensorData = new List<SensorData>
-            {
-                // sequence matters
-                _sensorBuzzerService.get(),
-                _sensorSmokeDetectorService.get()
-            };
-
-            return allSensorData;
-        }
-
-        private async Task enqueueToAllSpecifiedTopics(List<SensorData> allSensorData)
+        private async Task enqueueToAllSpecifiedTopics(SensorData smokeDetectorState)
         {
             
-            string json = System.Text.Json.JsonSerializer.Serialize(new { message = allSensorData, sent = DateTime.UtcNow });
+            string json = System.Text.Json.JsonSerializer.Serialize(new { message = smokeDetectorState, sent = DateTime.UtcNow });
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
-
-
+         
             }
         }
 
@@ -330,36 +236,43 @@ namespace Client.MqttManager
         {
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
-           List<SensorData> newSensorData = getAllSensorData();
-           _sharedSensorResource.SensorDataList = newSensorData;
-           _sharedSensorResource.StartMonitoringThread(async (currentSensorData, resource) =>
-             {
-                 // Access class properties or methods as needed
-                 // For example, you can call enqueueToAllSpecifiedTopics with the currentSensorData
-                 await enqueueToAllSpecifiedTopics(currentSensorData);
-                 if (managedMqttClient.IsConnected)
-                 {
-                     Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True.");
-                 }
-                 else
-                 {
-                     Console.WriteLine("Task start: Message queued locally cuz managedClient.IsConnected = False. I will send them when I connect to server");
-                 }
-             });
 
+            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
+
+        
             while (true)
             {
-                newSensorData = getAllSensorData();
-                _sharedSensorResource.SensorDataList= newSensorData;
-                foreach (SensorData sensorData in _sharedSensorResource.SensorDataList)
-                {  
-                    Console.WriteLine(sensorData.ParameterName + " " + sensorData.ParameterValue);                  
-                    string ParameterName = sensorData.ParameterName;
-                    string ParameterValue = sensorData.ParameterValue;
+                bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
+                smokeDetectorStateData = _sensorSmokeDetectorService.get();
+                bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
+
+                if (managedMqttClient.IsConnected)
+                {                               
+                    if(!(ParameterValueSmokeDetectedNew && ParameterValueSmokeDetectedOld))
+                    {
+                       await enqueueToAllSpecifiedTopics(smokeDetectorStateData);
+                       Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True state CHANGED");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Task start: Message NOT published to remote broker managedClient.IsConnected = True and state NOT CHANGED");
+
+                    }                   
                 }
-                    //await enqueueToAllSpecifiedTopics(allSensorData);
-                    await Task.Delay(TimeSpan.FromSeconds(2));
-               
+                else
+                {
+                    if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
+                    {
+                        _sensorBuzzerService.set(true);
+                    }
+                    else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
+                    {
+                        _sensorBuzzerService.set(false);
+                    }
+                    Console.WriteLine("Task start: Message queued locally cuz managedClient.IsConnected = False. I will send them when I connect to server");
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(2));
 
             }
         }       
