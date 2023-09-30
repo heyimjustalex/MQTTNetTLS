@@ -1,6 +1,7 @@
 ﻿using Client.Sensor;
 using Client.SensorBase;
 using Client.Sensors;
+using Client.SensorServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Client.SensorService
 {
-    internal class SensorBuzzerService
+    internal class SensorBuzzerService : ISensorService
     {
         ISensorGetSetCheckData buzzer;
         public SensorBuzzerService() {
@@ -17,17 +18,17 @@ namespace Client.SensorService
             buzzer = new Buzzer();        
         }
 
-        public SensorData getBuzzerState()
+        public SensorData get()
         {
             return buzzer.get();
         }
 
-        public bool isBuzzerEnabled()
+        public bool check()
         {
             return buzzer.check();
         }
 
-        public void setBuzzerState(bool state)
+        public void set(bool state)
         {
             string isOn = state ? "TRUE" : "FALSE";
             SensorData data = new SensorData("BUZZER", isOn);

@@ -1,5 +1,6 @@
 ﻿using Client.Sensor;
 using Client.Sensors;
+using Client.SensorServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Client.SensorService
 {
-    internal class SensorSmokeDetectorService
+    internal class SensorSmokeDetectorService : ISensorService
     {
         ISensorGetData smokeDetector;
 
@@ -17,8 +18,7 @@ namespace Client.SensorService
             smokeDetector = new SmokeDetector();            
         
         }
-
-        public SensorData getSmokeDetectorState()
+        public SensorData get()
         {
             return smokeDetector.get();
         }

@@ -14,7 +14,7 @@ namespace Client.Sensors
         public Buzzer() {
             state = "FALSE";
 
-            // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE)
+            // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE (and are strings))
             // YOU CAN REMOVE STATE VARIABE CUZ IT'S ONLY FOR MY TESTS
         }
 

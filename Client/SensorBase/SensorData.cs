@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Client.Sensor
 {
@@ -30,5 +31,31 @@ namespace Client.Sensor
             get { return _parameterValue; }
             set { _parameterValue = value; }
         }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            SensorData other = (SensorData)obj;
+
+
+            // Compare your properties here to determine equality
+            return ParameterName == other.ParameterName && ParameterValue == other.ParameterValue;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + ParameterName.GetHashCode();
+                hash = hash * 23 + ParameterValue.GetHashCode();
+                return hash;
+            }
+        }
     }
+
 }
+
