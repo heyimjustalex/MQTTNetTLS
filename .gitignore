@@ -13,9 +13,15 @@ Client/obj
 Client/obj/
 Client/obj/*
 
-Server/obj/
-Server/obj/*
-Server/bin/
+Broker/obj/
+Broker/obj/*
+Broker/bin/
+
+
+BrokerGUI/obj/
+BrokerGUI/obj/*
+BrokerGUI/bin/
+
 PKIUtility/obj/
 PKIUtility/obj/*
 PKIUtility/bin/

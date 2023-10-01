@@ -1,0 +1,43 @@
+﻿<Window x:Class="BrokerGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BrokerGUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1600">
+
+    <Grid>
+        <ItemsControl Name="clientItemsControl" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#EFEFEF" BorderBrush="#CCCCCC" BorderThickness="1" Margin="5" Padding="5">
+                        <StackPanel>
+                            <TextBlock Text="ClientId:" FontSize="16" FontWeight="Bold" Foreground="Blue" Margin="5,0,5,2" />
+                            <TextBlock Text="{Binding clientId}" FontSize="14" Foreground="Black" Margin="5,0,5,2" />
+                            <TextBlock Text="Username:" FontSize="16" FontWeight="Bold" Foreground="Blue" Margin="5,0,5,2" />
+                            <TextBlock Text="{Binding username}" FontSize="14" Foreground="Black" Margin="5,0,5,2" />
+                            <TextBlock Text="Alarm State:" FontSize="16" FontWeight="Bold" Foreground="Red" Margin="5,2,5,0" />
+                            <TextBlock Text="{Binding alarmState}" FontSize="14" Foreground="Black" Margin="5,2,5,0" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+        <Border Name="AlarmButton" Width="150" Height="70" Grid.Column="1" Background="Blue" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top">
+            <TextBlock Text="Alarm!" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+        </Border>
+        <Button Name="StartBrokerButton" Content="Start Broker" Click="StartBrokerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Margin="10" />
+
+    </Grid>
+
+
+
+
+</Window>
