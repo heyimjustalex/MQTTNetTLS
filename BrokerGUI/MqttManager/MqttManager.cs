@@ -14,6 +14,7 @@ using System.Net;
 using System.Collections.Generic;
 using Broker.Entity;
 using System.Threading;
+using Broker.Database;
 
 
 namespace Broker.MqttManager
@@ -57,8 +58,25 @@ namespace Broker.MqttManager
             _mqttServer.ClientConnectedAsync += onNewClientConnection;
             _mqttServer.InterceptingPublishAsync += onInterceptingPublishAsync;
             _mqttServer.ValidatingConnectionAsync += onClientConnectionValidation;
+            _mqttServer.ClientDisconnectedAsync += onClientDisconnect;
         }
+        private async Task onClientDisconnect(ClientDisconnectedEventArgs e)
+        {
+            Console.WriteLine($"Client {e.ClientId} disconnected");
+            int i = 0;
+            UI.ClientManager.RemoveClientByID(e.ClientId);
+            foreach (Client client in _currentlyConnectedClients)
+            {
+                if(client.clientId== e.ClientId) {
+                    _currentlyConnectedClients.RemoveAt(i);     
+                }
+                i++;
+            }
 
+        
+
+
+        }
         private async Task onClientConnectionValidation(ValidatingConnectionEventArgs e)
         {
 
@@ -86,7 +104,8 @@ namespace Broker.MqttManager
 
             Console.WriteLine($"Client {username} {clientId} authenticated, adding it to the currently connected clients");
             // here update the window new client authenticated
-            _currentlyConnectedClients.Add(new Client(clientId, username, password));   
+            _currentlyConnectedClients.Add(new Client(clientId, username, password));
+            UI.ClientManager.AddClient(new UI.ClientGUI(clientId,username,"TRUE")); 
 
         }
         private async Task onNewClientConnection(ClientConnectedEventArgs e)
