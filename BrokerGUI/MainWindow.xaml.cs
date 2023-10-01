@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,18 +19,19 @@ namespace BrokerGUI
 {
     public partial class MainWindow : Window
     {
+        CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private List<ClientGUI> clients = new List<ClientGUI>
         {
-            new ClientGUI("User1","User12", "false"),
-            new ClientGUI("User2","User23", "false"),
-            new ClientGUI("User3","User3", "true")
+            new ClientGUI("User1","User12", "FALSE"),
+            new ClientGUI("User2","User23", "FALSE"),
+            new ClientGUI("User3","User3", "TRUE")
         };
 
-        private bool isBrokerRunning = false; // Flag to control the Broker
+        private bool isBrokerRunning = false; 
         private Dictionary<string, Color> alarmColors = new Dictionary<string, Color>
         {
-            { "true", Colors.Red },
-            { "false", Colors.Green },
+            { "TRUE", Colors.Red },
+            { "FALSE", Colors.Green },
 
         };
 
@@ -54,7 +53,7 @@ namespace BrokerGUI
             // Simulate adding a client
             Application.Current.Dispatcher.Invoke(() =>
             {
-                clients.Add(new ClientGUI($"User{clients.Count + 1}", $"User{clients.Count + 1}", "false"));
+                clients.Add(new ClientGUI($"User{clients.Count + 1}", $"User{clients.Count + 1}", "FALSE"));
                 clientItemsControl.Items.Refresh(); // Refresh the ListBox
             });
         }
@@ -84,20 +83,28 @@ namespace BrokerGUI
 
         private void StartBrokerButton_Click(object sender, RoutedEventArgs e)
         {
+          
             if (!isBrokerRunning)
             {
+                Task.Run(() => (BrokerGUI.Program.Broker(_cancellationTokenSource.Token)));
                 // Start the Broker if it's not running
                 isBrokerRunning = true;
                 StartBrokerButton.Content = "Stop Broker"; // Change button text
-                Thread brokerThread = new Thread(SimulateClientOperations);
-                brokerThread.IsBackground = true;
-                brokerThread.Start();
+             
+              
+                //Thread brokerThread = new Thread(SimulateClientOperations);
+                //  brokerThread.IsBackground = true;
+                //  brokerThread.Start();
             }
             else
             {
                 // Stop the Broker if it's running
                 isBrokerRunning = false;
                 StartBrokerButton.Content = "Start Broker"; // Change button text
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource = new CancellationTokenSource();
+
+
             }
         }
 
@@ -105,7 +112,7 @@ namespace BrokerGUI
         {
             while (true)
             {
-                string alarmState = clients.Any(client => client.alarmState.Contains("true")) ? "true" : "false";
+                string alarmState = clients.Any(client => client.alarmState.Contains("TRUE")) ? "TRUE" : "FALSE";
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {

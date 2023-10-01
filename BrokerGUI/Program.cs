@@ -8,14 +8,16 @@ using Broker.Repository;
 using Broker.Service;
 using Broker.MqttManager;
 using System.Reflection.PortableExecutable;
+using System.Threading;
 
 namespace BrokerGUI
 {
     class Program
     {
         // static MqttServer mqttServer;
-       public static async Task Broker()
-        {      
+       public static async Task<Task> Broker(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Starting new broker");
             IClientDB clientDB = new ClientDB();
             IClientRepository clientRepository = new ClientRepository(clientDB);
             IClientService clientService = new ClientService(clientRepository);
@@ -35,11 +37,16 @@ namespace BrokerGUI
             .Build();
 
             MqttManager mqttManager = new MqttManager(configuration, clientService);
+      
+           
+            await  mqttManager.start(cancellationToken);
 
-            await mqttManager.start();
-
-            Console.WriteLine("Client program has started. Press ENTER to end process");
-            Console.ReadLine();
+            mqttManager.kill();
+            Console.WriteLine("Broker has been killed");
+            Thread.Sleep(1000);
+            Console.Clear();
+            return Task.CompletedTask;
+            
 
             //await Task.Run(mqttBroker.startAsync);
             //await Task.Run(mqttBroker.init);

@@ -13,6 +13,8 @@ using System.Text;
 using System.Net;
 using System.Collections.Generic;
 using Broker.Entity;
+using System.Threading;
+
 
 namespace Broker.MqttManager
 {
@@ -113,12 +115,16 @@ namespace Broker.MqttManager
             await Task.CompletedTask;
         }
 
-        public async Task start()
+        public void kill()
+        {
+            _mqttServer.Dispose();
+        }
+        public async Task start(CancellationToken cancellationToken)
         {
             try
             {
                 await _mqttServer.StartAsync();
-          
+                
 
                 // Expire does not work it's a bug 
                 var message = new MqttApplicationMessageBuilder()
@@ -128,7 +134,7 @@ namespace Broker.MqttManager
                     .WithPayload("[{\"ParameterName\":\"BUZZER\",\"ParameterValue\":\"TRUE\"}]")
                     .Build();
 
-                while (true)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
@@ -151,8 +157,8 @@ namespace Broker.MqttManager
                 Console.WriteLine($"Error when client connecting: {ex.Message} {ex.StackTrace}");
             }
 
-            Console.WriteLine("Waitng for connections \n Press Enter to exit.");
-            Console.ReadLine();
+           // Console.WriteLine("Waitng for connections \n Press Enter to exit.");
+          //  Console.ReadLine();
         }
 
         public async Task publishMessage(string topic, string payload, string brokerId)
