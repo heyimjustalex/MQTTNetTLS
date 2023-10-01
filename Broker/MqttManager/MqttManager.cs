@@ -90,28 +90,9 @@ namespace Broker.MqttManager
         private async Task onNewClientConnection(ClientConnectedEventArgs e)
         {
             Console.WriteLine("New Client, calling OnNewClient ");
-            
-            //string clientId = e.ClientId;
-            //string username = e.UserName;
-            //var password2 = e;
-            //string password = e.AuthenticationData?.ToString() ?? string.Empty;
-            //Console.WriteLine(password2.ToString());
 
-            //if (clientId == null || username == null || password == null)
-            //{
-            //    return;
-            //}
-
-            //if (username != null)
-            //{
-            //    if (!_clientService.authenticate(username, password))
-            //    {
-            //        Console.WriteLine($"Authenticating with username: {username} FAILED");
-            //        return;
-            //    }
-            //}
-
-            //Console.WriteLine($"Client {username} {clientId} authenticated");
+            //update windows looks that new client has connected            
+          
         }
     
 
