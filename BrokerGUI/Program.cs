@@ -14,8 +14,18 @@ namespace BrokerGUI
 {
     class Program
     {
-        // static MqttServer mqttServer;
-       public static async Task<Task> Broker(CancellationToken cancellationToken)
+        [System.STAThreadAttribute()]
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "7.0.11.0")]
+        public static void Main()
+        {
+            UI.App app = new UI.App();
+
+            app.InitializeComponent();
+            app.Run();
+        }
+
+        public static async Task<Task> Broker(CancellationToken cancellationToken)
         {
             Console.WriteLine("Starting new broker");
             IClientDB clientDB = new ClientDB();
@@ -46,19 +56,7 @@ namespace BrokerGUI
             Thread.Sleep(1000);
             Console.Clear();
             return Task.CompletedTask;
-            
-
-            //await Task.Run(mqttBroker.startAsync);
-            //await Task.Run(mqttBroker.init);
-            //Console.WriteLine("MQTT Server has started. Enter to send mess!");
-            //Console.ReadLine();
-            //await mqttBroker.publishMessage("Test", "testMessage", mqttBrokerConfig.Id);
-
-            //Console.WriteLine("Enter to stop!");
-            //Console.ReadLine();
-
-            //await mqttBroker.stopAsync();
-
+         
         }
     }
 }

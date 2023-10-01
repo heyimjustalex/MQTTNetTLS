@@ -13,10 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using EntityClientGUI;
+using UI;
 
-namespace BrokerGUI
-{
+namespace UI { 
     public partial class MainWindow : Window
     {
         CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -24,7 +23,7 @@ namespace BrokerGUI
         {
             new ClientGUI("User1","User12", "FALSE"),
             new ClientGUI("User2","User23", "FALSE"),
-            new ClientGUI("User3","User3", "TRUE")
+            new ClientGUI("User3","User3", "FALSE")
         };
 
         private bool isBrokerRunning = false; 
@@ -117,6 +116,8 @@ namespace BrokerGUI
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     AlarmButton.Background = new SolidColorBrush(alarmColors[alarmState]);
+                    AlarmTextBlock.Text = alarmState == "TRUE" ? "ON" : "OFF";
+                    
                 });
 
                 Thread.Sleep(1000); // Check every second
