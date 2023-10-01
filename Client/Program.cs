@@ -12,8 +12,6 @@ namespace Program
         {
             SensorBuzzerService buzzerService = new SensorBuzzerService();
             SensorSmokeDetectorService smokeDetectorService = new SensorSmokeDetectorService();
- 
-
             MqttClientConfiguration configuration = new MqttClientConfigurationBuilder()
              .WithPort(8883)
              .WithIpAddress("localhost")
@@ -22,12 +20,9 @@ namespace Program
              .WithPassword("password1")
              .WithTopicsClientEnqueuesTo(new string[] { "alarm/fromClient" })
              .WithTopicsClientSubscribesTo(new string[] { "alarm/fromBroker" })
-                .Build();
-
-
+             .Build();
            
             MqttManager mqttManager = new MqttManager(configuration, buzzerService, smokeDetectorService);
-
 
             await mqttManager.start();
 

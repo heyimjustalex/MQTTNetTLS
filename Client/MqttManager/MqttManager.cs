@@ -22,12 +22,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Client.MqttManager
 {
-
-
-
-
-        class MqttManager
-    {
+    class MqttManager
+        {
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
         SensorSmokeDetectorService _sensorSmokeDetectorService;
@@ -56,12 +52,13 @@ namespace Client.MqttManager
         }
         private void initClientConfigurationOptions()
         {
-
+          
             var mqttClientOptions = new MqttClientOptionsBuilder()
                     .WithClientId(_mqttClientConfiguration.Id)
                     .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
                     .WithCleanSession()
-                    // .WithCredentials(mqttClientConfiguration.Username, mqttClientConfiguration.Password)
+                    .WithCredentials(_mqttClientConfiguration.Username,_mqttClientConfiguration.Password)
+                    //.WithCredentials(credentialsProvider)
                     .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
                     
                     .WithTlsOptions(new MqttClientTlsOptionsBuilder()
@@ -273,7 +270,6 @@ namespace Client.MqttManager
                         Console.WriteLine("Task start: (LOCAL DECISION): BUZZER SET TO FALSE I SEE NO MORE SMOKE!");
                         _sensorBuzzerService.set(false);
                     }
-                    
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(2));

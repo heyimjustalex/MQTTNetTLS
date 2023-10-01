@@ -1,134 +1,59 @@
-﻿using MQTTnet; 
-using MQTTnet.Server;
-using System;
+﻿using System;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
+using Broker.Configuration;
+using Broker.Database;
+using Broker.PKI;
+using Broker.Repository;
+using Broker.Service;
+using Broker.MqttManager;
+using System.Reflection.PortableExecutable;
 
-namespace Server
+namespace Broker
 {
-    internal class Program
+
+    class Program
     {
-        public static async Task onNewClientConnection(ClientConnectedEventArgs e)
-        {
-            Console.WriteLine("New Client, calling OnNewClient ");                     
-        }
 
-
-
-        public static async Task onInterceptingPublishAsync(InterceptingPublishEventArgs args)
-        {
-            var message = args.ApplicationMessage;
-            var topic = message.Topic;
-            var payload = Encoding.UTF8.GetString(message.Payload);
-
-            Console.WriteLine($"Received publish request on topic '{topic}': Payload = '{payload}'");
-
-            // Implement your custom logic here.
-
-            // Continue processing the publish request.
-            await Task.CompletedTask;
-        }
-        public static X509Certificate2 ReadCertificateWithPrivateKey(string fileCertPath, string keyPath, string password)
-        {
-            try
-            {
-                // Read the private key from key.pem file
-                string keyPem = File.ReadAllText(keyPath);
-
-                // Create an RSA key from the private key PEM and password
-                using (RSA rsa = RSA.Create())
-                {
-                    rsa.ImportFromEncryptedPem(keyPem, password);
-                    // Load the certificate from fileCertPath
-                    var certificate = new X509Certificate2(fileCertPath, password);
-
-                    var certificate2 = certificate.CopyWithPrivateKey(rsa);
-                    // Associate the private key with the certificate
-
-
-                    return certificate2;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error reading certificate with private key: {ex.Message} {ex.StackTrace}");
-                return null;
-            }
-        }
+        // static MqttServer mqttServer;
         static async Task Main(string[] args)
-        {
-            var mqttFactory = new MqttFactory();
-
+        {      
+            IClientDB clientDB = new ClientDB();
+            IClientRepository clientRepository = new ClientRepository(clientDB);
+            IClientService clientService = new ClientService(clientRepository);
 
             string serverCertPath = "../../../PKI/Broker/broker1.pfx";
             string keyCertPath = "../../../PKI/Broker/key1.pem";
-            // WITH THIS DOES NOT WORK
-            var certificate = ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
+            var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
-            // WITH THIS DOES WORK
+            MqttBrokerConfiguration configuration = new MqttBrokerConfigurationBuilder()
+            .WithPort(8883)
+            .WithIpAddress("127.0.0.1")
+            .WithId("broker1")
+            .WithTopicsBrokerEnqueuesTo(new string[] { "alarm/fromBroker" })
+            .WithTopicsBrokerSubscribesTo(new string[] { "alarm/fromClient" })
+            .WithCertificate(certificate)
+            .Build();
 
-            // var certificate2 = CreateSelfSignedCertificate("1.3.6.1.5.5.7.3.1");
+            MqttManager.MqttManager mqttManager = new MqttManager.MqttManager(configuration, clientService);
 
-            // var mqttServerOptions = new MqttServerOptionsBuilder().WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12).WithEncryptionCertificate(certificate).WithEncryptedEndpoint().Build();
+            await mqttManager.start();
 
-            var mqttServerOptions = new MqttServerOptionsBuilder()
-                .WithEncryptionCertificate(certificate.Export(X509ContentType.Pfx))
-                .WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12)
-           
-                .WithEncryptedEndpoint()
-            
-               
-                .Build();
+            Console.WriteLine("Client program has started. Press ENTER to end process");
+            Console.ReadLine();
 
+            //await Task.Run(mqttBroker.startAsync);
+            //await Task.Run(mqttBroker.init);
+            //Console.WriteLine("MQTT Server has started. Enter to send mess!");
+            //Console.ReadLine();
+            //await mqttBroker.publishMessage("Test", "testMessage", mqttBrokerConfig.Id);
 
+            //Console.WriteLine("Enter to stop!");
+            //Console.ReadLine();
 
-            using (var mqttServer = mqttFactory.CreateMqttServer(mqttServerOptions))
-            {
-                mqttServer.ClientConnectedAsync += onNewClientConnection;
-                mqttServer.InterceptingPublishAsync += onInterceptingPublishAsync;
-             
-                try {
-               
-                    mqttServer.StartAsync().GetAwaiter().GetResult(); 
-                    // Expire does not work it's a bug 
-                    var message = new MqttApplicationMessageBuilder().WithTopic("alarm/fromBroker").WithMessageExpiryInterval(1000).WithRetainFlag(true).WithPayload("[{\"ParameterName\":\"BUZZER\",\"ParameterValue\":\"TRUE\"}]").Build();
+            //await mqttBroker.stopAsync();
 
-                    while (true)
-                    {
-                        try
-                        {
-                            Console.WriteLine("SENDING MESSAGE");
-                            await mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
-                            Console.WriteLine("MESSAGE SENT TO CLIENTS");
-                            await Task.Delay(TimeSpan.FromSeconds(2));
-                            //Console.ReadLine();
-                        }
-                        catch (Exception ex)
-                        {
-                            // Handle the exception here
-                            Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
-                            throw;
-                        }
-                    }
-                 
-
-
-
-                } catch (Exception ex) {
-                    Console.WriteLine($"Error when client connecting: {ex.Message} {ex.StackTrace}");
-                }
-
-                Console.WriteLine("Waitng for connections \n Press Enter to exit.");
-                Console.ReadLine();
-
-                await mqttServer.StopAsync();
-            }
         }
     }
 }
