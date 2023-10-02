@@ -25,15 +25,27 @@ namespace UI {
         {
             clients = new List<ClientGUI>
         {
-            new ClientGUI("User1", "User12", "FALSE"),
-            new ClientGUI("User2", "User23", "FALSE"),
-            new ClientGUI("User3", "User3", "FALSE")
+            //new ClientGUI("User1", "User12", "FALSE"),
+            //new ClientGUI("User2", "User23", "FALSE"),
+            //new ClientGUI("User3", "User3", "FALSE")
         };
         }
 
         public static List<ClientGUI> GetClients()
         {
             return clients;
+        }
+
+        public static void updateClients(List<ClientGUI> clients)
+        {
+            ClientManager.clients = clients;
+        }
+        public static void updateClients(Action<ClientGUI> update)
+        {
+            foreach (ClientGUI client in clients)
+            {
+                update(client);
+            }
         }
 
         public static void AddClient(ClientGUI client)
@@ -69,6 +81,7 @@ namespace UI {
     {
         { "TRUE", Colors.Red },
         { "FALSE", Colors.Green },
+            {"UNKNOWN", Colors.Gray }
     };
 
         public MainWindow()

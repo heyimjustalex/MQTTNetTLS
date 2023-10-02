@@ -30,9 +30,13 @@ namespace Client.SensorService
 
         public void set(bool state)
         {
-            string isOn = state ? "TRUE" : "FALSE";
-            SensorData data = new SensorData("BUZZER", isOn);
-            buzzer.set(data);          
+            if (buzzer.check() != state)
+            {
+                string isOn = state ? "TRUE" : "FALSE";
+                SensorData data = new SensorData("BUZZER", isOn);
+                buzzer.set(data);
+            }
+            
         }
     }
 }

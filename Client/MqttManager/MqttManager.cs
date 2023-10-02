@@ -272,11 +272,11 @@ namespace Client.MqttManager
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(sensorDatas);
-                       Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True state CHANGED");
+                       Console.WriteLine($"Task start: Message published to remote broker (managedClient.IsConnected), state CHANGED, State:{ParameterValueSmokeDetectedNew }");
                     }
                     else
                     {
-                        Console.WriteLine("Task start: Message NOT published to remote broker managedClient.IsConnected = True and state NOT CHANGED");
+                        Console.WriteLine($"Task start: Message NOT published to remote broker (managedClient.IsConnected), state NOT CHANGED, State:{ParameterValueSmokeDetectedNew }");
 
                     }                   
                 }
@@ -295,7 +295,7 @@ namespace Client.MqttManager
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Task.Delay(TimeSpan.FromSeconds(8));
 
             }
         }       

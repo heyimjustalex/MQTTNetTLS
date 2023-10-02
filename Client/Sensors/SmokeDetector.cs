@@ -14,10 +14,10 @@ namespace Client.Sensors
         {
             // Instead of generating random values you need to implement getting SmokeDetector state and returning data in form of
             // return new SensorData("SMOKE", "TRUE" or "FALSE);
-           return new SensorData("SMOKE", "FALSE");
-           // Random random = new Random();           
-         //   var isThereSmoke= random.Next() % 2 == 0 ? "TRUE" : "FALSE";
-          //  return new SensorData("SMOKE", isThereSmoke);
+           //return new SensorData("SMOKE", "4ALSE");
+           Random random = new Random();         
+           var isThereSmoke= random.Next() % 8 == 0 ? "TRUE" : "FALSE";
+           return new SensorData("SMOKE", isThereSmoke);
         }
     }
 }

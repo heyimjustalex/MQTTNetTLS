@@ -14,6 +14,8 @@ namespace Broker.Entity
         public string password;
         public List<SensorData> currentSensorDatas;
 
+
+
         public Client(string clientId, string username, string password="")
         {
             this.clientId = clientId;

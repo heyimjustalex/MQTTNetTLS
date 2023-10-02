@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+	  <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,9 +11,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Build.Containers" Version="7.0.401" />
     <PackageReference Include="MQTTnet" Version="4.3.1.873" />
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.3.1.873" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
+
+
+<!--<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>library</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="PKI\CA\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MQTTnet" Version="4.3.1.873" />
+		<PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.3.1.873" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	<PackageReference Include="Microsoft.NET.Build.Containers" Version="0.2.7"/>
+	</ItemGroup>
+
+</Project>-->
