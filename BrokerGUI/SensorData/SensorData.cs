@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace Server.Sensor
 {
+    [Serializable]
     public class SensorData
     {
         private string _parameterName;

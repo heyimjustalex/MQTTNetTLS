@@ -1,6 +1,7 @@
 ﻿using Broker.Database;
 using Broker.Entity;
 using MQTTnet.Client;
+using Server.Sensor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,20 @@ namespace Broker.Repository
             _db.addClient(username, password, clientId);
         }
 
+        public void setClientSensorData(string clientId, List<SensorData> sensorDatas)
+        {
+            _db.setSensorDataOfClient(clientId, sensorDatas);   
+        }
+
+        public List<SensorData> getClientSensorData(string clientId) {
+            return _db.getSensorDataOfClient(clientId);
+        }
+
         public void removeClient(string username)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

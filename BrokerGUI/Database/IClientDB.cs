@@ -1,4 +1,6 @@
 ﻿using Broker.Entity;
+using Server.Sensor;
+using System.Collections.Generic;
 
 namespace Broker.Database
 {
@@ -8,6 +10,8 @@ namespace Broker.Database
         public Client? getClientByUsername(string username);
         public void removeClient(string username);
         public bool authenticate(string username, string password);
+        public List<SensorData> getSensorDataOfClient(string clientId);
+        public void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew);
 
     }
 }

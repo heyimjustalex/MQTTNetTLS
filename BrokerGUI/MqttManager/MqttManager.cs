@@ -17,6 +17,7 @@ using System.Threading;
 using Broker.Database;
 using Server.Sensor;
 using BrokerGUI;
+using Newtonsoft.Json;
 
 namespace Broker.MqttManager
 {
@@ -99,10 +100,9 @@ namespace Broker.MqttManager
                 }
             }
 
-            Console.WriteLine($"Client {username} {clientId} authenticated, adding it to the currently connected clients");
-            // here update the window new client authenticated
-            _currentlyConnectedClients.Add(new Client(clientId, username, password));
-            UI.ClientManager.AddClient(new UI.ClientGUI(clientId,username,"TRUE")); 
+            Console.WriteLine($"Client {username} {clientId} authenticated");
+          //  _currentlyConnectedClients.Add(new Client(clientId, username, password));
+         //   UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "TRUE"));
 
         }
         private async Task onNewClientConnection(ClientConnectedEventArgs e)
@@ -110,6 +110,10 @@ namespace Broker.MqttManager
             Console.WriteLine("New Client, calling OnNewClient ");          
         }
 
+        public void kill()
+        {
+            _mqttServer.Dispose();
+        }
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)
         {        
             string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, "broker", sensorData));
@@ -130,21 +134,37 @@ namespace Broker.MqttManager
 
 
 
-        private async Task onInterceptingPublishAsync(InterceptingPublishEventArgs args)
+        private async Task onInterceptingPublishAsync(InterceptingPublishEventArgs e)
         {
-            var message = args.ApplicationMessage;
-            var clientId = args.ClientId;
+            var applicationMessage = e.ApplicationMessage;
+            var clientId = e.ClientId;
 
-            var payloadSegment = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment);
+            if (applicationMessage == null) 
+            { 
+                return; 
+            }
+
+            var topic = applicationMessage.Topic;         
+
+            var payloadText = string.Empty;
+            if (e.ApplicationMessage.PayloadSegment.Count <= 0)
+            {
+                return;
+            }
+
+            payloadText = Encoding.UTF8.GetString(
+                   e.ApplicationMessage.PayloadSegment.Array,
+                   e.ApplicationMessage.PayloadSegment.Offset,
+                   e.ApplicationMessage.PayloadSegment.Count);
+
+            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);
+
+            // here update the window new client authenticated
+            //_currentlyConnectedClients.Add(new Client(clientId, username, password));
+            //UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "TRUE"));
 
 
-            var r = args;
-            var topic = message.Topic;           
-            var payload = Encoding.UTF8.GetString(message.Payload);
-
-          
-
-            Console.WriteLine($"Received publish request on topic '{topic}': Payload = '{payload}' {clientId}");
+            Console.WriteLine($"Received publish request on topic '{topic}': {clientId} : {message.ToString()}");
 
             // Implement your custom logic here.
 
@@ -152,24 +172,13 @@ namespace Broker.MqttManager
             await Task.CompletedTask;
         }
 
-        public void kill()
-        {
-            _mqttServer.Dispose();
-        }
+       
         public async Task start(CancellationToken cancellationToken)
         {
             try
             {
                await _mqttServer.StartAsync();
-
-                // Expire does not work it's a bug 
-                var message = new MqttApplicationMessageBuilder()
-                    .WithTopic("alarm/fromBroker")                    
-                    .WithMessageExpiryInterval(1000)
-                    .WithRetainFlag(true)
-                    .WithPayload("[{\"ParameterName\":\"BUZZER\",\"ParameterValue\":\"TRUE\"}]")
-                    .Build();
-
+                        
 
                 int i = 0;
                 while (!cancellationToken.IsCancellationRequested)
@@ -180,11 +189,13 @@ namespace Broker.MqttManager
                         i = 0;
                     }
                     i++;
-                    List<SensorData> sensorDatas = new List<SensorData>();
-                    sensorDatas.Add(new SensorData("BUZZER", "TRUE"));
+                    List<SensorData> sensorDatas = new List<SensorData>
+                    {
+                        new SensorData("BUZZER", "TRUE")
+                    };
                     await enqueueToAllSpecifiedTopics(sensorDatas);
                    // await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
 
                   //  try

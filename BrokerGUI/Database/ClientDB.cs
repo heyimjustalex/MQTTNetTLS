@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Broker.Entity;
 using System.IO;
+using Server.Sensor;
 
 namespace Broker.Database
 {
@@ -34,6 +35,29 @@ namespace Broker.Database
             else
             {
                 Console.WriteLine("Database file does not exist.");
+            }
+        }
+
+        public List<SensorData> getSensorDataOfClient(string clientId) 
+        {
+            foreach(Client client in _clients)
+            {
+                if(client.clientId== clientId)
+                {
+                    return client.currentSensorDatas;
+                }
+            }
+            return new List<SensorData>();
+        }
+
+        public void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew)
+        {
+            foreach (Client client in _clients)
+            {
+                if (client.clientId == clientId)
+                {
+                    client.currentSensorDatas = sensorDatasNew;
+                }
             }
         }
         public void addClient(string clientId, string username, string password)

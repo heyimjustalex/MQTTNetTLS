@@ -108,6 +108,7 @@ namespace Client.MqttManager
             else
             {
                 Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
+         
             }
         }
 
@@ -124,7 +125,7 @@ namespace Client.MqttManager
         }
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
         {
-            //Console.WriteLine("HandleReceivedMessage: ### RECEIVED MESSAGE FROM BROKER ###\n");
+         
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
@@ -162,6 +163,8 @@ namespace Client.MqttManager
             {
                 smokeDetectorStateData
             };
+
+
 
             await enqueueToAllSpecifiedTopics(sensorDatas);
 
@@ -225,9 +228,9 @@ namespace Client.MqttManager
         }
 
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorDatas)
-        {
-            
-            string json = System.Text.Json.JsonSerializer.Serialize(new { timestamp = DateTime.UtcNow,from=_mqttClientConfiguration.Id, message = sensorDatas });
+        {           
+
+            string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, _mqttClientConfiguration.Id, sensorDatas));
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);

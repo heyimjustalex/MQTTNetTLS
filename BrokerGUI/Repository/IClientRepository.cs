@@ -1,4 +1,5 @@
 ﻿using MQTTnet.Client;
+using Server.Sensor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace Broker.Repository
         public void registerClient(string username, string password, string clientId);
         public void removeClient(string username);
         public bool authenticateClient(string username, string password);
-
+        public void setClientSensorData(string clientId, List<SensorData> sensorDatas);
+        public List<SensorData> getClientSensorData(string clientId);
     }
+      
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Client.Sensor
 {
+    [Serializable]
     public class SensorData
     {
         private string _parameterName;
@@ -40,8 +41,6 @@ namespace Client.Sensor
 
             SensorData other = (SensorData)obj;
 
-
-            // Compare your properties here to determine equality
             return ParameterName == other.ParameterName && ParameterValue == other.ParameterValue;
         }
 

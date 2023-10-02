@@ -12,8 +12,8 @@ namespace BrokerGUI
     [Serializable]
     public class MessageMQTT
     {
-    
-        private DateTime _timestamp; 
+
+        private DateTime _timestamp;
         private string _from;
         private List<SensorData> _sensorDatas;
         public MessageMQTT(DateTime timestamp, string from, List<SensorData> sensorDatas)
@@ -41,7 +41,7 @@ namespace BrokerGUI
         }
         public override string ToString()
         {
-            return $"Timestamp: {_timestamp}, From: {_from}, SensorDatas: {string.Join(", ", _sensorDatas)}";
+            return $"Timestamp: {_timestamp}, From: {_from}, SensorDatas: {string.Join(" ", _sensorDatas.Select(sensorData => sensorData.ToString()))}";
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using Broker.Repository;
-using System;
+using Server.Sensor;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Broker.Service
 {
@@ -16,16 +13,23 @@ namespace Broker.Service
         public bool authenticate(string username, string password)
         {
            return _repository.authenticateClient(username, password);
-        }
-
+        }    
         public void register(string username, string password, string clientId)
         {
             _repository.registerClient(username, password, clientId);   
         }
-
         public void remove(string username)
         {
             _repository.removeClient(username);
+        }
+
+        public void setClientSensorData(string clientId, List<SensorData> sensorDatas)
+        {
+           _repository.setClientSensorData(clientId, sensorDatas);
+        }
+        public List<SensorData> getClientSensorData(string clientId)
+        {
+            return _repository.getClientSensorData(clientId);
         }
     }
 }
