@@ -12,7 +12,7 @@ namespace Broker.Entity
         public string username;
         public string password;
 
-        public Client(string clientId, string username, string password)
+        public Client(string clientId, string username, string password="")
         {
             this.clientId = clientId;
             this.username = username;

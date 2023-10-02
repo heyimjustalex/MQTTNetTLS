@@ -133,12 +133,12 @@ namespace UI {
         {
             while (true)
             {
-                string alarmState = ClientManager.GetClients().Any(client => client.alarmState.Contains("TRUE")) ? "TRUE" : "FALSE";
+                string smokeDetectorState = ClientManager.GetClients().Any(client => client.smokeDetectorState.Contains("TRUE")) ? "TRUE" : "FALSE";
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    AlarmButton.Background = new SolidColorBrush(alarmColors[alarmState]);
-                    AlarmTextBlock.Text = alarmState == "TRUE" ? "ON" : "OFF";
+                    AlarmButton.Background = new SolidColorBrush(alarmColors[smokeDetectorState]);
+                    AlarmTextBlock.Text = smokeDetectorState == "TRUE" ? "ON" : "OFF";
                 });
                 refreshItems();
                 Thread.Sleep(1000); // Check every second

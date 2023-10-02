@@ -111,9 +111,20 @@ namespace Client.MqttManager
             }
         }
 
+        private string determineBuzzerStateSentByBroker(List<SensorData> sensorDatas)
+        {
+            foreach (SensorData sensorData in sensorDatas) {
+
+                if (sensorData.ParameterName == "BUZZER")
+                {
+                    return (sensorData.ParameterValue);
+                }
+            }
+            return "";
+        }
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
         {
-            Console.WriteLine("\n### RECEIVED MESSAGE FROM BROKER ###\n");
+            //Console.WriteLine("HandleReceivedMessage: ### RECEIVED MESSAGE FROM BROKER ###\n");
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
@@ -124,19 +135,21 @@ namespace Client.MqttManager
                     e.ApplicationMessage.PayloadSegment.Array,
                     e.ApplicationMessage.PayloadSegment.Offset,
                     e.ApplicationMessage.PayloadSegment.Count);
-            
 
-            SensorData buzzerDataState = JsonConvert.DeserializeObject<SensorData>(payloadText);
-           
-            bool buzzerStateSetByBroker = bool.Parse( buzzerDataState.ParameterValue );
-            _sensorBuzzerService.set(buzzerStateSetByBroker);
-                       
+            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);            
 
-
-            //Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-            //Console.WriteLine($"+ Payload = {payloadText}");
-            //Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-            //Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+            if (message != null) 
+            {
+                Console.WriteLine($"\nHandleReceivedMessage MESSAGE: {message.ToString()}");
+                if (message.From == "broker")
+                {
+                    string buzzerStateSetByBroker = determineBuzzerStateSentByBroker(message.SensorDatas);
+                    if(buzzerStateSetByBroker != "")
+                    {
+                        _sensorBuzzerService.set(bool.Parse(buzzerStateSetByBroker.ToUpper()));
+                    }
+                }
+            }         
             Console.WriteLine();
         }
 
@@ -145,7 +158,12 @@ namespace Client.MqttManager
             // Successful connect
             Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
-            await enqueueToAllSpecifiedTopics(smokeDetectorStateData);
+            List<SensorData> sensorDatas = new List<SensorData>
+            {
+                smokeDetectorStateData
+            };
+
+            await enqueueToAllSpecifiedTopics(sensorDatas);
 
         }
 
@@ -206,13 +224,10 @@ namespace Client.MqttManager
 
         }
 
-      ///  private List<SensorData> sortOutJsonedSensorData() { }
-
-
-        private async Task enqueueToAllSpecifiedTopics(SensorData smokeDetectorState)
+        private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorDatas)
         {
             
-            string json = System.Text.Json.JsonSerializer.Serialize(new { message = smokeDetectorState, sent = DateTime.UtcNow });
+            string json = System.Text.Json.JsonSerializer.Serialize(new { timestamp = DateTime.UtcNow,from=_mqttClientConfiguration.Id, message = sensorDatas });
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
@@ -236,19 +251,24 @@ namespace Client.MqttManager
            await subscribeToAllSpecifiedTopics();
 
            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
-
-        
+         
             while (true)
             {
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
 
+                List<SensorData> sensorDatas = new List<SensorData>
+            {
+                smokeDetectorStateData
+            };
+
+
                 if (managedMqttClient.IsConnected)
                 {                               
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
-                       await enqueueToAllSpecifiedTopics(smokeDetectorStateData);
+                       await enqueueToAllSpecifiedTopics(sensorDatas);
                        Console.WriteLine("Task start: Message published to remote broker cuz managedClient.IsConnected = True state CHANGED");
                     }
                     else

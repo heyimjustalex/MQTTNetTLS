@@ -55,6 +55,10 @@ namespace Client.Sensor
                 return hash;
             }
         }
+        public override string ToString()
+        {
+            return $"{{{_parameterName}:{_parameterValue}}}";
+        }
     }
 
 }

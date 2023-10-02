@@ -15,7 +15,8 @@ using System.Collections.Generic;
 using Broker.Entity;
 using System.Threading;
 using Broker.Database;
-
+using Server.Sensor;
+using BrokerGUI;
 
 namespace Broker.MqttManager
 {
@@ -71,9 +72,7 @@ namespace Broker.MqttManager
                     _currentlyConnectedClients.RemoveAt(i);     
                 }
                 i++;
-            }
-
-        
+            }        
 
 
         }
@@ -81,12 +80,10 @@ namespace Broker.MqttManager
         {
 
             string clientId = e.ClientId;            
-            string username = e.UserName;            
-            var password2 = e;
+            string username = e.UserName;           
+     
             string password = e.Password?.ToString() ?? string.Empty;
-            Console.WriteLine(password2.ToString());
-
-            Console.WriteLine(password2.ToString());
+       
 
             if (clientId == null || username == null || password == null)
             {
@@ -110,23 +107,44 @@ namespace Broker.MqttManager
         }
         private async Task onNewClientConnection(ClientConnectedEventArgs e)
         {
-            Console.WriteLine("New Client, calling OnNewClient ");
-
-            //update windows looks that new client has connected            
-          
+            Console.WriteLine("New Client, calling OnNewClient ");          
         }
-    
 
+        private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)
+        {        
+            string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, "broker", sensorData));
+                     
+            foreach (var topic in _mqttBrokerConfiguration.TopicsBrokerEnqueuesTo)
+            {
+                var message = new MqttApplicationMessageBuilder()
+                  .WithTopic(topic)
+                  .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce)
+                  .WithMessageExpiryInterval(1000)
+                  .WithRetainFlag(true)
+                  .WithPayload(json)
+                  .Build();                
+                   await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
+
+            }
+        }
 
 
 
         private async Task onInterceptingPublishAsync(InterceptingPublishEventArgs args)
         {
             var message = args.ApplicationMessage;
-            var topic = message.Topic;
+            var clientId = args.ClientId;
+
+            var payloadSegment = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment);
+
+
+            var r = args;
+            var topic = message.Topic;           
             var payload = Encoding.UTF8.GetString(message.Payload);
 
-            Console.WriteLine($"Received publish request on topic '{topic}': Payload = '{payload}'");
+          
+
+            Console.WriteLine($"Received publish request on topic '{topic}': Payload = '{payload}' {clientId}");
 
             // Implement your custom logic here.
 
@@ -142,42 +160,54 @@ namespace Broker.MqttManager
         {
             try
             {
-                await _mqttServer.StartAsync();
-                
+               await _mqttServer.StartAsync();
 
                 // Expire does not work it's a bug 
                 var message = new MqttApplicationMessageBuilder()
-                    .WithTopic("alarm/fromBroker")
+                    .WithTopic("alarm/fromBroker")                    
                     .WithMessageExpiryInterval(1000)
                     .WithRetainFlag(true)
                     .WithPayload("[{\"ParameterName\":\"BUZZER\",\"ParameterValue\":\"TRUE\"}]")
                     .Build();
 
+
+                int i = 0;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    try
+                    if (i % 60 == 0)
                     {
-                        Console.WriteLine("SENDING MESSAGE");
-                        await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
-                        Console.WriteLine("MESSAGE SENT TO CLIENTS");
-                        await Task.Delay(TimeSpan.FromSeconds(2));
-                        //Console.ReadLine();
+                        Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] I'm broker and I'm working properly");
+                        i = 0;
                     }
-                    catch (Exception ex)
-                    {
-                        // Handle the exception here
-                        Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
-                        throw;
-                    }
+                    i++;
+                    List<SensorData> sensorDatas = new List<SensorData>();
+                    sensorDatas.Add(new SensorData("BUZZER", "TRUE"));
+                    await enqueueToAllSpecifiedTopics(sensorDatas);
+                   // await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
+                    Thread.Sleep(1000);
                 }
+
+                  //  try
+                //   {
+                //        Console.WriteLine("SENDING MESSAGE");
+                //        await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
+                //        Console.WriteLine("MESSAGE SENT TO CLIENTS");
+                //        await Task.Delay(TimeSpan.FromSeconds(2));
+                //        //Console.ReadLine();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        // Handle the exception here
+                //        Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
+                //        throw;
+                //    }
+                //}
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error when client connecting: {ex.Message} {ex.StackTrace}");
             }
-
-           // Console.WriteLine("Waitng for connections \n Press Enter to exit.");
-          //  Console.ReadLine();
+  
         }
 
         public async Task publishMessage(string topic, string payload, string brokerId)

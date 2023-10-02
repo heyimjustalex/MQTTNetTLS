@@ -31,8 +31,8 @@
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding clientId}" Foreground="Black" Margin="0,0,0,2" />
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Username:" FontWeight="Bold" Foreground="Blue" Margin="0,0,5,2" />
                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding username}" Foreground="Black" Margin="0,0,0,2" />
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Alarm State:" FontWeight="Bold" Foreground="Red" Margin="0,2,5,0" />
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding alarmState}" Foreground="Black" Margin="0,2,0,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Smoke Detector State:" FontWeight="Bold" Foreground="Red" Margin="0,2,5,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding smokeDetectorState}" Foreground="Black" Margin="0,2,0,0" />
                         </Grid>
                     </Border>
                 </DataTemplate>
