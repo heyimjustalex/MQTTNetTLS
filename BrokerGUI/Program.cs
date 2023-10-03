@@ -37,9 +37,17 @@ namespace BrokerGUI
 
             var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
+            string brokerIP = Environment.GetEnvironmentVariable("MY_IP_ADDRESS");
+            
+            if(brokerIP == null ) {
+                brokerIP = "localhost";
+            }
+
+            Console.WriteLine($"Using {brokerIP} as broker IP address");
+
             MqttBrokerConfiguration configuration = new MqttBrokerConfigurationBuilder()
             .WithPort(8883)
-            .WithIpAddress("192.168.5.166")
+            .WithIpAddress(brokerIP)
             .WithId("broker1")
             .WithTopicsBrokerEnqueuesTo(new string[] { "alarm/fromBroker" })
             .WithTopicsBrokerSubscribesTo(new string[] { "alarm/fromClient" })

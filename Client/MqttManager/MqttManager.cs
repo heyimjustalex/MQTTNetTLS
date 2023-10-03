@@ -195,12 +195,10 @@ namespace Client.MqttManager
             string path = Environment.GetEnvironmentVariable("CA_PATH");
             if (path == null)
             {
+                //means there it's not launched as container
                 path = "../../../PKI/CA/rootCA.cer";
             }
-         
-         
-            Console.WriteLine("PATH::");
-            Console.WriteLine(path);
+        
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
             X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile(path);
 
