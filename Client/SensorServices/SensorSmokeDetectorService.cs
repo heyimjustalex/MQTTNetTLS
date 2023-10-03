@@ -1,11 +1,6 @@
-﻿using Client.Sensor;
+﻿using Client.SensorBase;
 using Client.Sensors;
 using Client.SensorServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client.SensorService
 {

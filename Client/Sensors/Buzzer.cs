@@ -1,45 +1,33 @@
-﻿using Client.Sensor;
-using Client.SensorBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Client.SensorBase;
 
 namespace Client.Sensors
 {
     internal class Buzzer : ISensorGetSetCheckData
     {
-        String state;
+        String _state;
         public Buzzer() {
-            state = "FALSE";
+            _state = "FALSE";
 
             // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE (and are strings))
-            // YOU CAN REMOVE STATE VARIABE CUZ IT'S ONLY FOR MY TESTS
+
         }
 
         public bool check()
         {
-
             return get().ParameterValue == "TRUE";
         }
-
         public SensorData get()
         {
             // Here you get state from buzzer pins  
-            // string state = doesHardwareSayMyBuzzerIsBuzzing() == true ? "TRUE" : "FALSE"
-          
-            return new SensorData("BUZZER", state);
-        }
-     
+            // _state = doesHardwareSayMyBuzzerIsBuzzing() == true ? "TRUE" : "FALSE"
+            // WHEN YOU'RE DONE IMPLEMENTING YOU CAN JUST REMOVE _state VARIABLE, IT'S USELESS IF get() GETS DATA DIRECLTY FROM HARDWARE
 
+            return new SensorData("BUZZER", _state);
+        }    
         public void set(SensorData sensorData)
         {   
                 // Here you implement setting the buzzer pins ON, so the buzzer starts buzzing
-                state = sensorData.ParameterValue; 
-                      
+                _state = sensorData.ParameterValue;                       
         }
-
-
     }
 }

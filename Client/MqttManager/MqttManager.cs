@@ -3,31 +3,23 @@ using MQTTnet.Exceptions;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Protocol;
 using MQTTnet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Client.SensorService;
 using Client.PKI;
-using Client.Sensor;
+using Client.SensorBase;
 using Client.MqttManager.Configuration;
 using Newtonsoft.Json;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Client.Message;
 
 namespace Client.MqttManager
 {
     class MqttManager
-        {
+    {
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
-        SensorSmokeDetectorService _sensorSmokeDetectorService;
-  
+        SensorSmokeDetectorService _sensorSmokeDetectorService;  
 
         MqttFactory mqttFactory;
         IManagedMqttClient managedMqttClient;
@@ -58,7 +50,6 @@ namespace Client.MqttManager
                     .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
                     .WithCleanSession()
                     .WithCredentials(_mqttClientConfiguration.Username,_mqttClientConfiguration.Password)
-                    //.WithCredentials(credentialsProvider)
                     .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
                     
                     .WithTlsOptions(new MqttClientTlsOptionsBuilder()
@@ -66,33 +57,28 @@ namespace Client.MqttManager
                                     .WithCertificateValidationHandler(OnCertificateValidation)
                                     .WithAllowRenegotiation(true)
                                     .WithCipherSuitesPolicy(System.Net.Security.EncryptionPolicy.RequireEncryption)
-
-
                                     .Build())
                     .Build();
 
             mqttManagedClientOptions = new ManagedMqttClientOptionsBuilder()
                                             .WithClientOptions(mqttClientOptions)
                                             //.WithPendingMessagesOverflowStrategy(MQTTnet.Server.MqttPendingMessagesOverflowStrategy.DropOldestQueuedMessage)
-
                                             .Build();
 
 
         }
         private void initClientFunctionHandlers()
         {
-
             managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
             managedMqttClient.ConnectedAsync += OnConnectAsync;
             managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
-            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
-          
+            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;        
 
         }
         private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
         {
             // we might add loger instead of loggin to console
-            // Reconnect mechanism is internal so we do not need to reconnect when disconnected
+            // Reconnect mechanism is internal in ManagedMqttClient so we do not need to reconnect when disconnected
             if (args.Exception != null)
             {
                 if (args.Exception is MqttCommunicationException)
@@ -124,8 +110,7 @@ namespace Client.MqttManager
             return "";
         }
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
-        {
-         
+        {         
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
@@ -155,8 +140,7 @@ namespace Client.MqttManager
         }
 
         private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
-        {
-            // Successful connect
+        {          
             Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
             List<SensorData> sensorDatas = new List<SensorData>
@@ -164,15 +148,11 @@ namespace Client.MqttManager
                 smokeDetectorStateData
             };
 
-
-
             await enqueueToAllSpecifiedTopics(sensorDatas);
-
         }
 
         private async Task OnConnectFailedAsync(ConnectingFailedEventArgs args)
         {
-            // Connect failed
             if (args.Exception != null)
             {
                 if (args.Exception is MqttCommunicationException)
@@ -192,6 +172,7 @@ namespace Client.MqttManager
 
         private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
         {
+            // DOCKER: IF ENV IS SET THEN USE ENV INSTEAD OF HARDCODED PATH
             string path = Environment.GetEnvironmentVariable("CA_PATH");
             if (path == null)
             {

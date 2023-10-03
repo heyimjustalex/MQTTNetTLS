@@ -1,9 +1,4 @@
-﻿using Client.Sensor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Client.SensorBase;
 
 namespace Client.Sensors
 {
@@ -12,15 +7,13 @@ namespace Client.Sensors
        
         public SensorData get()
         {
-            // Instead of generating random values you need to implement getting SmokeDetector state and returning data in form of
-            // return new SensorData("SMOKE", "TRUE" or "FALSE);
-            //return new SensorData("SMOKE", "FALSE");
+         
+            //FROM THIS LINE 
             string username = Environment.GetEnvironmentVariable("USERNAME");
             string dockerMockSensorState = null;
             if (username != null)
             {
-                dockerMockSensorState = Environment.GetEnvironmentVariable(username+"_MockedSmokeSensorState");
-              
+                dockerMockSensorState = Environment.GetEnvironmentVariable(username+"_MockedSmokeSensorState");             
                     
             }
 
@@ -46,10 +39,16 @@ namespace Client.Sensors
            
 
         // if no docker env variable set just go random
+         
+            Random random = new Random();
+            var isThereSmoke = random.Next() % 8 == 0 ? "TRUE" : "FALSE";
 
-           Random random = new Random();         
-           var isThereSmoke= random.Next() % 8 == 0 ? "TRUE" : "FALSE";
-           return new SensorData("SMOKE", isThereSmoke);
+            // TO THIS LINE CAN BE REMOVED IF YOU IMPLEMENT HARDWARE DATA CHECKING
+
+            // Instead of generating random values you need to implement getting SmokeDetector state and returning data in form of
+            // return new SensorData("SMOKE", "TRUE" or "FALSE);    
+
+            return new SensorData("SMOKE", isThereSmoke);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Client.Sensor;
+﻿using Client.SensorBase;
 
 namespace Client.SensorServices
 {
