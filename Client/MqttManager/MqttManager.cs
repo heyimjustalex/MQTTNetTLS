@@ -192,10 +192,19 @@ namespace Client.MqttManager
 
         private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
         {
-
+            string path = Environment.GetEnvironmentVariable("CA_PATH");
+            if (path == null)
+            {
+                path = "../../../PKI/CA/rootCA.cer";
+            }
+         
+         
+            Console.WriteLine("PATH::");
+            Console.WriteLine(path);
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
-            X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile("../../../PKI/CA/RootCA.cer");
+            X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile(path);
 
+        
             try
             {
                 args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;

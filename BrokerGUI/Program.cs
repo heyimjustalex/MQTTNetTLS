@@ -39,7 +39,7 @@ namespace BrokerGUI
 
             MqttBrokerConfiguration configuration = new MqttBrokerConfigurationBuilder()
             .WithPort(8883)
-            .WithIpAddress("127.0.0.1")
+            .WithIpAddress("192.168.5.166")
             .WithId("broker1")
             .WithTopicsBrokerEnqueuesTo(new string[] { "alarm/fromBroker" })
             .WithTopicsBrokerSubscribesTo(new string[] { "alarm/fromClient" })
