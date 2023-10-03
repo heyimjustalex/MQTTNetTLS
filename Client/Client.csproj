@@ -2,15 +2,26 @@
 
   <PropertyGroup>
 	  <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+	  <TargetFramework>net7.0.0</TargetFramework>
+	  <AssemblyName>Client</AssemblyName>
+	  <Version>1.0.0.0</Version>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <!-- Culture -->
 
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="PKI\CA\" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Remove="Dockerfile" />
+	</ItemGroup>
+
+
+	<ItemGroup>
     <PackageReference Include="Microsoft.NET.Build.Containers" Version="7.0.401" />
     <PackageReference Include="MQTTnet" Version="4.3.1.873" />
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.3.1.873" />
@@ -18,6 +29,8 @@
   </ItemGroup>
 
 </Project>
+
+
 
 
 <!--<Project Sdk="Microsoft.NET.Sdk">

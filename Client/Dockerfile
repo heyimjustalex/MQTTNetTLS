@@ -1,14 +1,15 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
-COPY Client.csproj /app
-RUN dotnet restore
-COPY . /app
-RUN dotnet build -c Release -o /app/build
-RUN dotnet restore
 
-FROM build AS publish
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY Client.csproj .
+RUN dotnet restore
+COPY . .
 RUN dotnet publish -c Release -o /app/publish
-FROM mcr.microsoft.com/dotnet/runtime:7.0 AS final
+
+FROM mcr.microsoft.com/dotnet/runtime:7.0.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["./Client"]
+#COPY Client.runtimeconfig.json .
+COPY --from=build /app/publish .
+RUN apt-get update && apt-get install -y vim
+#CMD ["/bin/bash"]
+ENTRYPOINT [ "dotnet", "Client.dll" ]
