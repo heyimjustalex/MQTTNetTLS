@@ -112,7 +112,7 @@ namespace Broker.MqttManager
             Client currentClient = new Client(clientId, username);
             currentClient.currentSensorDatas = initalList;
             _currentlyConnectedValidatedClients.Add(currentClient);
-            UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE"));
+            UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE","FALSE"));
             
 
         }
@@ -127,8 +127,10 @@ namespace Broker.MqttManager
             _mqttServer.Dispose();
         }
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)
-        {        
-            string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, "broker", sensorData));
+        {
+            var mqttMessage = new MessageMQTT(DateTime.Now, "broker", sensorData);
+            string json = System.Text.Json.JsonSerializer.Serialize(mqttMessage);
+            Console.WriteLine($"BROKER: enqueue to alarm/fromBroker: {mqttMessage.ToString()}");
                      
             foreach (var topic in _mqttBrokerConfiguration.TopicsBrokerEnqueuesTo)
             {
@@ -216,14 +218,14 @@ namespace Broker.MqttManager
         
         }
 
-        private bool doAllClientsHaveSmoke(List<Client> clients) {
+        private bool doAnyClientsHaveSmoke(List<Client> clients) {
 
             bool isSmokeOn = false;
             foreach(Client client in clients)
             {
                 foreach (SensorData sensorData in client.currentSensorDatas)
                 {
-                    if( !(sensorData.ParameterName == "SMOKE" && sensorData.ParameterValue=="FALSE"))
+                    if(sensorData.ParameterName == "SMOKE" && sensorData.ParameterValue=="TRUE")
                     {
                         isSmokeOn = true;
                         break;
@@ -290,47 +292,67 @@ namespace Broker.MqttManager
 
                         foreach (Client client in _currentlyConnectedValidatedClients)
                         {
-                            // update local buzzer collections
+                            // update local clients cause you enabled buzzers by enqueueing message
                             client.currentSensorDatas = updateBuzzerSensor(client.currentSensorDatas,"TRUE");
 
-                        }  
+                            if(client.clientId==clientId)
+                            {
+                                client.currentSensorDatas = updateSmokerSensor(client.currentSensorDatas, "TRUE");
+                            }
+
+                        }
                         // update gui with lambda
-                        ClientManager.updateClients((client) => { client.smokeDetectorState = "TRUE"; }) ;
+                     
+                        ClientManager.updateClients((client) => { 
+                            
+                            if(client.clientId == clientId) {
+                                client.smokeDetectorState = "TRUE";
+                            }
+                            client.buzzerState = "TRUE"; 
+                        
+                        }) ;
                     }
                     // if clients reports no fire
                     else
                     {
                         Console.WriteLine("IN ELSE HANDLE MESSAGE");
                         Client clientWhoNoFire = GetClientByClientId(clientId);
+
                         if (clientWhoNoFire == null) {
                             throw new Exception("CLIENT WHO REPORTED NO FIRE IS NULL");
-
                         }
 
+
                         clientWhoNoFire.currentSensorDatas = rewriteListModifyingParameter(clientWhoNoFire.currentSensorDatas, "SMOKE", "FALSE");
+
+                        foreach (Client client in _currentlyConnectedValidatedClients)
+                        {
+                            if (client.clientId == clientId)
+                            {
+                                client.currentSensorDatas = updateSmokerSensor(client.currentSensorDatas, "FALSE");
+                            }
+                        }
+
                         ClientManager.updateClients((client) => { 
+
                             if (client.clientId == clientWhoNoFire.clientId) 
                             {
-                                client.smokeDetectorState = "FALSE"; 
+                                client.smokeDetectorState = "FALSE";                             
                             } 
                         });
 
-                        if (!doAllClientsHaveSmoke(_currentlyConnectedValidatedClients))
+                        if (!doAnyClientsHaveSmoke(_currentlyConnectedValidatedClients))
                         {
                             List<SensorData> buzzerFalseInformMessage = new List<SensorData>
                             {
                                 new SensorData("BUZZER", "FALSE")
                             };
                             await enqueueToAllSpecifiedTopics(buzzerFalseInformMessage);
-                            ClientManager.updateClients((client) => { client.smokeDetectorState = "FALSE"; });
-                        }                                                                               
-
+                            ClientManager.updateClients((client) => { client.smokeDetectorState = "FALSE"; client.buzzerState = "FALSE"; });
+                        }                                                                             
                     }
-
-
-
-
                 }
+
                 // jesli u klienta sie pali
                 // wez liste podlaczonych klientow
                 // sprawdz czy juz sensosry nie sa wlaczone (sytuacja ze jeden reportuje true a potem kolejny)

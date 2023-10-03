@@ -264,6 +264,8 @@ namespace Client.MqttManager
          
             while (true)
             {
+                await Task.Delay(TimeSpan.FromSeconds(25));
+
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
@@ -279,30 +281,35 @@ namespace Client.MqttManager
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(sensorDatas);
-                       Console.WriteLine($"Task start: Message published to remote broker (managedClient.IsConnected), state CHANGED, State:{ParameterValueSmokeDetectedNew }");
+                       Console.WriteLine("Task start: REMOTE -> Message published (IsConnected), state CHANGED,  SMOKE:{" + ParameterValueSmokeDetectedNew.ToString().ToUpper() + "}");
                     }
                     else
                     {
-                        Console.WriteLine($"Task start: Message NOT published to remote broker (managedClient.IsConnected), state NOT CHANGED, State:{ParameterValueSmokeDetectedNew }");
-
+                        Console.WriteLine("Task start: REMOTE -> Message NOT published (IsConnected), state NOT CHANGED,  SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }                   
                 }
                 else
                 {
-                        Console.WriteLine("Task start: Detector managed locally cuz managedClient.IsConnected = False.");
+                
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
-                        Console.WriteLine("Task start: (LOCAL DECISION): BUZZER SET TO TRUE I DETECTED SMOKE!");
+                        Console.WriteLine($"Task start: LOCAL (!IsConnected), SMOKE:{{TRUE}}");
                         _sensorBuzzerService.set(true);
+                        Console.WriteLine("BUZZER ENABLED BY LOCAL SYSTEM");
                     }
                     else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
                     {
-                        Console.WriteLine("Task start: (LOCAL DECISION): BUZZER SET TO FALSE I SEE NO MORE SMOKE!");
+                        Console.WriteLine($"Task start: LOCAL(!IsConnected), SMOKE:{{FALSE}}");
                         _sensorBuzzerService.set(false);
+                        Console.WriteLine("BUZZER DISABLED BY LOCAL SYSTEM");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Task start: LOCAL (!managedClient.IsConnected), State as previous SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(8));
+               
 
             }
         }       

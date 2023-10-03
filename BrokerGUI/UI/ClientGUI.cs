@@ -12,12 +12,14 @@ namespace UI
         public string clientId { get; set; }
         public string username { get; set; }
         public string smokeDetectorState { get; set; }
-              
-        public ClientGUI(string clientId, string username, string smokeDetectorState)
+        public string buzzerState { get; set; }
+
+        public ClientGUI(string clientId, string username, string smokeDetectorState, string buzzerState)
         {
             this.clientId = clientId;
             this.username = username;           
             this.smokeDetectorState = smokeDetectorState;
+            this.buzzerState = buzzerState;
         }
 
     }

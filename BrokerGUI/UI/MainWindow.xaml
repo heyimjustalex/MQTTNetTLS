@@ -22,6 +22,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -33,6 +34,8 @@
                             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding username}" Foreground="Black" Margin="0,0,0,2" />
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Smoke Detector State:" FontWeight="Bold" Foreground="Red" Margin="0,2,5,0" />
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding smokeDetectorState}" Foreground="Black" Margin="0,2,0,0" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Buzzer State:" FontWeight="Bold" Foreground="Red" Margin="0,2,5,0" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding buzzerState}" Foreground="Black" Margin="0,2,0,0" />
                         </Grid>
                     </Border>
                 </DataTemplate>

@@ -23,12 +23,7 @@ namespace UI {
 
         static ClientManager()
         {
-            clients = new List<ClientGUI>
-        {
-            //new ClientGUI("User1", "User12", "FALSE"),
-            //new ClientGUI("User2", "User23", "FALSE"),
-            //new ClientGUI("User3", "User3", "FALSE")
-        };
+            clients = new List<ClientGUI>();      
         }
 
         public static List<ClientGUI> GetClients()
@@ -40,6 +35,8 @@ namespace UI {
         {
             ClientManager.clients = clients;
         }
+
+        // invoked by manager to update state gui clients
         public static void updateClients(Action<ClientGUI> update)
         {
             foreach (ClientGUI client in clients)
@@ -97,14 +94,14 @@ namespace UI {
             alarmCheckingThread.Start();
         }
 
-        private void AddClient()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                ClientManager.AddClient(new ClientGUI($"User{ClientManager.GetClients().Count + 1}", $"User{ClientManager.GetClients().Count + 1}", "FALSE"));
-                clientItemsControl.Items.Refresh(); // Refresh the ListBox
-            });
-        }
+        //private void AddClient()
+        //{
+        //    Application.Current.Dispatcher.Invoke(() =>
+        //    {
+        //        ClientManager.AddClient(new ClientGUI($"User{ClientManager.GetClients().Count + 1}", $"User{ClientManager.GetClients().Count + 1}", "FALSE"));
+        //        clientItemsControl.Items.Refresh(); // Refresh the ListBox
+        //    });
+        //}
 
         private void refreshItems()
         {
@@ -146,7 +143,7 @@ namespace UI {
         {
             while (true)
             {
-                string smokeDetectorState = ClientManager.GetClients().Any(client => client.smokeDetectorState.Contains("TRUE")) ? "TRUE" : "FALSE";
+                string smokeDetectorState = ClientManager.GetClients().Any(client => client.buzzerState.Contains("TRUE")) ? "TRUE" : "FALSE";
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
