@@ -28,9 +28,19 @@ namespace Program
                 Console.WriteLine($"Smoke sensor management mocked by docker ENV State:{dockerMockSensorState}");
             }
 
-                MqttClientConfiguration configuration = new MqttClientConfigurationBuilder()
+            // Because broker uses WPF (it cannot be started on Linux) it needs Windows ENV variable to set its IP
+            // If you want to set IP of wifi network adapter just use Powershell script provided in the solution AND RESTART VISUAL STUDIO
+          
+            string brokerIP = Environment.GetEnvironmentVariable("MY_IP_ADDRESS");
+
+            if (brokerIP == null)
+            {
+                brokerIP = "localhost";
+            }
+
+            MqttClientConfiguration configuration = new MqttClientConfigurationBuilder()
                 .WithPort(8883)
-                .WithIpAddress("192.168.5.166")
+                .WithIpAddress(brokerIP)
                 .WithId(clientID)
                 .WithUsername(username)
                 .WithPassword(password)
