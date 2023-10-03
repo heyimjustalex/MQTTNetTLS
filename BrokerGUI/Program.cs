@@ -30,7 +30,7 @@ namespace BrokerGUI
             Console.WriteLine("Starting new broker");
             IClientDB clientDB = new ClientDB();
             IClientRepository clientRepository = new ClientRepository(clientDB);
-            IClientService clientService = new ClientService(clientRepository);
+            IClientAccountService clientService = new ClientAccountService(clientRepository);
 
             string serverCertPath = "../../../PKI/Broker/broker1.pfx";
             string keyCertPath = "../../../PKI/Broker/key1.pem";

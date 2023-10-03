@@ -14,7 +14,7 @@ namespace Broker.Database
         public ClientDB()
         {
             //deleteDB();
-            _dataFilePath = "../../../db.json";
+            _dataFilePath = "db.json";
             _clients = loadUserData();            
         }
 

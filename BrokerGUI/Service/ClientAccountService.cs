@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Broker.Service
 {
-    internal class ClientService : IClientService
+    internal class ClientAccountService : IClientAccountService
     {
         IClientRepository _repository;
-        public ClientService(IClientRepository repository) {
+        public ClientAccountService(IClientRepository repository) {
             _repository = repository;   
         }
         public bool authenticate(string username, string password)

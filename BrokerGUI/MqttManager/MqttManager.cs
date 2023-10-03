@@ -31,9 +31,9 @@ namespace Broker.MqttManager
         MqttServerOptions _serverOptionsConfiguration;
         List<Client> _currentlyConnectedValidatedClients;
         IMessagePublisherService _messagePublisherService;
-        IClientService _clientService;              
+        IClientAccountService _clientService;              
 
-        public MqttManager(MqttBrokerConfiguration configuration, IClientService clientService)
+        public MqttManager(MqttBrokerConfiguration configuration, IClientAccountService clientService)
         {
             _currentlyConnectedValidatedClients = new List<Client>();    
             _mqttFactory = new MqttFactory();
@@ -68,7 +68,7 @@ namespace Broker.MqttManager
         {
             Console.WriteLine($"Client {e.ClientId} disconnected");
             int i = 0;
-            UI.ClientManager.RemoveClientByID(e.ClientId);
+            UI.GUIClientManager.RemoveClientByID(e.ClientId);
             foreach (Client client in _currentlyConnectedValidatedClients)
             {
                 if(client.clientId== e.ClientId) {
@@ -112,7 +112,7 @@ namespace Broker.MqttManager
             Client currentClient = new Client(clientId, username);
             currentClient.currentSensorDatas = initalList;
             _currentlyConnectedValidatedClients.Add(currentClient);
-            UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE","FALSE"));
+            UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE","FALSE"));
             
 
         }
@@ -265,7 +265,7 @@ namespace Broker.MqttManager
 
             // here update the window new client authenticated
             //_currentlyConnectedValidatedClients.Add(new Client(clientId, username, password));
-            //UI.ClientManager.AddClient(new UI.ClientGUI(clientId, username, "TRUE"));
+            //UI.UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "TRUE"));
             if(message == null) {
                 return;
             }
@@ -303,7 +303,7 @@ namespace Broker.MqttManager
                         }
                         // update gui with lambda
                      
-                        ClientManager.updateClients((client) => { 
+                        UI.GUIClientManager.updateClients((client) => { 
                             
                             if(client.clientId == clientId) {
                                 client.smokeDetectorState = "TRUE";
@@ -333,7 +333,7 @@ namespace Broker.MqttManager
                             }
                         }
 
-                        ClientManager.updateClients((client) => { 
+                        UI.GUIClientManager.updateClients((client) => { 
 
                             if (client.clientId == clientWhoNoFire.clientId) 
                             {
@@ -348,7 +348,7 @@ namespace Broker.MqttManager
                                 new SensorData("BUZZER", "FALSE")
                             };
                             await enqueueToAllSpecifiedTopics(buzzerFalseInformMessage);
-                            ClientManager.updateClients((client) => { client.smokeDetectorState = "FALSE"; client.buzzerState = "FALSE"; });
+                            UI.GUIClientManager.updateClients((client) => { client.smokeDetectorState = "FALSE"; client.buzzerState = "FALSE"; });
                         }                                                                             
                     }
                 }
