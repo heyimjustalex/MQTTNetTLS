@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Broker.Service
 {
-    internal class ClientAccountService : IClientAccountService
+    internal class ClientAccountService
     {
         IClientRepository _repository;
         public ClientAccountService(IClientRepository repository) {

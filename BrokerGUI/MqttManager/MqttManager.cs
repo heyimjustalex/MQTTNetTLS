@@ -16,10 +16,12 @@ using Broker.Entity;
 using System.Threading;
 using Broker.Database;
 using Server.Sensor;
-using BrokerGUI;
 using Newtonsoft.Json;
 using MQTTnet.Protocol;
 using UI;
+using BrokerGUI.Message;
+using BrokerGUI.Service;
+using System.Windows.Documents;
 
 namespace Broker.MqttManager
 {
@@ -31,16 +33,20 @@ namespace Broker.MqttManager
         MqttServerOptions _serverOptionsConfiguration;
         List<Client> _currentlyConnectedValidatedClients;
         IMessagePublisherService _messagePublisherService;
-        IClientAccountService _clientService;              
+        ClientAccountService _clientAccountService;
+        ActiveClientsService _activeClientsService;
 
-        public MqttManager(MqttBrokerConfiguration configuration, IClientAccountService clientService)
+        
+
+        public MqttManager(MqttBrokerConfiguration configuration, ClientAccountService clientAccountService)
         {
             _currentlyConnectedValidatedClients = new List<Client>();    
             _mqttFactory = new MqttFactory();
             _messagePublisherService = new MessagePublisherService();
+            _activeClientsService = new ActiveClientsService();
             _mqttBrokerConfiguration = configuration;
             _serverOptionsConfiguration = generateBrokerConfigurationOptions();
-            _clientService = clientService;
+            _clientAccountService = clientAccountService;
             _mqttServer = _mqttFactory.CreateMqttServer(_serverOptionsConfiguration);
             initBrokerFunctionHandlers();       
         }     
@@ -66,18 +72,20 @@ namespace Broker.MqttManager
         }
         private async Task onClientDisconnect(ClientDisconnectedEventArgs e)
         {
-            Console.WriteLine($"Client {e.ClientId} disconnected");
-            int i = 0;
+            Console.WriteLine($"Client {e.ClientId} disconnected"); 
             UI.GUIClientManager.RemoveClientByID(e.ClientId);
-            foreach (Client client in _currentlyConnectedValidatedClients)
-            {
-                if(client.clientId== e.ClientId) {
-                    _currentlyConnectedValidatedClients.RemoveAt(i);     
-                }
-                i++;
-            }        
+            _activeClientsService.removeClientById(e.ClientId);          
+         
+        }
 
-
+        private void initalizeNewClient(string clientId, string username)
+        {
+            SensorData initialSmokeState = new SensorData("SMOKE", "FALSE");
+            List<SensorData> initalList = new List<SensorData> { initialSmokeState };
+            Client currentClient = new Client(clientId, username);
+            currentClient.currentSensorDatas = initalList;
+            _activeClientsService.add(currentClient);    
+            UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE", "FALSE"));
         }
         private async Task onClientConnectionValidation(ValidatingConnectionEventArgs e)
         {
@@ -92,7 +100,7 @@ namespace Broker.MqttManager
 
             if (username != null)
             {
-                if (!_clientService.authenticate(username, password))
+                if (!_clientAccountService.authenticate(username, password))
                 {
                     Console.WriteLine($"Authenticating with username: {username} FAILED");
                     e.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
@@ -102,18 +110,15 @@ namespace Broker.MqttManager
                 }
             }
             
-            Console.WriteLine($"onClientConnectionValidatio: ClientId: {clientId}, Username: {username} authenticated");
+            Console.WriteLine($"onClientConnectionValidation: ClientId: {clientId}, Username: {username} authenticated");
             // initialize that no smoke is detected
             // after milisecond message will come and update the state of this collection initial list that is inside client
             // no worries
 
-            SensorData initialSmokeState = new SensorData("SMOKE", "FALSE");
-            List<SensorData> initalList = new List<SensorData> { initialSmokeState };
-            Client currentClient = new Client(clientId, username);
-            currentClient.currentSensorDatas = initalList;
-            _currentlyConnectedValidatedClients.Add(currentClient);
-            UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE","FALSE"));
-            
+
+            initalizeNewClient(clientId, username);
+
+
 
         }
         private async Task onNewClientConnection(ClientConnectedEventArgs e)
@@ -218,27 +223,134 @@ namespace Broker.MqttManager
         
         }
 
-        private bool doAnyClientsHaveSmoke(List<Client> clients) {
+        private async Task turnOnBuzzerOfAllClients()
+        {
+            List<SensorData> buzzerTrueInformMessage = new List<SensorData>
+                            {
+                                new SensorData("BUZZER", "TRUE")
+                            };
 
-            bool isSmokeOn = false;
-            foreach(Client client in clients)
+            await enqueueToAllSpecifiedTopics(buzzerTrueInformMessage);
+        }
+     
+        private void updateAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(string receiverClientId)
+        {
+            _activeClientsService.updateClients((client) =>
             {
                 foreach (SensorData sensorData in client.currentSensorDatas)
                 {
-                    if(sensorData.ParameterName == "SMOKE" && sensorData.ParameterValue=="TRUE")
+                    if (client.clientId == receiverClientId)
                     {
-                        isSmokeOn = true;
-                        break;
+                        if (sensorData.ParameterValue == "BUZZER")
+                        {
+                            sensorData.ParameterValue = "TRUE";
+                        }
+                    }
+
+                    if (sensorData.ParameterValue == "SMOKE")
+                    {
+                        sensorData.ParameterValue = "TRUE";
+                    }
+                }
+            });
+        }
+
+        private void updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(string receiverClientId)
+        {
+            UI.GUIClientManager.updateClients((client) => {
+
+                if (client.clientId == receiverClientId)
+                {
+                    client.smokeDetectorState = "TRUE";
+                }
+                client.buzzerState = "TRUE";
+
+            });
+        }
+
+        private void updateClientReportingNosmokeSmokeDetectorToFalse(string receiverClientId) {
+            _activeClientsService.updateClients((client) =>
+            {
+                if (client.clientId == receiverClientId)
+                {
+                    foreach (SensorData sensorData in client.currentSensorDatas)
+                    {
+                        if (sensorData.ParameterValue == "SMOKE")
+                        {
+                            sensorData.ParameterValue = "FALSE";
+                        }
                     }
 
                 }
-            }
-            return isSmokeOn;
-        
+            });
+
+        }
+        private void updateGUIClientReportingNosmokeSmokeDetectorToFalse(string receiverClientId) {
+
+
+            UI.GUIClientManager.updateClients((client) => {
+
+                if (client.clientId == receiverClientId)
+                {
+                    client.smokeDetectorState = "FALSE";
+                }
+            });
+
         }
 
+        private void updateGUIClientsBuzzerAndSmokeDetectorToFalse()
+        {
+            UI.GUIClientManager.updateClients(
+                              (client) => {
+                                  client.smokeDetectorState = "FALSE"; client.buzzerState = "FALSE";
 
 
+                              });
+        }
+        private async Task disableBuzzersOfAllClients()
+        {
+            List<SensorData> buzzerFalseInformMessage = new List<SensorData>
+                            {
+                                new SensorData("BUZZER", "FALSE")
+                            };
+            await enqueueToAllSpecifiedTopics(buzzerFalseInformMessage);
+        }
+
+        private async Task handleMessageFromClient(string clientId, List<SensorData> sensorDatas)
+        {
+            SensorData smokeSensorData = getSmokeDetectorData(sensorDatas);
+
+            // LOGIC OF HANDLING CLIENT MESSAGE
+            // IF THERE IS SMOKE: 1. Take all authenticated clients and send them {BUZZER:TRUE} | 2. Update local authenticated clients list and GUI
+            // IF THERE IS NO SMOKE: 1. Set client's smoke sensor to false {SMOKE:FALSE}, update GUI (just one smoke sensor of client)
+            //                       2. If it's the last smoke sensor that was on disable alarm (Send {BUZZER:FALSE}), update GUI
+
+            if (smokeSensorData.ParameterValue == "TRUE")
+            {
+
+                await turnOnBuzzerOfAllClients();
+                updateAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(clientId);
+                updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(clientId);
+
+            }
+            else
+            {
+                updateClientReportingNosmokeSmokeDetectorToFalse(clientId);
+                
+                // if smoke detector is down everywhere (if fire didnt spread)
+                if (!_activeClientsService.doAnyClientsHaveSmoke())
+                {
+                    await disableBuzzersOfAllClients();
+                    updateGUIClientsBuzzerAndSmokeDetectorToFalse();
+
+                }
+                else
+                {
+                    updateGUIClientReportingNosmokeSmokeDetectorToFalse(clientId);
+
+                }
+            }
+        }
         private async Task onInterceptingPublishAsync(InterceptingPublishEventArgs e)
         {
             var applicationMessage = e.ApplicationMessage;
@@ -263,104 +375,22 @@ namespace Broker.MqttManager
 
             MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);
 
-            // here update the window new client authenticated
-            //_currentlyConnectedValidatedClients.Add(new Client(clientId, username, password));
-            //UI.UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "TRUE"));
-            if(message == null) {
+           if(message == null) {
                 return;
             }
 
             if (message.From != "broker")
             {
-                Console.WriteLine($"Received publish request on topic '{topic}': {message.ToString()}");
+                Console.WriteLine($"Broker: Received publish request from client on topic '{topic}': {message.ToString()}");
 
                 string clientId = message.From;
 
                 if(message.SensorDatas.Count>0)
                 {
-                    SensorData smokeSensorData = getSmokeDetectorData(message.SensorDatas);
-                    //If client reports fire
-                    if (smokeSensorData.ParameterValue == "TRUE")
-                    {
-                        // send updated state to all clients
-                        List<SensorData> buzzerTrueInformMessage = new List<SensorData>
-                            {
-                                new SensorData("BUZZER", "TRUE")
-                            };
-
-                        await enqueueToAllSpecifiedTopics(buzzerTrueInformMessage);
-
-                        foreach (Client client in _currentlyConnectedValidatedClients)
-                        {
-                            // update local clients cause you enabled buzzers by enqueueing message
-                            client.currentSensorDatas = updateBuzzerSensor(client.currentSensorDatas,"TRUE");
-
-                            if(client.clientId==clientId)
-                            {
-                                client.currentSensorDatas = updateSmokerSensor(client.currentSensorDatas, "TRUE");
-                            }
-
-                        }
-                        // update gui with lambda
-                     
-                        UI.GUIClientManager.updateClients((client) => { 
-                            
-                            if(client.clientId == clientId) {
-                                client.smokeDetectorState = "TRUE";
-                            }
-                            client.buzzerState = "TRUE"; 
-                        
-                        }) ;
-                    }
-                    // if clients reports no fire
-                    else
-                    {
-                        Console.WriteLine("IN ELSE HANDLE MESSAGE");
-                        Client clientWhoNoFire = GetClientByClientId(clientId);
-
-                        if (clientWhoNoFire == null) {
-                            throw new Exception("CLIENT WHO REPORTED NO FIRE IS NULL");
-                        }
-
-
-                        clientWhoNoFire.currentSensorDatas = rewriteListModifyingParameter(clientWhoNoFire.currentSensorDatas, "SMOKE", "FALSE");
-
-                        foreach (Client client in _currentlyConnectedValidatedClients)
-                        {
-                            if (client.clientId == clientId)
-                            {
-                                client.currentSensorDatas = updateSmokerSensor(client.currentSensorDatas, "FALSE");
-                            }
-                        }
-
-                        UI.GUIClientManager.updateClients((client) => { 
-
-                            if (client.clientId == clientWhoNoFire.clientId) 
-                            {
-                                client.smokeDetectorState = "FALSE";                             
-                            } 
-                        });
-
-                        if (!doAnyClientsHaveSmoke(_currentlyConnectedValidatedClients))
-                        {
-                            List<SensorData> buzzerFalseInformMessage = new List<SensorData>
-                            {
-                                new SensorData("BUZZER", "FALSE")
-                            };
-                            await enqueueToAllSpecifiedTopics(buzzerFalseInformMessage);
-                            UI.GUIClientManager.updateClients((client) => { client.smokeDetectorState = "FALSE"; client.buzzerState = "FALSE"; });
-                        }                                                                             
-                    }
+                  await handleMessageFromClient(clientId,message.SensorDatas);
+                    
                 }
 
-                // jesli u klienta sie pali
-                // wez liste podlaczonych klientow
-                // sprawdz czy juz sensosry nie sa wlaczone (sytuacja ze jeden reportuje true a potem kolejny)
-                // wyslij wszystkim buzzer true
-                // update local listy i update gui
-                
-                //jezeli klient mowi false
-                // ustaw mu false i sprawdz wszystkich klientów czy mają false. jesli tak to publish message buzzer na false
                 
             }
 
@@ -383,28 +413,10 @@ namespace Broker.MqttManager
                         Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] I'm broker and I'm working properly");
                         i = 0;
                     }
-                    i++;
-         
-              //      await enqueueToAllSpecifiedTopics(sensorDatas);
-                   // await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
+                    i++;    
                     Thread.Sleep(5000);
                 }
 
-                  //  try
-                //   {
-                //        Console.WriteLine("SENDING MESSAGE");
-                //        await _mqttServer.InjectApplicationMessage(new InjectedMqttApplicationMessage(message));
-                //        Console.WriteLine("MESSAGE SENT TO CLIENTS");
-                //        await Task.Delay(TimeSpan.FromSeconds(2));
-                //        //Console.ReadLine();
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        // Handle the exception here
-                //        Console.WriteLine($"Error while injecting MQTT message: {ex.Message}");
-                //        throw;
-                //    }
-                //}
             }
             catch (Exception ex)
             {

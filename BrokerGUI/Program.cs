@@ -30,7 +30,7 @@ namespace BrokerGUI
             Console.WriteLine("Starting new broker");
             IClientDB clientDB = new ClientDB();
             IClientRepository clientRepository = new ClientRepository(clientDB);
-            IClientAccountService clientService = new ClientAccountService(clientRepository);
+            ClientAccountService clientAccountService = new ClientAccountService(clientRepository);
 
             string serverCertPath = "../../../PKI/Broker/broker1.pfx";
             string keyCertPath = "../../../PKI/Broker/key1.pem";
@@ -55,7 +55,7 @@ namespace BrokerGUI
             .WithCertificate(certificate)
             .Build();
 
-            MqttManager mqttManager = new MqttManager(configuration, clientService);
+            MqttManager mqttManager = new MqttManager(configuration, clientAccountService);
       
            
             await  mqttManager.start(cancellationToken);
