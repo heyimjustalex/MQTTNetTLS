@@ -176,7 +176,7 @@ namespace Broker.Controller
             await enqueueToAllSpecifiedTopics(buzzerTrueInformMessage);
         }
      
-        private void updateAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(string receiverClientId)
+        private void updateAllClientsBuzzerTrueAndSmokeDetectorOfSenderTrue(string receiverClientId)
         {
             _activeClientsService.updateClients((client) =>
             {
@@ -198,7 +198,7 @@ namespace Broker.Controller
             });
         }
 
-        private void updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(string receiverClientId)
+        private void updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfSenderTrue(string receiverClientId)
         {
             UI.GUIClientManager.updateClients((client) => {
 
@@ -211,7 +211,7 @@ namespace Broker.Controller
             });
         }
 
-        private void updateClientReportingNosmokeSmokeDetectorToFalse(string receiverClientId) {
+        private void updateSenderReportingNosmokeSmokeDetectorToFalse(string receiverClientId) {
             _activeClientsService.updateClients((client) =>
             {
                 if (client.clientId == receiverClientId)
@@ -272,13 +272,13 @@ namespace Broker.Controller
             {
 
                 await turnOnBuzzerOfAllClients();
-                updateAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(clientId);
-                updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfReceiverTrue(clientId);
+                updateAllClientsBuzzerTrueAndSmokeDetectorOfSenderTrue(clientId);
+                updateGUIAllClientsBuzzerTrueAndSmokeDetectorOfSenderTrue(clientId);
 
             }
             else
             {
-                updateClientReportingNosmokeSmokeDetectorToFalse(clientId);
+                updateSenderReportingNosmokeSmokeDetectorToFalse(clientId);
                 
                 // if smoke detector is down everywhere (if fire didnt spread)
                 if (!_activeClientsService.doAnyClientsHaveSmoke())
@@ -326,7 +326,7 @@ namespace Broker.Controller
 
             if (message.From != "broker")
             {
-                Console.WriteLine($"Broker: Received publish request from client on topic '{topic}': {message.ToString()}");
+                Console.WriteLine($"BROKER: Received publish from {e.ClientId} on topic '{topic}': {message.ToString()}");
 
                 string clientId = message.From;
 
