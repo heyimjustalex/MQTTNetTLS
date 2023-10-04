@@ -1,14 +1,11 @@
 ﻿using Broker.Database;
 using Broker.Entity;
-using MQTTnet.Client;
-using Server.Sensor;
+using Broker.Repository;
+using BrokerGUI.Message;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Broker.Repository
+namespace BrokerGUI.Repository
 {
     class ClientRepository : IClientRepository
     {
@@ -21,11 +18,12 @@ namespace Broker.Repository
         public bool authenticateClient(string username, string password)
         {
             Client? client = _db.getClientByUsername(username);
-            if (client!= null)
+            if (client != null)
             {
-                if(client.password==password) {
+                if (client.password == password)
+                {
                     return true;
-                }             
+                }
             }
             else
             {
@@ -41,10 +39,11 @@ namespace Broker.Repository
 
         public void setClientSensorData(string clientId, List<SensorData> sensorDatas)
         {
-            _db.setSensorDataOfClient(clientId, sensorDatas);   
+            _db.setSensorDataOfClient(clientId, sensorDatas);
         }
 
-        public List<SensorData> getClientSensorData(string clientId) {
+        public List<SensorData> getClientSensorData(string clientId)
+        {
             return _db.getSensorDataOfClient(clientId);
         }
 

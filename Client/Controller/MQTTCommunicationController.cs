@@ -9,13 +9,14 @@ using System.Text;
 using Client.SensorService;
 using Client.PKI;
 using Client.SensorBase;
-using Client.MqttManager.Configuration;
+
 using Newtonsoft.Json;
 using Client.Message;
+using Client.Configuration;
 
-namespace Client.MqttManager
+namespace Client.MQTTCommunicationController
 {
-    class MqttManager
+    class MQTTCommunicationController
     {
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
@@ -26,7 +27,7 @@ namespace Client.MqttManager
         ManagedMqttClientOptions mqttManagedClientOptions;
 
 
-        public MqttManager(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
+        public MQTTCommunicationController(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
         {
             _mqttClientConfiguration = mqttClientConfiguration;
             _sensorBuzzerService = sensorBuzzerService;
@@ -126,7 +127,7 @@ namespace Client.MqttManager
 
             if (message != null) 
             {
-                Console.WriteLine($"\nHandleReceivedMessage MESSAGE: {message.ToString()}");
+                Console.WriteLine($"BROKER: Message from broker -> {message.ToString()}");
                 if (message.From == "broker")
                 {
                     string buzzerStateSetByBroker = determineBuzzerStateSentByBroker(message.SensorDatas);
@@ -240,6 +241,7 @@ namespace Client.MqttManager
         {
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
+           string clientUsername = _mqttClientConfiguration.Username;
 
            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
          
@@ -262,11 +264,11 @@ namespace Client.MqttManager
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(sensorDatas);
-                       Console.WriteLine("Task start: REMOTE -> Message published (IsConnected), state CHANGED,  SMOKE:{" + ParameterValueSmokeDetectedNew.ToString().ToUpper() + "}");
+                       Console.WriteLine("CLIENT:"+$"{clientUsername}"+": REMOTE -> Message published (IsConnected), state CHANGED,  SMOKE:{" + ParameterValueSmokeDetectedNew.ToString().ToUpper() + "}");
                     }
                     else
                     {
-                        Console.WriteLine("Task start: REMOTE -> Message NOT published (IsConnected), state NOT CHANGED,  SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
+                        Console.WriteLine("CLIENT:"+$"{clientUsername}"+": REMOTE -> Message NOT published (IsConnected), state NOT CHANGED,  SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }                   
                 }
                 else
@@ -274,19 +276,19 @@ namespace Client.MqttManager
                 
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
-                        Console.WriteLine($"Task start: LOCAL (!IsConnected), SMOKE:{{TRUE}}");
+                        Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!IsConnected), SMOKE:{TRUE}");
                         _sensorBuzzerService.set(true);
                         Console.WriteLine("BUZZER ENABLED BY LOCAL SYSTEM");
                     }
                     else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
                     {
-                        Console.WriteLine($"Task start: LOCAL(!IsConnected), SMOKE:{{FALSE}}");
+                        Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL(!IsConnected), SMOKE:{FALSE}");
                         _sensorBuzzerService.set(false);
-                        Console.WriteLine("BUZZER DISABLED BY LOCAL SYSTEM");
+                        Console.WriteLine("CLIENT:" + $"{clientUsername}" + ": BUZZER DISABLED BY LOCAL SYSTEM");
                     }
                     else
                     {
-                        Console.WriteLine("Task start: LOCAL (!managedClient.IsConnected), State as previous SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
+                        Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!managedClient.IsConnected), State as previous SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }
                 }
 

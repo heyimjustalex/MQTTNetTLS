@@ -6,9 +6,10 @@ using Broker.Database;
 using Broker.PKI;
 using Broker.Repository;
 using Broker.Service;
-using Broker.MqttManager;
+using Broker.Controller;
 using System.Reflection.PortableExecutable;
 using System.Threading;
+using BrokerGUI.Repository;
 
 namespace BrokerGUI
 {
@@ -38,11 +39,12 @@ namespace BrokerGUI
             var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
             
-            string brokerIP = Environment.GetEnvironmentVariable("MY_IP_ADDRESS");
+            string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
             
             if(brokerIP == null ) {
                 brokerIP = "localhost";
             }
+            brokerIP = "192.168.5.166";
 
             Console.WriteLine($"Using {brokerIP} as broker IP address");
 
@@ -55,7 +57,7 @@ namespace BrokerGUI
             .WithCertificate(certificate)
             .Build();
 
-            MqttManager mqttManager = new MqttManager(configuration, clientAccountService);
+            MQTTCommunicationController mqttManager = new MQTTCommunicationController(configuration, clientAccountService);
       
            
             await  mqttManager.start(cancellationToken);

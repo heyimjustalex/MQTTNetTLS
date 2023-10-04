@@ -1,4 +1,4 @@
-﻿namespace Client.MqttManager.Configuration
+﻿namespace Client.Configuration
 {
     internal class MqttClientConfigurationBuilder
     {

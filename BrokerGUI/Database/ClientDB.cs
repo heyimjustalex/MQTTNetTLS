@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Broker.Entity;
 using System.IO;
-using Server.Sensor;
+using BrokerGUI.Message;
 
 namespace Broker.Database
 {
@@ -14,7 +14,7 @@ namespace Broker.Database
         public ClientDB()
         {
             //deleteDB();
-            _dataFilePath = "db.json";
+            _dataFilePath = "../../../Database/File/db.json";
             _clients = loadUserData();            
         }
 
@@ -44,7 +44,7 @@ namespace Broker.Database
             {
                 if(client.clientId== clientId)
                 {
-                    return client.currentSensorDatas;
+                    return client._sensorDatas;
                 }
             }
             return new List<SensorData>();
@@ -56,7 +56,7 @@ namespace Broker.Database
             {
                 if (client.clientId == clientId)
                 {
-                    client.currentSensorDatas = sensorDatasNew;
+                    client._sensorDatas = sensorDatasNew;
                 }
             }
         }
@@ -110,6 +110,7 @@ namespace Broker.Database
         }
         private List<Client> loadUserData()
         {
+
             if (File.Exists(_dataFilePath))
             {
                 try

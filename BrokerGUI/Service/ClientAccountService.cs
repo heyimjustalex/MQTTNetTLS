@@ -1,5 +1,5 @@
 ﻿using Broker.Repository;
-using Server.Sensor;
+using BrokerGUI.Message;
 using System.Collections.Generic;
 
 namespace Broker.Service

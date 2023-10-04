@@ -1,5 +1,5 @@
-﻿using MQTTnet.Client;
-using Server.Sensor;
+﻿using BrokerGUI.Message;
+using MQTTnet.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

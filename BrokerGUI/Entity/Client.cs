@@ -1,9 +1,5 @@
-﻿using Server.Sensor;
-using System;
+﻿using BrokerGUI.Message;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Broker.Entity
 {
@@ -12,13 +8,13 @@ namespace Broker.Entity
         public string clientId;
         public string username;
         public string password;
-        public List<SensorData> currentSensorDatas;
+        public List<SensorData> _sensorDatas;
         public Client(string clientId, string username, string password="")
         {
             this.clientId = clientId;
             this.username = username;
             this.password = password;
-            currentSensorDatas = new List<SensorData>();   
+            _sensorDatas = new List<SensorData>();   
         }
 
     }

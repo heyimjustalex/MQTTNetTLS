@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Server.Sensor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 
 namespace BrokerGUI.Message
 {

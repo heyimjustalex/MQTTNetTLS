@@ -1,6 +1,6 @@
 ﻿using Broker.Database;
 using Broker.Entity;
-using Server.Sensor;
+using BrokerGUI.Message;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +48,7 @@ namespace BrokerGUI.Service
             {
                 if (client.clientId == clientId)
                 {
-                    foreach (SensorData sensorData in client.currentSensorDatas)
+                    foreach (SensorData sensorData in client._sensorDatas)
                     {
                         if (sensorData.ParameterName == ParamName)
                         {
@@ -74,7 +74,7 @@ namespace BrokerGUI.Service
             bool isSmokeOn = false;
             foreach (Client client in _currentlyConnectedValidatedClients)
             {
-                foreach (SensorData sensorData in client.currentSensorDatas)
+                foreach (SensorData sensorData in client._sensorDatas)
                 {
                     if (sensorData.ParameterName == "SMOKE" && sensorData.ParameterValue == "TRUE")
                     {

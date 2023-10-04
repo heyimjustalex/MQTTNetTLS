@@ -9,13 +9,12 @@ services:
       - my-network
     environment:
       - CA_PATH=/app/rootCA.cer
-      - BROKER_IP = ${MY_IP_ADDRESS}
+      - BROKER_IP = ${BROKER_IP_ADDRESS}
       - USERNAME=client1
       - CLIENT_ID=alarm1
       - PASSWORD=password1
       - client1_MockedSmokeSensorState=RANDOM
-     # - ASPNETCORE_Kestrel__Certificates__Default__Path="/app/rootCA.cer"
-     # - ASPNETCORE_Kestrel__Certificates__Default__Password=""
+    
   client2:
     hostname: client2
     build:
@@ -26,11 +25,11 @@ services:
     
     environment:
       - CA_PATH=/app/rootCA.cer
+      - BROKER_IP = ${BROKER_IP_ADDRESS}
       - USERNAME=client2
       - CLIENT_ID=alarm2
       - PASSWORD=password2
       - client2_MockedSmokeSensorState=FALSE
-     # - ASPNETCORE_Kestrel__Certificates__Default__Path="/app/rootCA.cer"
-      #- ASPNETCORE_Kestrel__Certificates__Default__Password=""
+  
 networks:
   my-network:

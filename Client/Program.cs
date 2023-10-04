@@ -1,5 +1,5 @@
-﻿using Client.MqttManager;
-using Client.MqttManager.Configuration;
+﻿using Client.Configuration;
+using Client.MQTTCommunicationController;
 using Client.SensorService;
 
 namespace Program
@@ -31,12 +31,15 @@ namespace Program
             // Because broker uses WPF (it cannot be started on Linux) it needs Windows ENV variable to set its IP
             // If you want to set IP of wifi network adapter just use Powershell script provided in the solution AND RESTART VISUAL STUDIO
           
-            string brokerIP = Environment.GetEnvironmentVariable("MY_IP_ADDRESS");
+            string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
 
             if (brokerIP == null)
             {
                 brokerIP = "localhost";
             }
+
+            brokerIP = "192.168.5.166";
+            Console.WriteLine($"Data loaded through ENV: brokerIP:{brokerIP}, username:{username}, password:{password}, clientID:{clientID}");
 
             MqttClientConfiguration configuration = new MqttClientConfigurationBuilder()
                 .WithPort(8883)
@@ -49,7 +52,7 @@ namespace Program
                 .Build();
                    
 
-            MqttManager mqttManager = new MqttManager(configuration, buzzerService, smokeDetectorService);
+            MQTTCommunicationController mqttManager = new MQTTCommunicationController(configuration, buzzerService, smokeDetectorService);
 
             await mqttManager.start();
 

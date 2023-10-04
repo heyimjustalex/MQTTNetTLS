@@ -26,10 +26,10 @@ $wiFiIpAddress = (Get-NetIPAddress | Where-Object {
 Write-Host "Your Wi-Fi IP Address is: $wiFiIpAddress"
 
 # Export the IP address as an environment variable
-[Environment]::SetEnvironmentVariable("MY_IP_ADDRESS", $wiFiIpAddress, [System.EnvironmentVariableTarget]::Machine)
-
-# Print the value of the environment variable using Write-Host
-Write-Host "Value of MY_IP_ADDRESS: $env:MY_IP_ADDRESS"
+[Environment]::SetEnvironmentVariable("BROKER_IP_ADDRESS", $wiFiIpAddress, [System.EnvironmentVariableTarget]::Machine)
 refreshenv
+# Print the value of the environment variable using Write-Host
+Write-Host "Value of BROKER_IP_ADDRESS: $env:BROKER_IP_ADDRESS"
+
 # Run Docker Compose with build
 docker-compose up --build

@@ -1,48 +1,38 @@
 ﻿using Broker.Configuration;
 using MQTTnet;
 using MQTTnet.Server;
-using Broker.Repository;
 using Broker.Service;
 using System.Security.Cryptography.X509Certificates;
-using Broker.PKI;
 using System.Threading.Tasks;
 using System;
-using MQTTnet.Client;
-using System.Security.Authentication;
 using System.Text;
 using System.Net;
 using System.Collections.Generic;
 using Broker.Entity;
 using System.Threading;
-using Broker.Database;
-using Server.Sensor;
 using Newtonsoft.Json;
 using MQTTnet.Protocol;
-using UI;
 using BrokerGUI.Message;
 using BrokerGUI.Service;
-using System.Windows.Documents;
 
-namespace Broker.MqttManager
+
+namespace Broker.Controller
 {
-    class MqttManager
+    class MQTTCommunicationController
     {
         MqttFactory _mqttFactory;
         MqttServer _mqttServer; 
         MqttBrokerConfiguration _mqttBrokerConfiguration;
-        MqttServerOptions _serverOptionsConfiguration;
-        List<Client> _currentlyConnectedValidatedClients;
-        IMessagePublisherService _messagePublisherService;
+        MqttServerOptions _serverOptionsConfiguration;  
+
         ClientAccountService _clientAccountService;
         ActiveClientsService _activeClientsService;
 
         
 
-        public MqttManager(MqttBrokerConfiguration configuration, ClientAccountService clientAccountService)
-        {
-            _currentlyConnectedValidatedClients = new List<Client>();    
+        public MQTTCommunicationController(MqttBrokerConfiguration configuration, ClientAccountService clientAccountService)
+        {  
             _mqttFactory = new MqttFactory();
-            _messagePublisherService = new MessagePublisherService();
             _activeClientsService = new ActiveClientsService();
             _mqttBrokerConfiguration = configuration;
             _serverOptionsConfiguration = generateBrokerConfigurationOptions();
@@ -54,8 +44,7 @@ namespace Broker.MqttManager
         private MqttServerOptions generateBrokerConfigurationOptions()
         {
             return new MqttServerOptionsBuilder()
-                .WithEncryptedEndpointPort(_mqttBrokerConfiguration.Port)
-          
+                .WithEncryptedEndpointPort(_mqttBrokerConfiguration.Port)          
                 .WithEncryptedEndpointBoundIPAddress(IPAddress.Parse(_mqttBrokerConfiguration.IpAddress))
                 .WithEncryptionCertificate(_mqttBrokerConfiguration.Certificate.Export(X509ContentType.Pfx))
                 .WithEncryptionSslProtocol(System.Security.Authentication.SslProtocols.Tls12)
@@ -70,23 +59,14 @@ namespace Broker.MqttManager
             _mqttServer.ValidatingConnectionAsync += onClientConnectionValidation;
             _mqttServer.ClientDisconnectedAsync += onClientDisconnect;
         }
-        private async Task onClientDisconnect(ClientDisconnectedEventArgs e)
-        {
-            Console.WriteLine($"Client {e.ClientId} disconnected"); 
-            UI.GUIClientManager.RemoveClientByID(e.ClientId);
-            _activeClientsService.removeClientById(e.ClientId);          
-         
-        }
 
-        private void initalizeNewClient(string clientId, string username)
+        private async Task onNewClientConnection(ClientConnectedEventArgs e)
         {
-            SensorData initialSmokeState = new SensorData("SMOKE", "FALSE");
-            List<SensorData> initalList = new List<SensorData> { initialSmokeState };
-            Client currentClient = new Client(clientId, username);
-            currentClient.currentSensorDatas = initalList;
-            _activeClientsService.add(currentClient);    
-            UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE", "FALSE"));
+            Console.WriteLine("onNewClientConnection: New Client has been detected ");
         }
+       
+
+
         private async Task onClientConnectionValidation(ValidatingConnectionEventArgs e)
         {
             string clientId = e.ClientId;            
@@ -105,7 +85,7 @@ namespace Broker.MqttManager
                     Console.WriteLine($"Authenticating with username: {username} FAILED");
                     e.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
                     e.ReasonString = "Invalid client identifier.";
-                    
+               //     await disconnectClientAsync(clientId, MqttDisconnectReasonCode.NotAuthorized);
                     return ;
                 }
             }
@@ -115,30 +95,34 @@ namespace Broker.MqttManager
             // after milisecond message will come and update the state of this collection initial list that is inside client
             // no worries
 
-
             initalizeNewClient(clientId, username);
-
-
-
         }
-        private async Task onNewClientConnection(ClientConnectedEventArgs e)
+        private void initalizeNewClient(string clientId, string username)
         {
-            Console.WriteLine("onNewClientConnection: New Client has been detected ");   
-            
+            SensorData initialSmokeState = new SensorData("SMOKE", "FALSE");
+            List<SensorData> initalList = new List<SensorData> { initialSmokeState };
+            Client currentClient = new Client(clientId, username);
+            currentClient._sensorDatas = initalList;
+            _activeClientsService.add(currentClient);
+            UI.GUIClientManager.AddClient(new UI.ClientGUI(clientId, username, "FALSE", "FALSE"));
         }
 
-        public void kill()
+        private async Task onClientDisconnect(ClientDisconnectedEventArgs e)
         {
-            _mqttServer.Dispose();
+            Console.WriteLine($"Client {e.ClientId} disconnected");
+            UI.GUIClientManager.RemoveClientByID(e.ClientId);
+            _activeClientsService.removeClientById(e.ClientId);
+
         }
+              
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)
         {
             var mqttMessage = new MessageMQTT(DateTime.Now, "broker", sensorData);
             string json = System.Text.Json.JsonSerializer.Serialize(mqttMessage);
-            Console.WriteLine($"BROKER: enqueue to alarm/fromBroker: {mqttMessage.ToString()}");
-                     
+                                
             foreach (var topic in _mqttBrokerConfiguration.TopicsBrokerEnqueuesTo)
             {
+                Console.WriteLine($"BROKER: enqueue to {topic}: {mqttMessage.ToString()}");
                 var message = new MqttApplicationMessageBuilder()
                   .WithTopic(topic)
                   .WithQualityOfServiceLevel(MQTTnet.Protocol.MqttQualityOfServiceLevel.ExactlyOnce)
@@ -151,17 +135,6 @@ namespace Broker.MqttManager
             }
         }
 
-        private Client? GetClientByClientId(string clientId)
-        {
-            foreach (Client client in _currentlyConnectedValidatedClients)
-            {
-                if(client.clientId == clientId)
-                {
-                    return client;
-                }
-            }
-            return null;
-        }
         private SensorData getSmokeDetectorData(List<SensorData> sensorDatas) {
 
             SensorData ret = sensorDatas[0];
@@ -193,36 +166,6 @@ namespace Broker.MqttManager
             return sensorDatas;
         }
 
-        private List<SensorData> updateSmokerSensor(List<SensorData> sensorDatas, string smokeParameterValue)
-        {
-            foreach (SensorData sensorData in sensorDatas)
-            {
-                if (sensorData.ParameterName == "SMOKE")
-                {
-                    sensorData.ParameterValue = smokeParameterValue;
-                    return sensorDatas;
-                }
-            }
-
-            //if there was no smoke found in the collention of elements
-            sensorDatas.Add(new SensorData("SMOKE", smokeParameterValue));
-
-            return sensorDatas;
-        }
-
-        private List<SensorData> rewriteListModifyingParameter(List<SensorData> sensorDatas, string ParamName, string ParamValue) {
-            
-            foreach (SensorData sensorData in sensorDatas)
-            {
-                if(sensorData.ParameterName==ParamName)
-                {
-                    sensorData.ParameterValue = ParamValue; 
-                }
-            }           
-            return sensorDatas;        
-        
-        }
-
         private async Task turnOnBuzzerOfAllClients()
         {
             List<SensorData> buzzerTrueInformMessage = new List<SensorData>
@@ -237,7 +180,7 @@ namespace Broker.MqttManager
         {
             _activeClientsService.updateClients((client) =>
             {
-                foreach (SensorData sensorData in client.currentSensorDatas)
+                foreach (SensorData sensorData in client._sensorDatas)
                 {
                     if (client.clientId == receiverClientId)
                     {
@@ -273,7 +216,7 @@ namespace Broker.MqttManager
             {
                 if (client.clientId == receiverClientId)
                 {
-                    foreach (SensorData sensorData in client.currentSensorDatas)
+                    foreach (SensorData sensorData in client._sensorDatas)
                     {
                         if (sensorData.ParameterValue == "SMOKE")
                         {
@@ -351,6 +294,8 @@ namespace Broker.MqttManager
                 }
             }
         }
+
+        // Handling message from client logic
         private async Task onInterceptingPublishAsync(InterceptingPublishEventArgs e)
         {
             var applicationMessage = e.ApplicationMessage;
@@ -387,23 +332,37 @@ namespace Broker.MqttManager
 
                 if(message.SensorDatas.Count>0)
                 {
-                  await handleMessageFromClient(clientId,message.SensorDatas);
+                      await handleMessageFromClient(clientId,message.SensorDatas);
                     
                 }
-
                 
             }
 
             await Task.CompletedTask;
         }
+             
+    
 
-       
+        private async Task disconnectClientAsync(string clientId, MQTTnet.Protocol.MqttDisconnectReasonCode reasonCode)
+        {
+            if (_mqttServer.IsStarted)
+            {
+               
+                await _mqttServer.DisconnectClientAsync(clientId,reasonCode);
+            }
+            else
+            {
+             
+                Console.WriteLine("MQTT server is not started.");
+            }
+            await Task.CompletedTask;
+        }
+
         public async Task start(CancellationToken cancellationToken)
         {
             try
             {
-               await _mqttServer.StartAsync();
-                        
+                await _mqttServer.StartAsync();
 
                 int i = 0;
                 while (!cancellationToken.IsCancellationRequested)
@@ -413,7 +372,7 @@ namespace Broker.MqttManager
                         Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] I'm broker and I'm working properly");
                         i = 0;
                     }
-                    i++;    
+                    i++;
                     Thread.Sleep(5000);
                 }
 
@@ -422,28 +381,11 @@ namespace Broker.MqttManager
             {
                 Console.WriteLine($"Error when client connecting: {ex.Message} {ex.StackTrace}");
             }
-  
+            await Task.CompletedTask;
         }
-
-        public async Task publishMessage(string topic, string payload, string brokerId)
+        public void kill()
         {
-            await _messagePublisherService.publishMessageAsync(_mqttServer, topic, payload, brokerId);
-        }    
-        
-
-
-        public async Task DisconnectClientAsync(string clientId)
-        {
-            if (_mqttServer.IsStarted)
-            {
-               
-                await _mqttServer.DisconnectClientAsync(clientId,MQTTnet.Protocol.MqttDisconnectReasonCode.AdministrativeAction);
-            }
-            else
-            {
-             
-                Console.WriteLine("MQTT server is not started.");
-            }
+            _mqttServer.Dispose();
         }
     }
 }

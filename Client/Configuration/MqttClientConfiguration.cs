@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client.MqttManager.Configuration
+namespace Client.Configuration
 {
     internal class MqttClientConfiguration
     {
