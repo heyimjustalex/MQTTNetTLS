@@ -44,7 +44,8 @@ namespace BrokerGUI
             if(brokerIP == null ) {
                 brokerIP = "localhost";
             }
-            brokerIP = "192.168.5.166";
+            //   if it has localhost and you want to use another ip just use BROKER_IP_ADRESS env variable (reset VS if it does not work after setting)
+            // you can also manually overwrite it brokerIP = "192.168.5.166";
 
             Console.WriteLine($"Using {brokerIP} as broker IP address");
 

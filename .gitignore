@@ -17,6 +17,9 @@ Broker/obj/
 Broker/obj/*
 Broker/bin/
 
+# *.cer
+# *.pfx
+# *.key
 
 BrokerGUI/obj/
 BrokerGUI/obj/*

@@ -38,7 +38,7 @@ namespace Program
                 brokerIP = "localhost";
             }
 
-            brokerIP = "192.168.5.166";
+ 
             Console.WriteLine($"Data loaded through ENV: brokerIP:{brokerIP}, username:{username}, password:{password}, clientID:{clientID}");
 
             MqttClientConfiguration configuration = new MqttClientConfigurationBuilder()

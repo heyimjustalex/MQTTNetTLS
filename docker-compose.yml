@@ -9,7 +9,7 @@ services:
       - my-network
     environment:
       - CA_PATH=/app/rootCA.cer
-      - BROKER_IP = ${BROKER_IP_ADDRESS}
+      - BROKER_IP_ADDRESS=${BROKER_IP_ADDRESS}
       - USERNAME=client1
       - CLIENT_ID=alarm1
       - PASSWORD=password1
@@ -25,7 +25,7 @@ services:
     
     environment:
       - CA_PATH=/app/rootCA.cer
-      - BROKER_IP = ${BROKER_IP_ADDRESS}
+      - BROKER_IP_ADDRESS=${BROKER_IP_ADDRESS}
       - USERNAME=client2
       - CLIENT_ID=alarm2
       - PASSWORD=password2
