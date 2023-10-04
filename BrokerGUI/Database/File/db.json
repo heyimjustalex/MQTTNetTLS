@@ -1,0 +1,17 @@
+[
+  {
+    "clientId": "alarm1",
+    "username": "client1",
+    "password": "password1"
+  },
+  {
+    "clientId": "alarm2",
+    "username": "client2",
+    "password": "password2"
+  },
+  {
+    "clientId": "alarm3",
+    "username": "client3",
+    "password": "password3"
+  }
+]

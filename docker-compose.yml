@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  client1:
+    hostname: client1
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    networks:
+      - my-network
+    environment:
+      - CA_PATH=/app/rootCA.cer
+      - BROKER_IP_ADDRESS=${BROKER_IP_ADDRESS}
+      - USERNAME=client1
+      - CLIENT_ID=alarm1
+      - PASSWORD=password1
+      - client1_MockedSmokeSensorState=RANDOM
+    
+  client2:
+    hostname: client2
+    build:
+     context: ./Client
+     dockerfile: Dockerfile
+    networks:
+      - my-network
+    
+    environment:
+      - CA_PATH=/app/rootCA.cer
+      - BROKER_IP_ADDRESS=${BROKER_IP_ADDRESS}
+      - USERNAME=client2
+      - CLIENT_ID=alarm2
+      - PASSWORD=password2
+      - client2_MockedSmokeSensorState=FALSE
+  
+networks:
+  my-network:

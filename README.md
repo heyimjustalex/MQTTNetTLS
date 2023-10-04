@@ -1,29 +1,59 @@
-# MQTTNetTLS
+# MQTTSmokeAlarmSystem 🔥
+
+## Project Overview
+
+The MQTT Smoke Alarm 🚨 System  is a study project designed to demonstrate the use of C# in developing a simple IOT alarm system. This system is capable of detecting smoke using Raspberry Pi sensors and triggering alarms when necessary. It leverages MQTTnet for communication, C# for application logic, PKI (MQTT over TLS 🔐) for secure communication, and utilizes .NET 7 for compatibility. Additionally, a simple WPF-based GUI is provided for managing the broker  🖥️.
+
+## Project Structure
+
+This solution consists of three main projects:
+### Client (Raspberry Pi Client)
+
+The Client project represents the Raspberry Pi client. It is responsible for collecting sensor data, detecting smoke, and communicating with the broker using MQTT over TLS for secure data transfer. Clients can be deployed both on Windows and Linux.
+
+### BrokerGUI (Broker Graphical User Interface)
+
+The BrokerGUI project serves as the central communication hub that manages multiple clients and their respective sensors. It provides a graphical interface developed with WPF for interacting with the broker. It allows to monitor clients' sensors state and displays alarm state. Use of WPF makes it work only on Windows.
+
+### PKIGenerator (Public Key Infrastructure Generator)
+
+The PKIGenerator project is responsible for generating the necessary Public Key Infrastructure (PKI) for both clients and the broker. 
+
+## Dependencies
+
+- MQTTnet (4.3.1.873): MQTTnet is used for MQTT communication between the broker and clients.
+- .NET 7: The project utilizes .NET 7
+
+## Getting Started
+
+### Client simulation with Docker
+
+If you don't have real hardware to install client on, there is a possibility to start simulated clients with mocked sensor data with containers. Just run powershell script 
+
+"run_simulated_client_docker_containers.ps1"
+
+The script takes your WiFi address and uses it as an input for clients. It also sets BROKER_IP_ADDRESS Windows environmental variable that is used by docker-compose.yml (which is used to deploy clients) and broker. After setting BROKER_IP_ADDRESS env variable there it might be required to restart VS.
+
+Make sure that username, password you use is in db.json file in broker.
 
 
-## PLAN TO FIX THIS SHIT!
+### Real client without Docker
 
-1. Modify function PKIGenerator GenerateSignedCertificate
-- it shouldnt internally save key pem
-- it should return map/touple certificate + key
-- it cannot return certificate with internal key (i tried didnt work)
-- it should save the key and cert in PKIGenerator/PKI/Server/ BRRRROKER11
-- it should also save key and cert in Server/PKI/Server
-
-2. Everyting should be in .pem for keys and .der/.pfx for certs ( i guess it will be easier to make pfx of rootCA)
-
-3. rootCa even though it's self-signed shouldn't have key in certificate (and i does not have now). Private key is private
-
-4. Implement in Client:
-
-- private static bool OnCertificateValidation(MqttClientCertificateValidationEventArgs args)
-- this function should validate certificate supplied by server by comparing against rootCA that it has alrealy supplied
-- in order to make it work you might need to
-    - modify signing/generating server certificate (there are different flags that might be needed)
-    - in Client add to trusted CAs before you check if it's valid (gpt might help)
-    - modify functions:  AddCAToTrusted,isCertificateValid, ReadCertificateFromFile
-    - RootCA has different format (.der), not sure how it affects
+Modify initial parameters of client so it has proper broker ip. Config is initialized in Client/Program.cs
 
 
-5. Try to make mutual auth with client
+## Class Diagrams
+
+### Broker
+
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
+
+### Client
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/efbc3c7c-a56a-45b8-94d9-316844efe9e2)
+
+
+### WPF GUI
+
+<img src="https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/9bca8773-8f7f-4936-9bbb-a100a95d8b8c" width="400">
+
 

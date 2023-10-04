@@ -1,0 +1,3242 @@
+﻿{
+  "Version": 1,
+  "Properties": {
+    "AreNodeDescriptionsVisible": "True"
+  },
+  "Nodes": [
+    {
+      "Id": "1",
+      "Name": "ClientGUI",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.4111794Z",
+      "AbsoluteTopLeft": "1011.5316,-646.1093",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "171.4333,141",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "169.4333,88",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "ClientGUI",
+        "FullName": "class UI.ClientGUI",
+        "Symbols": [
+          "UI.ClientGUI"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "3",
+      "Name": "MainWindow",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5722661Z",
+      "AbsoluteTopLeft": "1056.4973,-409.2749",
+      "HeaderContentSize": "102,63.4",
+      "NodeTotalSize": "327.5767,306.4",
+      "ChildrenAreaTopLeft": "1,63.4",
+      "ChildrenAreaSize": "325.5767,242",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "MainWindow",
+        "FullName": "class UI.MainWindow",
+        "Symbols": [
+          "UI.MainWindow"
+        ],
+        "Description": "MainWindow",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "4",
+      "Name": "Client",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5872604Z",
+      "AbsoluteTopLeft": "349.3739,-129.2473",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "198.0767,141",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "196.0767,88",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Client",
+        "FullName": "class Broker.Entity.Client",
+        "Symbols": [
+          "Broker.Entity.Client"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "5",
+      "Name": "App",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5892582Z",
+      "AbsoluteTopLeft": "828.8628,-80.6536",
+      "HeaderContentSize": "102,63.4",
+      "NodeTotalSize": "170.5667,108.4",
+      "ChildrenAreaTopLeft": "1,63.4",
+      "ChildrenAreaSize": "168.5667,44",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "App",
+        "FullName": "class UI.App",
+        "Symbols": [
+          "UI.App"
+        ],
+        "Description": "App",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "7",
+      "Name": "IClientRepository",
+      "Stereotype": "Interface",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5912593Z",
+      "AbsoluteTopLeft": "-95.2729,-717.8169",
+      "HeaderContentSize": "106.63,52",
+      "NodeTotalSize": "330.43,163",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "328.43,110",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "IClientRepository",
+        "FullName": "interface Broker.Repository.IClientRepository",
+        "Symbols": [
+          "Broker.Repository.IClientRepository"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "8",
+      "Name": "MessageMQTT",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5922595Z",
+      "AbsoluteTopLeft": "569.5069,23.3337",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "198.0767,207",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "196.0767,154",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "MessageMQTT",
+        "FullName": "class BrokerGUI.Message.MessageMQTT",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "9",
+      "Name": "IClientDB",
+      "Stereotype": "Interface",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5922595Z",
+      "AbsoluteTopLeft": "-98.9759,-269.8169",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "329.6367,185",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "327.6367,132",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "IClientDB",
+        "FullName": "interface Broker.Database.IClientDB",
+        "Symbols": [
+          "Broker.Database.IClientDB"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "10",
+      "Name": "ClientAccountService",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5932606Z",
+      "AbsoluteTopLeft": "-94.7396,-952.8169",
+      "HeaderContentSize": "129.8567,52",
+      "NodeTotalSize": "329.8967,185",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "327.8967,132",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "ClientAccountService",
+        "FullName": "class Broker.Service.ClientAccountService",
+        "Symbols": [
+          "Broker.Service.ClientAccountService"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "11",
+      "Name": "MqttBrokerConfiguration",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5942597Z",
+      "AbsoluteTopLeft": "667.6136,-938.1963",
+      "HeaderContentSize": "154.5167,52",
+      "NodeTotalSize": "211.2967,229",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "209.2967,176",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "MqttBrokerConfiguration",
+        "FullName": "class Broker.Configuration.MqttBrokerConfiguration",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "12",
+      "Name": "ActiveClientsService",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5942597Z",
+      "AbsoluteTopLeft": "280.6608,-386.2473",
+      "HeaderContentSize": "123.81,52",
+      "NodeTotalSize": "327.8567,207",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "325.8567,154",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "ActiveClientsService",
+        "FullName": "class BrokerGUI.Service.ActiveClientsService",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "13",
+      "Name": "SensorData",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5952616Z",
+      "AbsoluteTopLeft": "352.3226,61.7527",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "155.63,163",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "153.63,110",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "SensorData",
+        "FullName": "class BrokerGUI.Message.SensorData",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "14",
+      "Name": "ClientRepository",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5952616Z",
+      "AbsoluteTopLeft": "-99.7692,-504.8169",
+      "HeaderContentSize": "103.9,52",
+      "NodeTotalSize": "330.43,185",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "328.43,132",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "ClientRepository",
+        "FullName": "class BrokerGUI.Repository.ClientRepository",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "15",
+      "Name": "ClientDB",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5962611Z",
+      "AbsoluteTopLeft": "-103.2168,-34.8169",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "329.6367,251",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "327.6367,198",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "ClientDB",
+        "FullName": "class Broker.Database.ClientDB",
+        "Symbols": [
+          "Broker.Database.ClientDB"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "16",
+      "Name": "GUIClientManager",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5972595Z",
+      "AbsoluteTopLeft": "674.9658,-659.1963",
+      "HeaderContentSize": "114.0967,52",
+      "NodeTotalSize": "278.2967,207",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "276.2967,154",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "GUIClientManager",
+        "FullName": "class UI.GUIClientManager",
+        "Symbols": [
+          "UI.GUIClientManager"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "17",
+      "Name": "MQTTCommunicationController",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5982600Z",
+      "AbsoluteTopLeft": "285.1571,-973.2473",
+      "HeaderContentSize": "190.5267,52",
+      "NodeTotalSize": "330.8967,537",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "328.8967,484",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "MQTTCommunicationController",
+        "FullName": "class Broker.Controller.MQTTCommunicationController",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "18",
+      "Name": "Program",
+      "Stereotype": "Class",
+      "CreatedAtUtc": "2023-10-04T12:48:15.5992614Z",
+      "AbsoluteTopLeft": "658.5174,-299.2308",
+      "HeaderContentSize": "102,52",
+      "NodeTotalSize": "330.1233,97",
+      "ChildrenAreaTopLeft": "1,52",
+      "ChildrenAreaSize": "328.1233,44",
+      "IsPinned": true,
+      "Payload": {
+        "Discriminator": "RoslynType",
+        "SymbolName": "Program",
+        "FullName": "class BrokerGUI.Program",
+        "Symbols": [
+          "BrokerGUI.Program"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "19",
+      "ParentId": "7",
+      "Name": "bool authenticateClient(string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:07.3185927Z",
+      "AbsoluteTopLeft": "-94.2729,-665.8169",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "328.43,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "authenticateClient",
+        "FullName": "bool authenticateClient(string username, string password)",
+        "Symbols": [
+          "Broker.Repository.IClientRepository.authenticateClient(System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "20",
+      "ParentId": "7",
+      "Name": "List<SensorData> getClientSensorData(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:08.2195298Z",
+      "AbsoluteTopLeft": "-94.2729,-643.8169",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "314.4433,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getClientSensorData",
+        "FullName": "List<SensorData> getClientSensorData(string clientId)",
+        "Symbols": [
+          "Broker.Repository.IClientRepository.getClientSensorData(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "21",
+      "ParentId": "7",
+      "Name": "void registerClient(string username, string password, string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:08.8650486Z",
+      "AbsoluteTopLeft": "-94.2729,-621.8169",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "327.6933,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "registerClient",
+        "FullName": "void registerClient(string username, string password, string clientId)",
+        "Symbols": [
+          "Broker.Repository.IClientRepository.registerClient(System.String username, System.String password, System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "22",
+      "ParentId": "7",
+      "Name": "void removeClient(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:10.2040790Z",
+      "AbsoluteTopLeft": "-94.2729,-599.8169",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "217.72,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "removeClient",
+        "FullName": "void removeClient(string username)",
+        "Symbols": [
+          "Broker.Repository.IClientRepository.removeClient(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "23",
+      "ParentId": "7",
+      "Name": "void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:11.5533131Z",
+      "AbsoluteTopLeft": "-94.2729,-577.8169",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "327.8967,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "setClientSensorData",
+        "FullName": "void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+        "Symbols": [
+          "Broker.Repository.IClientRepository.setClientSensorData(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "24",
+      "ParentId": "14",
+      "Name": "IClientDB _db",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:49:14.6785175Z",
+      "AbsoluteTopLeft": "-98.7692,-452.8169",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "100.25,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_db",
+        "FullName": "private IClientDB _db",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository._db"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "25",
+      "ParentId": "14",
+      "Name": "bool authenticateClient(string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:15.1154456Z",
+      "AbsoluteTopLeft": "-98.7692,-430.8169",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "328.43,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "authenticateClient",
+        "FullName": "public bool authenticateClient(string username, string password)",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository.authenticateClient(System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "26",
+      "ParentId": "14",
+      "Name": "List<SensorData> getClientSensorData(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:18.7883328Z",
+      "AbsoluteTopLeft": "-98.7692,-408.8169",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "314.4433,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getClientSensorData",
+        "FullName": "public List<SensorData> getClientSensorData(string clientId)",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository.getClientSensorData(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "27",
+      "ParentId": "14",
+      "Name": "void registerClient(string username, string password, string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:19.7240336Z",
+      "AbsoluteTopLeft": "-98.7692,-386.8169",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "327.6933,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "registerClient",
+        "FullName": "public void registerClient(string username, string password, string clientId)",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository.registerClient(System.String username, System.String password, System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "28",
+      "ParentId": "14",
+      "Name": "void removeClient(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:21.1259523Z",
+      "AbsoluteTopLeft": "-98.7692,-364.8169",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "217.72,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "removeClient",
+        "FullName": "public void removeClient(string username)",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository.removeClient(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "29",
+      "ParentId": "14",
+      "Name": "void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:23.3581089Z",
+      "AbsoluteTopLeft": "-98.7692,-342.8169",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "327.8967,22",
+      "HeaderMinSize": "328.43,22",
+      "NodeTotalSize": "328.43,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "setClientSensorData",
+        "FullName": "public void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+        "Symbols": [
+          "BrokerGUI.Repository.ClientRepository.setClientSensorData(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "30",
+      "ParentId": "9",
+      "Name": "void addClient(string clientId, string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:25.1864531Z",
+      "AbsoluteTopLeft": "-97.9759,-217.8169",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "327.6367,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "addClient",
+        "FullName": "void addClient(string clientId, string username, string password)",
+        "Symbols": [
+          "Broker.Database.IClientDB.addClient(System.String clientId, System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "31",
+      "ParentId": "9",
+      "Name": "bool authenticate(string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:26.3840132Z",
+      "AbsoluteTopLeft": "-97.9759,-195.8169",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "304.12,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "authenticate",
+        "FullName": "bool authenticate(string username, string password)",
+        "Symbols": [
+          "Broker.Database.IClientDB.authenticate(System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "32",
+      "ParentId": "9",
+      "Name": "Client? getClientByUsername(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:27.1012349Z",
+      "AbsoluteTopLeft": "-97.9759,-173.8169",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "274.28,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getClientByUsername",
+        "FullName": "Client? getClientByUsername(string username)",
+        "Symbols": [
+          "Broker.Database.IClientDB.getClientByUsername(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "33",
+      "ParentId": "9",
+      "Name": "List<SensorData> getSensorDataOfClient(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:27.8386062Z",
+      "AbsoluteTopLeft": "-97.9759,-151.8169",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "327.2467,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getSensorDataOfClient",
+        "FullName": "List<SensorData> getSensorDataOfClient(string clientId)",
+        "Symbols": [
+          "Broker.Database.IClientDB.getSensorDataOfClient(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "34",
+      "ParentId": "9",
+      "Name": "void removeClient(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:31.0134870Z",
+      "AbsoluteTopLeft": "-97.9759,-129.8169",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "217.72,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "removeClient",
+        "FullName": "void removeClient(string username)",
+        "Symbols": [
+          "Broker.Database.IClientDB.removeClient(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "35",
+      "ParentId": "9",
+      "Name": "void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:32.2168910Z",
+      "AbsoluteTopLeft": "-97.9759,-107.8169",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "326.18,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "setSensorDataOfClient",
+        "FullName": "void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew)",
+        "Symbols": [
+          "Broker.Database.IClientDB.setSensorDataOfClient(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatasNew)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsAbstract": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "36",
+      "ParentId": "15",
+      "Name": "List<Client> _clients",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:49:41.0709887Z",
+      "AbsoluteTopLeft": "-102.2168,17.1831",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "135.3633,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_clients",
+        "FullName": "private List<Client> _clients",
+        "Symbols": [
+          "Broker.Database.ClientDB._clients"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "37",
+      "ParentId": "15",
+      "Name": "string _dataFilePath",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:49:44.4413459Z",
+      "AbsoluteTopLeft": "-102.2168,39.1831",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "131.9333,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_dataFilePath",
+        "FullName": "private string _dataFilePath",
+        "Symbols": [
+          "Broker.Database.ClientDB._dataFilePath"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "38",
+      "ParentId": "15",
+      "Name": "void addClient(string clientId, string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:44.8915628Z",
+      "AbsoluteTopLeft": "-102.2168,61.1831",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "327.6367,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "addClient",
+        "FullName": "public void addClient(string clientId, string username, string password)",
+        "Symbols": [
+          "Broker.Database.ClientDB.addClient(System.String clientId, System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "39",
+      "ParentId": "15",
+      "Name": "bool authenticate(string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:48.3842215Z",
+      "AbsoluteTopLeft": "-102.2168,83.1831",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "304.12,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "authenticate",
+        "FullName": "public bool authenticate(string username, string password)",
+        "Symbols": [
+          "Broker.Database.ClientDB.authenticate(System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "41",
+      "ParentId": "15",
+      "Name": "Client? getClientByUsername(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:50.1041353Z",
+      "AbsoluteTopLeft": "-102.2168,105.1831",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "274.28,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getClientByUsername",
+        "FullName": "public Client? getClientByUsername(string username)",
+        "Symbols": [
+          "Broker.Database.ClientDB.getClientByUsername(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "42",
+      "ParentId": "15",
+      "Name": "List<SensorData> getSensorDataOfClient(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:51.0977342Z",
+      "AbsoluteTopLeft": "-102.2168,127.1831",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "327.2467,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getSensorDataOfClient",
+        "FullName": "public List<SensorData> getSensorDataOfClient(string clientId)",
+        "Symbols": [
+          "Broker.Database.ClientDB.getSensorDataOfClient(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "44",
+      "ParentId": "15",
+      "Name": "void removeClient(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:52.9946852Z",
+      "AbsoluteTopLeft": "-102.2168,149.1831",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "217.72,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "removeClient",
+        "FullName": "public void removeClient(string username)",
+        "Symbols": [
+          "Broker.Database.ClientDB.removeClient(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "45",
+      "ParentId": "15",
+      "Name": "void saveClientData()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:49:54.0285283Z",
+      "AbsoluteTopLeft": "-102.2168,171.1831",
+      "RelativeTopLeft": "0,154",
+      "HeaderContentSize": "140.57,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "saveClientData",
+        "FullName": "private void saveClientData()",
+        "Symbols": [
+          "Broker.Database.ClientDB.saveClientData()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "47",
+      "ParentId": "17",
+      "Name": "ActiveClientsService _activeClientsService",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:10.8221877Z",
+      "AbsoluteTopLeft": "286.1571,-921.2473",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "245.7267,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_activeClientsService",
+        "FullName": "private ActiveClientsService _activeClientsService",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._activeClientsService"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "48",
+      "ParentId": "17",
+      "Name": "ClientAccountService _clientAccountService",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:11.1740229Z",
+      "AbsoluteTopLeft": "286.1571,-899.2473",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "257.7333,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_clientAccountService",
+        "FullName": "private ClientAccountService _clientAccountService",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._clientAccountService"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "49",
+      "ParentId": "17",
+      "Name": "MqttBrokerConfiguration _mqttBrokerConfiguration",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:12.1658662Z",
+      "AbsoluteTopLeft": "286.1571,-877.2473",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "303.46,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_mqttBrokerConfiguration",
+        "FullName": "private MqttBrokerConfiguration _mqttBrokerConfiguration",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._mqttBrokerConfiguration"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "50",
+      "ParentId": "17",
+      "Name": "MqttServer _mqttServer",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:12.6547472Z",
+      "AbsoluteTopLeft": "286.1571,-833.2473",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "154.82,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_mqttServer",
+        "FullName": "private MqttServer _mqttServer",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._mqttServer"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "51",
+      "ParentId": "17",
+      "Name": "MqttFactory _mqttFactory",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:13.0704734Z",
+      "AbsoluteTopLeft": "286.1571,-855.2473",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "165.1333,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_mqttFactory",
+        "FullName": "private MqttFactory _mqttFactory",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._mqttFactory"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "52",
+      "ParentId": "17",
+      "Name": "MqttServerOptions _serverOptionsConfiguration",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:13.5498811Z",
+      "AbsoluteTopLeft": "286.1571,-811.2473",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "284.82,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_serverOptionsConfiguration",
+        "FullName": "private MqttServerOptions _serverOptionsConfiguration",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController._serverOptionsConfiguration"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "53",
+      "ParentId": "17",
+      "Name": "Task disableBuzzersOfAllClients()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:14.4312163Z",
+      "AbsoluteTopLeft": "286.1571,-789.2473",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "200.9333,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "disableBuzzersOfAllClients",
+        "FullName": "private Task disableBuzzersOfAllClients()",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.disableBuzzersOfAllClients()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "54",
+      "ParentId": "17",
+      "Name": "Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:15.0078762Z",
+      "AbsoluteTopLeft": "286.1571,-745.2473",
+      "RelativeTopLeft": "0,176",
+      "HeaderContentSize": "328.8967,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "enqueueToAllSpecifiedTopics",
+        "FullName": "private Task enqueueToAllSpecifiedTopics(List<SensorData> sensorData)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.enqueueToAllSpecifiedTopics(System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorData)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "55",
+      "ParentId": "17",
+      "Name": "MqttServerOptions generateBrokerConfigurationOptions()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:15.4445323Z",
+      "AbsoluteTopLeft": "286.1571,-723.2473",
+      "RelativeTopLeft": "0,198",
+      "HeaderContentSize": "326.54,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "generateBrokerConfigurationOptions",
+        "FullName": "private MqttServerOptions generateBrokerConfigurationOptions()",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.generateBrokerConfigurationOptions()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "56",
+      "ParentId": "17",
+      "Name": "Task disconnectClientAsync(string clientId, MqttDisconnectReasonCode reasonCode)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:15.9848562Z",
+      "AbsoluteTopLeft": "286.1571,-767.2473",
+      "RelativeTopLeft": "0,154",
+      "HeaderContentSize": "325.0333,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "disconnectClientAsync",
+        "FullName": "private Task disconnectClientAsync(string clientId, MqttDisconnectReasonCode reasonCode)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.disconnectClientAsync(System.String clientId, MQTTnet.Protocol.MqttDisconnectReasonCode reasonCode)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "57",
+      "ParentId": "17",
+      "Name": "SensorData getSmokeDetectorData(List<SensorData> sensorDatas)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:16.8153268Z",
+      "AbsoluteTopLeft": "286.1571,-701.2473",
+      "RelativeTopLeft": "0,220",
+      "HeaderContentSize": "323.6267,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getSmokeDetectorData",
+        "FullName": "private SensorData getSmokeDetectorData(List<SensorData> sensorDatas)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.getSmokeDetectorData(System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "58",
+      "ParentId": "17",
+      "Name": "Task handleMessageFromClient(string clientId, List<SensorData> sensorDatas)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:17.6905714Z",
+      "AbsoluteTopLeft": "286.1571,-679.2473",
+      "RelativeTopLeft": "0,242",
+      "HeaderContentSize": "323.8033,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "handleMessageFromClient",
+        "FullName": "private Task handleMessageFromClient(string clientId, List<SensorData> sensorDatas)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.handleMessageFromClient(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "59",
+      "ParentId": "17",
+      "Name": "void initalizeNewClient(string clientId, string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:18.1427722Z",
+      "AbsoluteTopLeft": "286.1571,-657.2473",
+      "RelativeTopLeft": "0,264",
+      "HeaderContentSize": "320.12,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "initalizeNewClient",
+        "FullName": "private void initalizeNewClient(string clientId, string username)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.initalizeNewClient(System.String clientId, System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "61",
+      "ParentId": "17",
+      "Name": "Task onClientConnectionValidation(ValidatingConnectionEventArgs e)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:18.9116538Z",
+      "AbsoluteTopLeft": "286.1571,-635.2473",
+      "RelativeTopLeft": "0,286",
+      "HeaderContentSize": "323.4433,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "onClientConnectionValidation",
+        "FullName": "private Task onClientConnectionValidation(ValidatingConnectionEventArgs e)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.onClientConnectionValidation(MQTTnet.Server.ValidatingConnectionEventArgs e)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "63",
+      "ParentId": "17",
+      "Name": "Task onClientDisconnect(ClientDisconnectedEventArgs e)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:19.4610573Z",
+      "AbsoluteTopLeft": "286.1571,-613.2473",
+      "RelativeTopLeft": "0,308",
+      "HeaderContentSize": "324.65,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "onClientDisconnect",
+        "FullName": "private Task onClientDisconnect(ClientDisconnectedEventArgs e)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.onClientDisconnect(MQTTnet.Server.ClientDisconnectedEventArgs e)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "64",
+      "ParentId": "17",
+      "Name": "Task onInterceptingPublishAsync(InterceptingPublishEventArgs e)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:20.5177073Z",
+      "AbsoluteTopLeft": "286.1571,-591.2473",
+      "RelativeTopLeft": "0,330",
+      "HeaderContentSize": "328.34,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "onInterceptingPublishAsync",
+        "FullName": "private Task onInterceptingPublishAsync(InterceptingPublishEventArgs e)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.onInterceptingPublishAsync(MQTTnet.Server.InterceptingPublishEventArgs e)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "65",
+      "ParentId": "17",
+      "Name": "Task start(CancellationToken cancellationToken)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:20.7848349Z",
+      "AbsoluteTopLeft": "286.1571,-547.2473",
+      "RelativeTopLeft": "0,374",
+      "HeaderContentSize": "278.61,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "start",
+        "FullName": "public Task start(CancellationToken cancellationToken)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.start(System.Threading.CancellationToken cancellationToken)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "66",
+      "ParentId": "17",
+      "Name": "Task turnOnBuzzerOfAllClients()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:21.1555786Z",
+      "AbsoluteTopLeft": "286.1571,-525.2473",
+      "RelativeTopLeft": "0,396",
+      "HeaderContentSize": "196.0867,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "turnOnBuzzerOfAllClients",
+        "FullName": "private Task turnOnBuzzerOfAllClients()",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.turnOnBuzzerOfAllClients()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "68",
+      "ParentId": "17",
+      "Name": "Task onNewClientConnection(ClientConnectedEventArgs e)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:21.9397086Z",
+      "AbsoluteTopLeft": "286.1571,-569.2473",
+      "RelativeTopLeft": "0,352",
+      "HeaderContentSize": "324.09,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "onNewClientConnection",
+        "FullName": "private Task onNewClientConnection(ClientConnectedEventArgs e)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.onNewClientConnection(MQTTnet.Server.ClientConnectedEventArgs e)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "69",
+      "ParentId": "17",
+      "Name": "List<SensorData> updateBuzzerSensor(List<SensorData> sensorDatas, string buzzerParameterValue)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:22.0123059Z",
+      "AbsoluteTopLeft": "286.1571,-503.2473",
+      "RelativeTopLeft": "0,418",
+      "HeaderContentSize": "327.5867,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateBuzzerSensor",
+        "FullName": "private List<SensorData> updateBuzzerSensor(List<SensorData> sensorDatas, string buzzerParameterValue)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.updateBuzzerSensor(System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas, System.String buzzerParameterValue)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "72",
+      "ParentId": "17",
+      "Name": "void updateGUIClientsBuzzerAndSmokeDetectorToFalse()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:22.5620526Z",
+      "AbsoluteTopLeft": "286.1571,-481.2473",
+      "RelativeTopLeft": "0,440",
+      "HeaderContentSize": "326.43,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateGUIClientsBuzzerAndSmokeDetectorToFalse",
+        "FullName": "private void updateGUIClientsBuzzerAndSmokeDetectorToFalse()",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.updateGUIClientsBuzzerAndSmokeDetectorToFalse()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "73",
+      "ParentId": "17",
+      "Name": "void updateSenderReportingNosmokeSmokeDetectorToFalse(string receiverClientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:22.8021037Z",
+      "AbsoluteTopLeft": "286.1571,-459.2473",
+      "RelativeTopLeft": "0,462",
+      "HeaderContentSize": "327.9867,22",
+      "HeaderMinSize": "328.8967,22",
+      "NodeTotalSize": "328.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateSenderReportingNosmokeSmokeDetectorToFalse",
+        "FullName": "private void updateSenderReportingNosmokeSmokeDetectorToFalse(string receiverClientId)",
+        "Symbols": [
+          "Broker.Controller.MQTTCommunicationController.updateSenderReportingNosmokeSmokeDetectorToFalse(System.String receiverClientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "74",
+      "ParentId": "10",
+      "Name": "IClientRepository _repository",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:38.4049345Z",
+      "AbsoluteTopLeft": "-93.7396,-900.8169",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "180.71,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_repository",
+        "FullName": "private IClientRepository _repository",
+        "Symbols": [
+          "Broker.Service.ClientAccountService._repository"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "75",
+      "ParentId": "10",
+      "Name": "bool authenticate(string username, string password)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:39.2596581Z",
+      "AbsoluteTopLeft": "-93.7396,-878.8169",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "304.12,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "authenticate",
+        "FullName": "public bool authenticate(string username, string password)",
+        "Symbols": [
+          "Broker.Service.ClientAccountService.authenticate(System.String username, System.String password)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "76",
+      "ParentId": "10",
+      "Name": "List<SensorData> getClientSensorData(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:39.9314537Z",
+      "AbsoluteTopLeft": "-93.7396,-856.8169",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "314.4433,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "getClientSensorData",
+        "FullName": "public List<SensorData> getClientSensorData(string clientId)",
+        "Symbols": [
+          "Broker.Service.ClientAccountService.getClientSensorData(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "77",
+      "ParentId": "10",
+      "Name": "void remove(string username)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:40.4461777Z",
+      "AbsoluteTopLeft": "-93.7396,-812.8169",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "187.3433,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "remove",
+        "FullName": "public void remove(string username)",
+        "Symbols": [
+          "Broker.Service.ClientAccountService.remove(System.String username)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "78",
+      "ParentId": "10",
+      "Name": "void register(string username, string password, string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:40.9193819Z",
+      "AbsoluteTopLeft": "-93.7396,-834.8169",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "327.0833,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "register",
+        "FullName": "public void register(string username, string password, string clientId)",
+        "Symbols": [
+          "Broker.Service.ClientAccountService.register(System.String username, System.String password, System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "79",
+      "ParentId": "10",
+      "Name": "void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:50:41.7906847Z",
+      "AbsoluteTopLeft": "-93.7396,-790.8169",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "327.8967,22",
+      "HeaderMinSize": "327.8967,22",
+      "NodeTotalSize": "327.8967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "setClientSensorData",
+        "FullName": "public void setClientSensorData(string clientId, List<SensorData> sensorDatas)",
+        "Symbols": [
+          "Broker.Service.ClientAccountService.setClientSensorData(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatas)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "80",
+      "ParentId": "4",
+      "Name": "string clientId",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:58.0761891Z",
+      "AbsoluteTopLeft": "350.3739,-77.2473",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "101.1333,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "clientId",
+        "FullName": "public string clientId",
+        "Symbols": [
+          "Broker.Entity.Client.clientId"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "81",
+      "ParentId": "4",
+      "Name": "string password",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:58.7149208Z",
+      "AbsoluteTopLeft": "350.3739,-55.2473",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "112.6733,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "password",
+        "FullName": "public string password",
+        "Symbols": [
+          "Broker.Entity.Client.password"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "82",
+      "ParentId": "4",
+      "Name": "string username",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:59.1852832Z",
+      "AbsoluteTopLeft": "350.3739,-33.2473",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "114.2267,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "username",
+        "FullName": "public string username",
+        "Symbols": [
+          "Broker.Entity.Client.username"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "83",
+      "ParentId": "4",
+      "Name": "List<SensorData> _sensorDatas",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:50:59.8183559Z",
+      "AbsoluteTopLeft": "350.3739,-11.2473",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "196.0767,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_sensorDatas",
+        "FullName": "public List<SensorData> _sensorDatas",
+        "Symbols": [
+          "Broker.Entity.Client._sensorDatas"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "84",
+      "ParentId": "13",
+      "Name": "string _parameterName",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:51:08.6867515Z",
+      "AbsoluteTopLeft": "353.3226,113.7527",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "153.63,22",
+      "HeaderMinSize": "153.63,22",
+      "NodeTotalSize": "153.63,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_parameterName",
+        "FullName": "private string _parameterName",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData._parameterName"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "85",
+      "ParentId": "13",
+      "Name": "string ParameterName",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:51:09.9758376Z",
+      "AbsoluteTopLeft": "353.3226,157.7527",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "147.9067,22",
+      "HeaderMinSize": "153.63,22",
+      "NodeTotalSize": "153.63,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "ParameterName",
+        "FullName": "public string ParameterName { get; set; }",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData.ParameterName"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "86",
+      "ParentId": "13",
+      "Name": "string ParameterValue",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:51:10.7313506Z",
+      "AbsoluteTopLeft": "353.3226,179.7527",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "144.8633,22",
+      "HeaderMinSize": "153.63,22",
+      "NodeTotalSize": "153.63,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "ParameterValue",
+        "FullName": "public string ParameterValue { get; set; }",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData.ParameterValue"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "87",
+      "ParentId": "13",
+      "Name": "bool Equals(object obj)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:11.4882947Z",
+      "AbsoluteTopLeft": "353.3226,201.7527",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "150.7333,22",
+      "HeaderMinSize": "153.63,22",
+      "NodeTotalSize": "153.63,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "Equals",
+        "FullName": "public override bool Equals(object obj)",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData.Equals(System.Object obj)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "89",
+      "ParentId": "13",
+      "Name": "string _parameterValue",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:51:13.5886567Z",
+      "AbsoluteTopLeft": "353.3226,135.7527",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "150.5867,22",
+      "HeaderMinSize": "153.63,22",
+      "NodeTotalSize": "153.63,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_parameterValue",
+        "FullName": "private string _parameterValue",
+        "Symbols": [
+          "BrokerGUI.Message.SensorData._parameterValue"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "90",
+      "ParentId": "15",
+      "Name": "void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:39.8785928Z",
+      "AbsoluteTopLeft": "-102.2168,193.1831",
+      "RelativeTopLeft": "0,176",
+      "HeaderContentSize": "326.18,22",
+      "HeaderMinSize": "327.6367,22",
+      "NodeTotalSize": "327.6367,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "setSensorDataOfClient",
+        "FullName": "public void setSensorDataOfClient(string clientId, List<SensorData> sensorDatasNew)",
+        "Symbols": [
+          "Broker.Database.ClientDB.setSensorDataOfClient(System.String clientId, System.Collections.Generic.List<BrokerGUI.Message.SensorData> sensorDatasNew)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "91",
+      "ParentId": "12",
+      "Name": "List<Client> _currentlyConnectedValidatedClients",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:51:51.6985439Z",
+      "AbsoluteTopLeft": "281.6608,-334.2473",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "290.1233,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_currentlyConnectedValidatedClients",
+        "FullName": "private List<Client> _currentlyConnectedValidatedClients",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService._currentlyConnectedValidatedClients"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "92",
+      "ParentId": "12",
+      "Name": "void add(Client client)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:54.3757912Z",
+      "AbsoluteTopLeft": "281.6608,-312.2473",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "144.67,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "add",
+        "FullName": "public void add(Client client)",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.add(Broker.Entity.Client client)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "93",
+      "ParentId": "12",
+      "Name": "bool doAnyClientsHaveSmoke()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:55.4233307Z",
+      "AbsoluteTopLeft": "281.6608,-290.2473",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "196.08,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "doAnyClientsHaveSmoke",
+        "FullName": "public bool doAnyClientsHaveSmoke()",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.doAnyClientsHaveSmoke()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "94",
+      "ParentId": "12",
+      "Name": "void remove(Client client)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:56.5158257Z",
+      "AbsoluteTopLeft": "281.6608,-268.2473",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "164.27,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "remove",
+        "FullName": "public void remove(Client client)",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.remove(Broker.Entity.Client client)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "95",
+      "ParentId": "12",
+      "Name": "void removeClientById(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:57.7329623Z",
+      "AbsoluteTopLeft": "281.6608,-246.2473",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "227.5733,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "removeClientById",
+        "FullName": "public void removeClientById(string clientId)",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.removeClientById(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "96",
+      "ParentId": "12",
+      "Name": "void rewriteClientSensorListModifyingParameter(string clientId, string ParamName, string ParamValue)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:58.7181510Z",
+      "AbsoluteTopLeft": "281.6608,-224.2473",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "325.8567,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "rewriteClientSensorListModifyingParameter",
+        "FullName": "public void rewriteClientSensorListModifyingParameter(string clientId, string ParamName, string ParamValue)",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.rewriteClientSensorListModifyingParameter(System.String clientId, System.String ParamName, System.String ParamValue)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "97",
+      "ParentId": "12",
+      "Name": "void updateClients(Action<Client> update)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:51:59.8051045Z",
+      "AbsoluteTopLeft": "281.6608,-202.2473",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "256.6267,22",
+      "HeaderMinSize": "325.8567,22",
+      "NodeTotalSize": "325.8567,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateClients",
+        "FullName": "public void updateClients(Action<Client> update)",
+        "Symbols": [
+          "BrokerGUI.Service.ActiveClientsService.updateClients(System.Action<Broker.Entity.Client> update)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "99",
+      "ParentId": "18",
+      "Name": "Task<Task> Broker(CancellationToken cancellationToken)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:52:08.5219517Z",
+      "AbsoluteTopLeft": "659.5174,-247.2308",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "328.1233,22",
+      "HeaderMinSize": "328.1233,22",
+      "NodeTotalSize": "328.1233,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "Broker",
+        "FullName": "public static Task<Task> Broker(CancellationToken cancellationToken)",
+        "Symbols": [
+          "BrokerGUI.Program.Broker(System.Threading.CancellationToken cancellationToken)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "100",
+      "ParentId": "18",
+      "Name": "void Main()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:52:11.8028982Z",
+      "AbsoluteTopLeft": "659.5174,-225.2308",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "88.8567,22",
+      "HeaderMinSize": "328.1233,22",
+      "NodeTotalSize": "328.1233,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "Main",
+        "FullName": "public static void Main()",
+        "Symbols": [
+          "BrokerGUI.Program.Main()"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "105",
+      "ParentId": "11",
+      "Name": "int _port",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:52:21.8438255Z",
+      "AbsoluteTopLeft": "668.6136,-798.1963",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "73.3533,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_port",
+        "FullName": "private int _port",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._port"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "106",
+      "ParentId": "11",
+      "Name": "string[] _topicsBrokerEnqueuesTo",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:52:24.8160659Z",
+      "AbsoluteTopLeft": "668.6136,-776.1963",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "204.0933,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_topicsBrokerEnqueuesTo",
+        "FullName": "private string[] _topicsBrokerEnqueuesTo",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._topicsBrokerEnqueuesTo"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "107",
+      "ParentId": "11",
+      "Name": "string[] _topicsBrokerSubscribesTo",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:52:25.8393520Z",
+      "AbsoluteTopLeft": "668.6136,-754.1963",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "209.2967,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_topicsBrokerSubscribesTo",
+        "FullName": "private string[] _topicsBrokerSubscribesTo",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._topicsBrokerSubscribesTo"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "108",
+      "ParentId": "11",
+      "Name": "string _username",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:52:26.8439454Z",
+      "AbsoluteTopLeft": "668.6136,-732.1963",
+      "RelativeTopLeft": "0,154",
+      "HeaderContentSize": "119.2067,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_username",
+        "FullName": "private string _username",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._username"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "117",
+      "ParentId": "11",
+      "Name": "X509Certificate2 _certificate",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:09.2662822Z",
+      "AbsoluteTopLeft": "668.6136,-886.1963",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "175.3567,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_certificate",
+        "FullName": "private X509Certificate2 _certificate",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._certificate"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "118",
+      "ParentId": "11",
+      "Name": "string _id",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:10.4067098Z",
+      "AbsoluteTopLeft": "668.6136,-864.1963",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "77.3367,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_id",
+        "FullName": "private string _id",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._id"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "119",
+      "ParentId": "11",
+      "Name": "string _ipAddress",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:11.3880025Z",
+      "AbsoluteTopLeft": "668.6136,-842.1963",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "119.8333,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_ipAddress",
+        "FullName": "private string _ipAddress",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._ipAddress"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "120",
+      "ParentId": "11",
+      "Name": "string _password",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:12.6705715Z",
+      "AbsoluteTopLeft": "668.6136,-820.1963",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "117.6533,22",
+      "HeaderMinSize": "209.2967,22",
+      "NodeTotalSize": "209.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_password",
+        "FullName": "private string _password",
+        "Symbols": [
+          "Broker.Configuration.MqttBrokerConfiguration._password"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "121",
+      "ParentId": "3",
+      "Name": "Border AlarmButton",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:25.7168385Z",
+      "AbsoluteTopLeft": "1057.4973,-345.8749",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "134.7733,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "AlarmButton",
+        "FullName": "internal Border AlarmButton",
+        "Symbols": [
+          "UI.MainWindow.AlarmButton"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "123",
+      "ParentId": "3",
+      "Name": "TextBlock AlarmTextBlock",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:30.6879309Z",
+      "AbsoluteTopLeft": "1057.4973,-323.8749",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "162.13,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "AlarmTextBlock",
+        "FullName": "internal TextBlock AlarmTextBlock",
+        "Symbols": [
+          "UI.MainWindow.AlarmTextBlock"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "124",
+      "ParentId": "3",
+      "Name": "ItemsControl clientItemsControl",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:31.5979033Z",
+      "AbsoluteTopLeft": "1057.4973,-301.8749",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "197.5633,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "clientItemsControl",
+        "FullName": "internal ItemsControl clientItemsControl",
+        "Symbols": [
+          "UI.MainWindow.clientItemsControl"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "126",
+      "ParentId": "3",
+      "Name": "Button StartBrokerButton",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:33.5327213Z",
+      "AbsoluteTopLeft": "1057.4973,-279.8749",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "162.43,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "StartBrokerButton",
+        "FullName": "internal Button StartBrokerButton",
+        "Symbols": [
+          "UI.MainWindow.StartBrokerButton"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Internal",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "127",
+      "ParentId": "3",
+      "Name": "CancellationTokenSource _cancellationTokenSource",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:34.0945054Z",
+      "AbsoluteTopLeft": "1057.4973,-257.8749",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "299.8267,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_cancellationTokenSource",
+        "FullName": "private CancellationTokenSource _cancellationTokenSource",
+        "Symbols": [
+          "UI.MainWindow._cancellationTokenSource"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "128",
+      "ParentId": "3",
+      "Name": "bool _contentLoaded",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:53:34.8446078Z",
+      "AbsoluteTopLeft": "1057.4973,-235.8749",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "141.0467,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_contentLoaded",
+        "FullName": "private bool _contentLoaded",
+        "Symbols": [
+          "UI.MainWindow._contentLoaded"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "129",
+      "ParentId": "3",
+      "Name": "void CheckAlarms()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:53:35.7947517Z",
+      "AbsoluteTopLeft": "1057.4973,-213.8749",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "130.6367,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "CheckAlarms",
+        "FullName": "private void CheckAlarms()",
+        "Symbols": [
+          "UI.MainWindow.CheckAlarms()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "130",
+      "ParentId": "3",
+      "Name": "void InitializeComponent()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:53:36.2437265Z",
+      "AbsoluteTopLeft": "1057.4973,-191.8749",
+      "RelativeTopLeft": "0,154",
+      "HeaderContentSize": "168.5667,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "InitializeComponent",
+        "FullName": "public void InitializeComponent()",
+        "Symbols": [
+          "UI.MainWindow.InitializeComponent()"
+        ],
+        "Description": "InitializeComponent",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "131",
+      "ParentId": "3",
+      "Name": "void refreshItems()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:53:37.0293907Z",
+      "AbsoluteTopLeft": "1057.4973,-169.8749",
+      "RelativeTopLeft": "0,176",
+      "HeaderContentSize": "127.7833,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "refreshItems",
+        "FullName": "private void refreshItems()",
+        "Symbols": [
+          "UI.MainWindow.refreshItems()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "132",
+      "ParentId": "3",
+      "Name": "void RemoveClient(string clientName)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:53:40.7545351Z",
+      "AbsoluteTopLeft": "1057.4973,-147.8749",
+      "RelativeTopLeft": "0,198",
+      "HeaderContentSize": "228.7167,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "RemoveClient",
+        "FullName": "private void RemoveClient(string clientName)",
+        "Symbols": [
+          "UI.MainWindow.RemoveClient(System.String clientName)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "133",
+      "ParentId": "3",
+      "Name": "void StartBrokerButton_Click(object sender, RoutedEventArgs e)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:53:41.8371841Z",
+      "AbsoluteTopLeft": "1057.4973,-125.8749",
+      "RelativeTopLeft": "0,220",
+      "HeaderContentSize": "325.5767,22",
+      "HeaderMinSize": "325.5767,22",
+      "NodeTotalSize": "325.5767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "StartBrokerButton_Click",
+        "FullName": "private void StartBrokerButton_Click(object sender, RoutedEventArgs e)",
+        "Symbols": [
+          "UI.MainWindow.StartBrokerButton_Click(System.Object sender, System.Windows.RoutedEventArgs e)"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "134",
+      "ParentId": "16",
+      "Name": "List<ClientGUI> clients",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:54:06.6874821Z",
+      "AbsoluteTopLeft": "675.9658,-607.1963",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "150.0533,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "clients",
+        "FullName": "private static List<ClientGUI> clients",
+        "Symbols": [
+          "UI.GUIClientManager.clients"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "135",
+      "ParentId": "16",
+      "Name": "void AddClient(ClientGUI client)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:08.4323587Z",
+      "AbsoluteTopLeft": "675.9658,-585.1963",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "196.35,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "AddClient",
+        "FullName": "public static void AddClient(ClientGUI client)",
+        "Symbols": [
+          "UI.GUIClientManager.AddClient(UI.ClientGUI client)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "136",
+      "ParentId": "16",
+      "Name": "List<ClientGUI> GetClients()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:09.9521678Z",
+      "AbsoluteTopLeft": "675.9658,-563.1963",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "177.7567,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "GetClients",
+        "FullName": "public static List<ClientGUI> GetClients()",
+        "Symbols": [
+          "UI.GUIClientManager.GetClients()"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "137",
+      "ParentId": "16",
+      "Name": "void RemoveClient(string clientName)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:11.6039115Z",
+      "AbsoluteTopLeft": "675.9658,-541.1963",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "228.7167,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "RemoveClient",
+        "FullName": "public static void RemoveClient(string clientName)",
+        "Symbols": [
+          "UI.GUIClientManager.RemoveClient(System.String clientName)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "138",
+      "ParentId": "16",
+      "Name": "void RemoveClientByID(string clientId)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:12.8280431Z",
+      "AbsoluteTopLeft": "675.9658,-519.1963",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "231.5733,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "RemoveClientByID",
+        "FullName": "public static void RemoveClientByID(string clientId)",
+        "Symbols": [
+          "UI.GUIClientManager.RemoveClientByID(System.String clientId)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "139",
+      "ParentId": "16",
+      "Name": "void updateClients(List<ClientGUI> clients)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:18.5108093Z",
+      "AbsoluteTopLeft": "675.9658,-497.1963",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "256.16,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateClients",
+        "FullName": "public static void updateClients(List<ClientGUI> clients)",
+        "Symbols": [
+          "UI.GUIClientManager.updateClients(System.Collections.Generic.List<UI.ClientGUI> clients)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "140",
+      "ParentId": "16",
+      "Name": "void updateClients(Action<ClientGUI> update)",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:54:19.9122825Z",
+      "AbsoluteTopLeft": "675.9658,-475.1963",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "276.2967,22",
+      "HeaderMinSize": "276.2967,22",
+      "NodeTotalSize": "276.2967,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "updateClients",
+        "FullName": "public static void updateClients(Action<ClientGUI> update)",
+        "Symbols": [
+          "UI.GUIClientManager.updateClients(System.Action<UI.ClientGUI> update)"
+        ],
+        "IsDescriptionVisible": true,
+        "IsStatic": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "141",
+      "ParentId": "5",
+      "Name": "bool _contentLoaded",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:55:19.3126408Z",
+      "AbsoluteTopLeft": "829.8628,-17.2536",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "141.0467,22",
+      "HeaderMinSize": "168.5667,22",
+      "NodeTotalSize": "168.5667,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_contentLoaded",
+        "FullName": "private bool _contentLoaded",
+        "Symbols": [
+          "UI.App._contentLoaded"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "142",
+      "ParentId": "5",
+      "Name": "void InitializeComponent()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:55:19.9910217Z",
+      "AbsoluteTopLeft": "829.8628,4.7464",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "168.5667,22",
+      "HeaderMinSize": "168.5667,22",
+      "NodeTotalSize": "168.5667,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "InitializeComponent",
+        "FullName": "public void InitializeComponent()",
+        "Symbols": [
+          "UI.App.InitializeComponent()"
+        ],
+        "Description": "InitializeComponent",
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "143",
+      "ParentId": "8",
+      "Name": "string _from",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:55:31.3207327Z",
+      "AbsoluteTopLeft": "570.5069,75.3337",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "92.66,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_from",
+        "FullName": "private string _from",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT._from"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "144",
+      "ParentId": "8",
+      "Name": "List<SensorData> _sensorDatas",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:55:32.1345663Z",
+      "AbsoluteTopLeft": "570.5069,97.3337",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "196.0767,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_sensorDatas",
+        "FullName": "private List<SensorData> _sensorDatas",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT._sensorDatas"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "145",
+      "ParentId": "8",
+      "Name": "DateTime _timestamp",
+      "Stereotype": "Field",
+      "CreatedAtUtc": "2023-10-04T12:55:33.7606157Z",
+      "AbsoluteTopLeft": "570.5069,119.3337",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "144.18,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "_timestamp",
+        "FullName": "private DateTime _timestamp",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT._timestamp"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Private",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "146",
+      "ParentId": "8",
+      "Name": "string From",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:55:34.7155830Z",
+      "AbsoluteTopLeft": "570.5069,141.3337",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "89.7833,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "From",
+        "FullName": "public string From { get; }",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT.From"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "147",
+      "ParentId": "8",
+      "Name": "List<SensorData> SensorDatas",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:55:35.9085334Z",
+      "AbsoluteTopLeft": "570.5069,163.3337",
+      "RelativeTopLeft": "0,88",
+      "HeaderContentSize": "192.3767,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "SensorDatas",
+        "FullName": "public List<SensorData> SensorDatas { get; }",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT.SensorDatas"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "148",
+      "ParentId": "8",
+      "Name": "DateTime Timestamp",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:55:37.0193715Z",
+      "AbsoluteTopLeft": "570.5069,185.3337",
+      "RelativeTopLeft": "0,110",
+      "HeaderContentSize": "141.42,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "Timestamp",
+        "FullName": "public DateTime Timestamp { get; }",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT.Timestamp"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "149",
+      "ParentId": "8",
+      "Name": "string ToString()",
+      "Stereotype": "Method",
+      "CreatedAtUtc": "2023-10-04T12:55:38.1383563Z",
+      "AbsoluteTopLeft": "570.5069,207.3337",
+      "RelativeTopLeft": "0,132",
+      "HeaderContentSize": "112.76,22",
+      "HeaderMinSize": "196.0767,22",
+      "NodeTotalSize": "196.0767,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "ToString",
+        "FullName": "public override string ToString()",
+        "Symbols": [
+          "BrokerGUI.Message.MessageMQTT.ToString()"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "167",
+      "ParentId": "1",
+      "Name": "string buzzerState",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:58:29.0974757Z",
+      "AbsoluteTopLeft": "1012.5316,-594.1093",
+      "RelativeTopLeft": "0,0",
+      "HeaderContentSize": "124.0333,22",
+      "HeaderMinSize": "169.4333,22",
+      "NodeTotalSize": "169.4333,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "buzzerState",
+        "FullName": "public string buzzerState { get; set; }",
+        "Symbols": [
+          "UI.ClientGUI.buzzerState"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "168",
+      "ParentId": "1",
+      "Name": "string clientId",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:58:30.1032917Z",
+      "AbsoluteTopLeft": "1012.5316,-572.1093",
+      "RelativeTopLeft": "0,22",
+      "HeaderContentSize": "101.1333,22",
+      "HeaderMinSize": "169.4333,22",
+      "NodeTotalSize": "169.4333,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "clientId",
+        "FullName": "public string clientId { get; set; }",
+        "Symbols": [
+          "UI.ClientGUI.clientId"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "169",
+      "ParentId": "1",
+      "Name": "string smokeDetectorState",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:58:31.0316266Z",
+      "AbsoluteTopLeft": "1012.5316,-550.1093",
+      "RelativeTopLeft": "0,44",
+      "HeaderContentSize": "169.4333,22",
+      "HeaderMinSize": "169.4333,22",
+      "NodeTotalSize": "169.4333,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "smokeDetectorState",
+        "FullName": "public string smokeDetectorState { get; set; }",
+        "Symbols": [
+          "UI.ClientGUI.smokeDetectorState"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    },
+    {
+      "Id": "170",
+      "ParentId": "1",
+      "Name": "string username",
+      "Stereotype": "Property",
+      "CreatedAtUtc": "2023-10-04T12:58:31.9307432Z",
+      "AbsoluteTopLeft": "1012.5316,-528.1093",
+      "RelativeTopLeft": "0,66",
+      "HeaderContentSize": "114.2267,22",
+      "HeaderMinSize": "169.4333,22",
+      "NodeTotalSize": "169.4333,22",
+      "Payload": {
+        "Discriminator": "RoslynMember",
+        "SymbolName": "username",
+        "FullName": "public string username { get; set; }",
+        "Symbols": [
+          "UI.ClientGUI.username"
+        ],
+        "IsDescriptionVisible": true,
+        "Accessibility": "Public",
+        "Origin": "SourceCode"
+      }
+    }
+  ],
+  "Connectors": [
+    {
+      "Id": "1",
+      "SourceNodeId": "4",
+      "TargetNodeId": "13",
+      "Stereotype": "Association",
+      "Route": [
+        "442.0342,11.7527",
+        "437.5108,61.7527"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Entity.Client|Association|BrokerGUI.Message.SensorData",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "_sensorDatas",
+              "Tooltip": "public List<SensorData> _sensorDatas"
+            },
+            "Symbol": "Broker.Entity.Client._sensorDatas"
+          }
+        ],
+        "TargetLabelCenter": "439.7633,36.8544"
+      }
+    },
+    {
+      "Id": "2",
+      "SourceNodeId": "8",
+      "TargetNodeId": "13",
+      "Stereotype": "Association",
+      "Route": [
+        "569.5069,133.6544",
+        "507.9526,137.8936"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "BrokerGUI.Message.MessageMQTT|Association|BrokerGUI.Message.SensorData",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "_sensorDatas",
+              "Tooltip": "private List<SensorData> _sensorDatas"
+            },
+            "Symbol": "BrokerGUI.Message.MessageMQTT._sensorDatas"
+          },
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "SensorDatas",
+              "Tooltip": "public List<SensorData> SensorDatas { get; }"
+            },
+            "Symbol": "BrokerGUI.Message.MessageMQTT.SensorDatas"
+          }
+        ],
+        "TargetLabelCenter": "532.8935,136.176"
+      }
+    },
+    {
+      "Id": "3",
+      "SourceNodeId": "10",
+      "TargetNodeId": "7",
+      "Stereotype": "Association",
+      "Route": [
+        "70.0986,-767.8169",
+        "70.0391,-717.8169"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Service.ClientAccountService|Association|Broker.Repository.IClientRepository",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "_repository",
+              "Tooltip": "private IClientRepository _repository"
+            },
+            "Symbol": "Broker.Service.ClientAccountService._repository"
+          }
+        ],
+        "TargetLabelCenter": "70.0689,-742.8169"
+      }
+    },
+    {
+      "Id": "4",
+      "SourceNodeId": "14",
+      "TargetNodeId": "7",
+      "Stereotype": "Implementation",
+      "Route": [
+        "67.3025,-504.8169",
+        "68.3061,-554.8169"
+      ],
+      "Payload": {
+        "Discriminator": "Other",
+        "Relationship": "BrokerGUI.Repository.ClientRepository|Implementation|Broker.Repository.IClientRepository"
+      }
+    },
+    {
+      "Id": "5",
+      "SourceNodeId": "12",
+      "TargetNodeId": "4",
+      "Stereotype": "Association",
+      "Route": [
+        "446.3556,-179.2473",
+        "447.209,-129.2473"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "BrokerGUI.Service.ActiveClientsService|Association|Broker.Entity.Client",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "_currentlyConnectedValidatedClients",
+              "Tooltip": "private List<Client> _currentlyConnectedValidatedClients"
+            },
+            "Symbol": "BrokerGUI.Service.ActiveClientsService._currentlyConnectedValidatedClients"
+          }
+        ],
+        "TargetLabelCenter": "446.7824,-154.2436"
+      }
+    },
+    {
+      "Id": "6",
+      "SourceNodeId": "15",
+      "TargetNodeId": "9",
+      "Stereotype": "Implementation",
+      "Route": [
+        "63.5875,-34.8169",
+        "64.3787,-84.8169"
+      ],
+      "Payload": {
+        "Discriminator": "Other",
+        "Relationship": "Broker.Database.ClientDB|Implementation|Broker.Database.IClientDB"
+      }
+    },
+    {
+      "Id": "7",
+      "SourceNodeId": "14",
+      "TargetNodeId": "9",
+      "Stereotype": "Association",
+      "Route": [
+        "65.6019,-319.8169",
+        "65.6863,-269.8169"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "BrokerGUI.Repository.ClientRepository|Association|Broker.Database.IClientDB",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "_db",
+              "Tooltip": "private IClientDB _db"
+            },
+            "Symbol": "BrokerGUI.Repository.ClientRepository._db"
+          }
+        ],
+        "TargetLabelCenter": "65.6441,-294.8168"
+      }
+    },
+    {
+      "Id": "8",
+      "SourceNodeId": "15",
+      "TargetNodeId": "4",
+      "Stereotype": "Association",
+      "Route": [
+        "226.4199,27.0115",
+        "349.3739,-20.4874"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Database.ClientDB|Association|Broker.Entity.Client",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "_clients",
+              "Tooltip": "private List<Client> _clients"
+            },
+            "Symbol": "Broker.Database.ClientDB._clients"
+          }
+        ],
+        "TargetLabelCenter": "326.0536,-11.4784"
+      }
+    },
+    {
+      "Id": "9",
+      "SourceNodeId": "16",
+      "TargetNodeId": "1",
+      "Stereotype": "Association",
+      "Route": [
+        "953.2625,-565.4827",
+        "1011.5316,-569.5808"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "UI.GUIClientManager|Association|UI.ClientGUI",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text1": "*",
+              "Text2": "clients",
+              "Tooltip": "private static List<ClientGUI> clients"
+            },
+            "Symbol": "UI.GUIClientManager.clients"
+          }
+        ],
+        "TargetLabelCenter": "986.5932,-567.8269"
+      }
+    },
+    {
+      "Id": "10",
+      "SourceNodeId": "17",
+      "TargetNodeId": "11",
+      "Stereotype": "Association",
+      "Route": [
+        "616.0537,-765.7406",
+        "667.6136,-784.7485"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Controller.MQTTCommunicationController|Association|Broker.Configuration.MqttBrokerConfiguration",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "_mqttBrokerConfiguration",
+              "Tooltip": "private MqttBrokerConfiguration _mqttBrokerConfiguration",
+              "CanBeHidden": true
+            },
+            "Symbol": "Broker.Controller.MQTTCommunicationController._mqttBrokerConfiguration"
+          }
+        ],
+        "TargetLabelCenter": "644.1568,-776.101"
+      }
+    },
+    {
+      "Id": "11",
+      "SourceNodeId": "17",
+      "TargetNodeId": "10",
+      "Stereotype": "Association",
+      "Route": [
+        "285.1571,-772.4101",
+        "235.1571,-792.8585"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Controller.MQTTCommunicationController|Association|Broker.Service.ClientAccountService",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "_clientAccountService",
+              "Tooltip": "private ClientAccountService _clientAccountService",
+              "CanBeHidden": true
+            },
+            "Symbol": "Broker.Controller.MQTTCommunicationController._clientAccountService"
+          }
+        ],
+        "TargetLabelCenter": "258.2968,-783.3951"
+      }
+    },
+    {
+      "Id": "12",
+      "SourceNodeId": "17",
+      "TargetNodeId": "12",
+      "Stereotype": "Association",
+      "Route": [
+        "446.7775,-436.2473",
+        "446.0647,-386.2473"
+      ],
+      "Payload": {
+        "Discriminator": "Association",
+        "Relationship": "Broker.Controller.MQTTCommunicationController|Association|BrokerGUI.Service.ActiveClientsService",
+        "TargetLabels": [
+          {
+            "Label": {
+              "Text2": "_activeClientsService",
+              "Tooltip": "private ActiveClientsService _activeClientsService",
+              "CanBeHidden": true
+            },
+            "Symbol": "Broker.Controller.MQTTCommunicationController._activeClientsService"
+          }
+        ],
+        "TargetLabelCenter": "446.421,-411.2447"
+      }
+    }
+  ]
+}

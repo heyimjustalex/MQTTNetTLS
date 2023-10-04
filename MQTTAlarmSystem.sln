@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKIGenerator", "PKIGenerator\PKIGenerator.csproj", "{B992BE33-12D1-40EA-AC02-115EEB4EECAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerGUI", "BrokerGUI\BrokerGUI.csproj", "{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6701772D-0BCA-4ABE-BE4D-B167DB5158D8}
+	EndGlobalSection
+EndGlobal
