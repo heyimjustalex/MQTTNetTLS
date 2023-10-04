@@ -9,21 +9,20 @@ The MQTT Safe Alarm System System is a study project designed to demonstrate the
 This solution consists of three main projects:
 ### Client (Raspberry Pi Client)
 
-    The Client project represents the Raspberry Pi client. It is responsible for collecting sensor data, detecting smoke, and communicating with the broker using MQTT over TLS for secure data transfer. Clients can be deployed both on Windows and Linux.
+The Client project represents the Raspberry Pi client. It is responsible for collecting sensor data, detecting smoke, and communicating with the broker using MQTT over TLS for secure data transfer. Clients can be deployed both on Windows and Linux.
 
 ### BrokerGUI (Broker Graphical User Interface)
 
-    The BrokerGUI project serves as the central communication hub that manages multiple clients and their respective sensors. It provides a graphical interface developed with WPF for interacting with the broker. It allows to monitor clients' sensors state and displays alarm state. Use of WPF makes it work only on Windows.
+The BrokerGUI project serves as the central communication hub that manages multiple clients and their respective sensors. It provides a graphical interface developed with WPF for interacting with the broker. It allows to monitor clients' sensors state and displays alarm state. Use of WPF makes it work only on Windows.
 
 ### PKIGenerator (Public Key Infrastructure Generator)
 
-    The PKIGenerator project is responsible for generating the necessary Public Key Infrastructure (PKI) for both clients and the broker. 
+The PKIGenerator project is responsible for generating the necessary Public Key Infrastructure (PKI) for both clients and the broker. 
 
 ## Dependencies
 
-    MQTTnet (4.3.1.873): MQTTnet is used for MQTT communication between the broker and clients.
-
-    .NET 7: The project utilizes .NET 7
+- MQTTnet (4.3.1.873): MQTTnet is used for MQTT communication between the broker and clients.
+- .NET 7: The project utilizes .NET 7
 
 ## Getting Started
 
@@ -44,6 +43,9 @@ Modify initial parameters of client so it has proper broker ip. Config is initia
 
 
 ## Class Diagrams
+
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
+
 
 ### Broker
 
