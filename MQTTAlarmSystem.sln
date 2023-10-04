@@ -5,11 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Broker", "Broker\Broker.csproj", "{7E69F965-333E-433A-9DBB-A3F0C4A9D56F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKIGenerator", "PKIGenerator\PKIGenerator.csproj", "{B992BE33-12D1-40EA-AC02-115EEB4EECAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokerGUI", "BrokerGUI\BrokerGUI.csproj", "{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerGUI", "BrokerGUI\BrokerGUI.csproj", "{D0009D3E-C6CC-4795-9D60-AF3B8676F7BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E8ADB0-CDF6-4570-812F-780CAEFFBC3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E69F965-333E-433A-9DBB-A3F0C4A9D56F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E69F965-333E-433A-9DBB-A3F0C4A9D56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E69F965-333E-433A-9DBB-A3F0C4A9D56F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E69F965-333E-433A-9DBB-A3F0C4A9D56F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B992BE33-12D1-40EA-AC02-115EEB4EECAF}.Release|Any CPU.ActiveCfg = Release|Any CPU

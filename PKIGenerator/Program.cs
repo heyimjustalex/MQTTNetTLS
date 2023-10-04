@@ -24,13 +24,13 @@ namespace PKIUtility
             string caCertificatePrivateKeyPassword = "password";
 
             string caCertificateToClientFilePath = "../../../../Client/PKI/CA/rootCA.cer";
-            string caCertificateToServerPath = "../../../../Broker/PKI/CA/rootCA.cer";
+            string caCertificateToServerPath = "../../../../BrokerGUI/PKI/CA/rootCA.cer";
 
             string certificateServerPath = "../../../PKI/Brokers/broker1.pfx";
-            string certificateToServerPath = "../../../../Broker/PKI/Broker/broker1.pfx";
+            string certificateToServerPath = "../../../../BrokerGUI/PKI/Broker/broker1.pfx";
             string certificateServerPathPassword = "password";
 
-            string serverKeyToServerPath = "../../../../Broker/PKI/Broker/key1.pem";
+            string serverKeyToServerPath = "../../../../BrokerGUI/PKI/Broker/key1.pem";
 
             Console.WriteLine("GENERATING CA CERTIFICATE AND SERVER CERTIFICATE");
             X509Certificate2 rootCertificate = GenerateCACertificate("RootCA-IOT");
