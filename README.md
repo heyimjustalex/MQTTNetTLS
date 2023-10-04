@@ -4,6 +4,16 @@
 
 The MQTT Smoke Alarm 🚨 System  is a study project designed to demonstrate the use of C# in developing a simple IOT alarm system. This system is capable of detecting smoke using Raspberry Pi sensors and triggering alarms when necessary. It leverages MQTTnet for communication, C# for application logic, PKI (MQTT over TLS 🔐) for secure communication, and utilizes .NET 7 for compatibility. Additionally, a simple WPF-based GUI is provided for managing the broker  🖥️.
 
+## Project architecture
+
+### Basic architecture diagram
+
+![image](https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/836cc8e2-f5c1-443a-ab35-80db14a5ebbc)
+
+###  Secure architecture and PKI (CA + broker’s certificate)
+
+![image](https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/2a7ee571-e2e9-41c2-a5fc-2fa69a4492ed)
+
 ## Project Structure
 
 This solution consists of three main projects:
