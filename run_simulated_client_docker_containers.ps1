@@ -36,12 +36,6 @@ Write-Host "Your Wi-Fi IP Address is: $wiFiIpAddress"
 Write-Host "Value of BROKER_IP_ADDRESS: $env:BROKER_IP_ADDRESS"
 refreshenv
 
-dotnet publish -c Debug -o .\BrokerGUI\bin\Debug\net7.0-windows
-wt --window 0 -p "Windows PowerShell" -d . powershell -noExit "Set-Location -Path .\BrokerGUI\bin\Debug\net7.0-windows ; .\BrokerGUI.exe"
-
-
-
-
 
 # Run Docker Compose with build
 docker-compose up --build
