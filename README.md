@@ -44,10 +44,9 @@ Modify initial parameters of client so it has proper broker ip. Config is initia
 
 ## Class Diagrams
 
-![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
-
-
 ### Broker
+
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
 
 
 ### Client
