@@ -45,14 +45,14 @@ Modify initial parameters of client so it has proper broker ip. Config is initia
 ## Class Diagrams
 
 ### Broker
-<img src="https://your-image-url.type](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e" width="400">
 
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
 
 ### Client
 
 
 ### WPF GUI
 
-![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/9bca8773-8f7f-4936-9bbb-a100a95d8b8c)
+<img src="https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/9bca8773-8f7f-4936-9bbb-a100a95d8b8c" width="400">
 
 
