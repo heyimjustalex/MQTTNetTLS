@@ -49,6 +49,7 @@ Modify initial parameters of client so it has proper broker ip. Config is initia
 ![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/1439bdbc-387e-4762-8b46-8e12ce3a774e)
 
 ### Client
+![image](https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/efbc3c7c-a56a-45b8-94d9-316844efe9e2)
 
 
 ### WPF GUI
