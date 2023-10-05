@@ -8,11 +8,11 @@ The MQTT Smoke Alarm 🚨 System  is a study project designed to demonstrate the
 
 ### Basic architecture diagram
 
-![image](https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/836cc8e2-f5c1-443a-ab35-80db14a5ebbc)
+<img src="https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/836cc8e2-f5c1-443a-ab35-80db14a5ebbc" width="600">
 
 ###  Secure architecture and PKI (CA + broker’s certificate)
 
-![image](https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/2a7ee571-e2e9-41c2-a5fc-2fa69a4492ed)
+<img src="https://github.com/heyimjustalex/MQTTSmokeAlarmSystem/assets/21158649/2a7ee571-e2e9-41c2-a5fc-2fa69a4492ed" width="600">
 
 ## Project Structure
 
@@ -64,6 +64,6 @@ Firstly, generate PKI by launching PKIGenerator project. Then, modify initial pa
 
 ### WPF GUI
 
-<img src="https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/9bca8773-8f7f-4936-9bbb-a100a95d8b8c" width="400">
+<img src="https://github.com/heyimjustalex/MQTTNetTLS/assets/21158649/9bca8773-8f7f-4936-9bbb-a100a95d8b8c" width="600">
 
 
