@@ -38,7 +38,7 @@ The PKIGenerator project is responsible for generating the necessary Public Key 
 
 ### Client simulation with Docker
 
-If you don't have real hardware to install client on, there is a possibility to start simulated clients with mocked sensor data with containers. Just run powershell script 
+If you don't have real hardware to install client on, there is a possibility to start simulated clients with mocked sensor data with containers. Firstly, generate PKI by launching PKIGenerator project. Then, just run powershell script 
 
 "run_simulated_client_docker_containers.ps1"
 
@@ -49,7 +49,7 @@ Make sure that username, password you use is in db.json file in broker.
 
 ### Real client without Docker
 
-Modify initial parameters of client so it has proper broker ip. Config is initialized in Client/Program.cs
+Firstly, generate PKI by launching PKIGenerator project. Then, modify initial parameters of client so it has proper broker ip. Config is initialized in Client/Program.cs
 
 
 ## Class Diagrams
