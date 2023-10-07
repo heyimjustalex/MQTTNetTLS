@@ -178,7 +178,7 @@ namespace Client.MQTTCommunicationController
             if (path == null)
             {
                 //means there it's not launched as container
-                path = "../../../PKI/CA/rootCA.cer";
+                path = "./Client/PKI/CA/rootCA.cer";
             }
         
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
