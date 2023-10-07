@@ -33,8 +33,8 @@ namespace BrokerGUI
             IClientRepository clientRepository = new ClientRepository(clientDB);
             ClientAccountService clientAccountService = new ClientAccountService(clientRepository);
 
-            string serverCertPath = "../../../PKI/Broker/broker1.pfx";
-            string keyCertPath = "../../../PKI/Broker/key1.pem";
+            string serverCertPath = "./BrokerGUI/PKI/Broker/broker1.pfx";
+            string keyCertPath = "./BrokerGUI/PKI/Broker/key1.pem";
 
             var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
@@ -42,7 +42,7 @@ namespace BrokerGUI
             string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
             
             if(brokerIP == null ) {
-                brokerIP = "localhost";
+                brokerIP = "192.168.1.2";
             }
             //   if it has localhost and you want to use another ip just use BROKER_IP_ADRESS env variable (reset VS if it does not work after setting)
             // you can also manually overwrite it brokerIP = "192.168.5.166";

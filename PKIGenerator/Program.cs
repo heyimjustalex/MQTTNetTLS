@@ -19,22 +19,24 @@ namespace PKIUtility
     {
         public static void generatePKI()
         {
-            string caCertificateFilePath = "../../../PKI/CA/rootCA.cer";
-            string caCertificatePrivateKeyPath = "../../../PKI/CA/key.pem";
+            string caCertificateFilePath = "./PKIGenerator/PKI/CA/rootCA.cer";
+            string caCertificatePrivateKeyPath = "./PKIGenerator/PKI/CA/key.pem";
             string caCertificatePrivateKeyPassword = "password";
 
-            string caCertificateToClientFilePath = "../../../../Client/PKI/CA/rootCA.cer";
-            string caCertificateToServerPath = "../../../../BrokerGUI/PKI/CA/rootCA.cer";
+            string caCertificateToClientFilePath = "./Client/PKI/CA/rootCA.cer";
+            string caCertificateToServerPath = "./BrokerGUI/PKI/CA/rootCA.cer";
 
-            string certificateServerPath = "../../../PKI/Brokers/broker1.pfx";
-            string certificateToServerPath = "../../../../BrokerGUI/PKI/Broker/broker1.pfx";
+            string certificateServerPath = "./PKIGenerator/PKI/Brokers/broker1.pfx";
+            string certificateToServerPath = "./BrokerGUI/PKI/Broker/broker1.pfx";
             string certificateServerPathPassword = "password";
 
-            string serverKeyToServerPath = "../../../../BrokerGUI/PKI/Broker/key1.pem";
+            string serverKeyToServerPath = "./BrokerGUI/PKI/Broker/key1.pem";
+
 
             Console.WriteLine("GENERATING CA CERTIFICATE AND SERVER CERTIFICATE");
             X509Certificate2 rootCertificate = GenerateCACertificate("RootCA-IOT");
             X509Certificate2 certificate = GenerateSignedCertificate("BROKER1-IOT",serverKeyToServerPath, rootCertificate, "password");
+
 
             ExportCertificateToFile(rootCertificate, caCertificateFilePath);
             ExportCertificateToFile(rootCertificate, caCertificateToServerPath);

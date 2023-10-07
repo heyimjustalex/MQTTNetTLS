@@ -247,7 +247,7 @@ namespace Client.MQTTCommunicationController
          
             while (true)
             {
-                await Task.Delay(TimeSpan.FromSeconds(25));
+                await Task.Delay(TimeSpan.FromSeconds(2));
 
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();

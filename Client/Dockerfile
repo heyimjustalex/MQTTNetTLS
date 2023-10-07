@@ -1,12 +1,12 @@
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY Client.csproj .
 RUN dotnet restore
 COPY . .
 RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/runtime:7.0.0 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:6.0.0 AS runtime
 RUN apt-get update && apt-get install -y vim
 RUN apt-get install iputils-ping -y
 RUN apt-get install -y tcpdump
