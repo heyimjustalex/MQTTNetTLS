@@ -49,8 +49,17 @@ Make sure that username, password you use is in db.json file in broker.
 
 ### Real client without Docker
 
-Firstly, generate PKI by launching PKIGenerator project. Then, modify initial parameters of client so it has proper broker ip. Config is initialized in Client/Program.cs
+Firstly, generate PKI by launching PKIGenerator project. Then, modify initial parameters of client so it has proper broker ip. Config is initialized in Client/Program.cs.
 
+### Running Client from RaspberryPi 3
+
+Assuming you run latest RaspbianOS, you will have to install dotnet 6. To do so, follow this link [how_to_install_dotnet_on_ARM](https://learn.microsoft.com/en-us/dotnet/iot/deployment) , and follow step 2. After installation check that dotnet is installed with 'dotnet --version'. You can then build the client with 'dotnet build <path_to_client.cs>' and run it with 'dotnet <path_to_built_dll>' commands. The default path to the built .dll file is probably '<repo_dir>/Client/bin/Debug/net6.0.0/Client.dll'. 
+
+Check if the program starts, it should start but not be able to connect. After that set environment variables like this:
+'export USERNAME=client1 && export PASSWORD=password1'
+'export BROKER_IP_ADDRESS=<your_broker_ip_address>'
+
+If the broker is started and both devices are on the same network, client should connect.
 
 ## Class Diagrams
 
