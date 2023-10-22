@@ -33,6 +33,9 @@ The PKIGenerator project is responsible for generating the necessary Public Key 
 
 - MQTTnet (4.3.1.873): MQTTnet is used for MQTT communication between the broker and clients.
 - .NET 7: The project utilizes .NET 7
+- Python 3.9 or higher
+- Python lib: gpiozero
+- pythonnet package https://www.nuget.org/packages/pythonnet/
 
 ## Getting Started
 

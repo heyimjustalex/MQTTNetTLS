@@ -2,7 +2,7 @@
 
 namespace Client.Sensors
 {
-    internal class SmokeDetector : ISensorGetData
+    internal class SmokeDetectorMock : ISensorGetData
     {
        
         public SensorData get()

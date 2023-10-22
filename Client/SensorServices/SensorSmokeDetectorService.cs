@@ -10,7 +10,7 @@ namespace Client.SensorService
 
         public SensorSmokeDetectorService() {
 
-            smokeDetector = new SmokeDetector();            
+            smokeDetector = new SmokeDetectorMcp3008();            
         
         }
         public SensorData get()
