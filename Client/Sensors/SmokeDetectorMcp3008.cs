@@ -6,9 +6,6 @@ namespace Client.Sensors
 {
     internal class SmokeDetectorMcp3008 : ISensorGetData
     {
-
-
-        // dynamic gpiozero;
         dynamic mcp;
         float threshold = 0.1f;
 
@@ -18,7 +15,6 @@ namespace Client.Sensors
                 dynamic gpiozero = Py.Import("gpiozero");
                 mcp = gpiozero.MCP3008();
             }
-            
         }
 
         public SensorData get()
