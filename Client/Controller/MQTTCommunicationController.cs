@@ -178,7 +178,7 @@ namespace Client.MQTTCommunicationController
             if (path == null)
             {
                 //means there it's not launched as container
-                path = "../../../PKI/CA/rootCA.cer";
+                path = "./Client/PKI/CA/rootCA.cer";
             }
         
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
@@ -243,21 +243,21 @@ namespace Client.MQTTCommunicationController
            await subscribeToAllSpecifiedTopics();
            string clientUsername = _mqttClientConfiguration.Username;
 
-           SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
+           
          
             while (true)
             {
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
+                System.Threading.Thread.Sleep(500);
 
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
-
+                
                 List<SensorData> sensorDatas = new List<SensorData>
-            {
-                smokeDetectorStateData
-            };
-
+                {
+                    smokeDetectorStateData
+                };
 
                 if (managedMqttClient.IsConnected)
                 {                               
@@ -291,9 +291,7 @@ namespace Client.MQTTCommunicationController
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!managedClient.IsConnected), State as previous SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }
                 }
-
                
-
             }
         }       
 
