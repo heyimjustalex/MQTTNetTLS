@@ -58,9 +58,16 @@ Firstly, generate PKI by launching PKIGenerator project. Then, modify initial pa
 
 Assuming you run latest RaspbianOS, you will have to install dotnet 6. To do so, follow this link [how_to_install_dotnet_on_ARM](https://learn.microsoft.com/en-us/dotnet/iot/deployment) , and follow step 2. After installation check that dotnet is installed with 'dotnet --version'. You can then build the client with 'dotnet build <path_to_client.cs>' and run it with 'dotnet <path_to_built_dll>' commands. The default path to the built .dll file is probably '<repo_dir>/Client/bin/Debug/net6.0.0/Client.dll'. 
 
+You will also need to install pythonnet NuGet package, as well as Python3.9 and pythonnet package via 'python3 -m pip install pythonnet'
+
 Check if the program starts, it should start but not be able to connect. After that set environment variables like this:
 'export USERNAME=client1 && export PASSWORD=password1'
 'export BROKER_IP_ADDRESS=<your_broker_ip_address>'
+
+To be able to use pythonnet we also need to export the path to python shared library as an environment variable (see: https://github.com/pythonnet/pythonnet )
+'export PYTHONNET_PYDLL=/usr/lib/arm-linux-gnueabihf/libpython3.9.so'
+If the path is incorrect you can use linux 'find' utility to locate it:
+'find / -name libpython3.9.so'
 
 If the broker is started and both devices are on the same network, client should connect.
 
