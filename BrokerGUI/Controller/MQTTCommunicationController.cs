@@ -69,18 +69,23 @@ namespace Broker.Controller
 
         private async Task onClientConnectionValidation(ValidatingConnectionEventArgs e)
         {
-            string clientId = e.ClientId;            
-            string username = e.UserName;      
-            string password = e.Password?.ToString() ?? string.Empty;       
+            string clientId = e.ClientId?.ToString() ?? string.Empty;            
+            string username = e.UserName?.ToString() ?? string.Empty;      
+            string password = e.Password?.ToString() ?? string.Empty;
 
-            if (clientId == null || username == null || password == null)
+            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
+                Console.WriteLine("Some parameters sent by the client are NULL");
+                                    
+                e.ReasonCode = MqttConnectReasonCode.NotAuthorized;
+                e.ReasonString = "Authentication failed";
+                Console.WriteLine($"Client {clientId} failed to authenticate");
+
                 return;
             }
 
-            if (username != null)
-            {
-                if (!_clientAccountService.authenticate(username, password))
+
+            if (!_clientAccountService.authenticate(username, password))
                 {
                     Console.WriteLine($"Authenticating with username: {username} FAILED");
                     e.ReasonCode = MqttConnectReasonCode.ClientIdentifierNotValid;
@@ -88,7 +93,7 @@ namespace Broker.Controller
                //     await disconnectClientAsync(clientId, MqttDisconnectReasonCode.NotAuthorized);
                     return ;
                 }
-            }
+            
             
             Console.WriteLine($"onClientConnectionValidation: ClientId: {clientId}, Username: {username} authenticated");
             // initialize that no smoke is detected

@@ -84,7 +84,7 @@ namespace Client.MQTTCommunicationController
             {
                 if (args.Exception is MqttCommunicationException)
                 {
-                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off)");
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off or there is bad username/password)");
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace Client.MQTTCommunicationController
             {
                 if (args.Exception is MqttCommunicationException)
                 {
-                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off)");
+                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off or there is bad username/password)");
                 }
                 else
                 {
@@ -196,7 +196,6 @@ namespace Client.MQTTCommunicationController
                 args.Chain.ChainStatus.ToList().ForEach(x => { Console.WriteLine(x.Status.ToString()); });
                 if (chain)
                 {
-
                     Console.WriteLine("OnCertificateValidation: Building certificate chain success");
                     return true;
                 }
@@ -204,7 +203,7 @@ namespace Client.MQTTCommunicationController
                 {
                     Console.WriteLine("OnCertificateValidation: Building certificate chain FAILURE");
                     return false;
-                }
+                } 
             }
 
             catch (Exception ex)
@@ -241,8 +240,7 @@ namespace Client.MQTTCommunicationController
         {
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
-           string clientUsername = _mqttClientConfiguration.Username;
-
+           string clientUsername = _mqttClientConfiguration.Username;    
            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
          
             while (true)

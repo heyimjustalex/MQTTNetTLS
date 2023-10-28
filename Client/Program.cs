@@ -36,8 +36,7 @@ namespace Program
             if (brokerIP == null)
             {
                 brokerIP = "localhost";
-            }
-
+            }  
  
             Console.WriteLine($"Data loaded through ENV: brokerIP:{brokerIP}, username:{username}, password:{password}, clientID:{clientID}");
 
