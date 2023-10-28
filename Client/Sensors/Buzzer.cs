@@ -17,17 +17,30 @@ namespace Client.Sensors
             return get().ParameterValue == "TRUE";
         }
         public SensorData get()
-        {
-            // Here you get state from buzzer pins  
-            // _state = doesHardwareSayMyBuzzerIsBuzzing() == true ? "TRUE" : "FALSE"
-            // WHEN YOU'RE DONE IMPLEMENTING YOU CAN JUST REMOVE _state VARIABLE, IT'S USELESS IF get() GETS DATA DIRECLTY FROM HARDWARE
-
+        {           
+            // just leave it like that
             return new SensorData("BUZZER", _state);
         }    
         public void set(SensorData sensorData)
         {   
-                // Here you implement setting the buzzer pins ON, so the buzzer starts buzzing
-                _state = sensorData.ParameterValue;                       
+                // here you save your state in the object
+                // and keep it like that cuz in get you have to get this value from _state
+                _state = sensorData.ParameterValue;
+
+
+            // Here you have to implement setting the buzzer pins ON/OFF, so the buzzer starts buzzing
+            // I would do sth like
+
+            if(sensorData.ParameterValue == "TRUE")
+            {
+                // set buzzer hardware pin ON
+            }
+            else
+            {
+                // set buzzer hardware pin off
+            }
+
+            // this should be enough, cuz set and get functions are invoked within other code. No need to implement anything else in SmokeDetector
         }
     }
 }
