@@ -10,7 +10,6 @@ namespace Program
         {
             SensorBuzzerService buzzerService = new SensorBuzzerService();
             SensorSmokeDetectorService smokeDetectorService = new SensorSmokeDetectorService();                   
-
             string username =  Environment.GetEnvironmentVariable("USERNAME");
             string password=  Environment.GetEnvironmentVariable("PASSWORD");
             string clientID = Environment.GetEnvironmentVariable("CLIENT_ID");

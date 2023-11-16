@@ -9,10 +9,13 @@ using System.Text;
 using Client.SensorService;
 using Client.PKI;
 using Client.SensorBase;
+using Client.Sensors;
+
 
 using Newtonsoft.Json;
 using Client.Message;
 using Client.Configuration;
+using System.Device.Gpio;
 
 namespace Client.MQTTCommunicationController
 {
@@ -244,12 +247,9 @@ namespace Client.MQTTCommunicationController
            string clientUsername = _mqttClientConfiguration.Username;
 
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
-           
-         
+            Buzzer buzzer = new Buzzer();
             while (true)
             {
-                System.Threading.Thread.Sleep(500);
-
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
@@ -277,13 +277,15 @@ namespace Client.MQTTCommunicationController
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!IsConnected), SMOKE:{TRUE}");
-                        _sensorBuzzerService.set(true);
+                        //_sensorBuzzerService.set(true);
+                        buzzer.set(true);
                         Console.WriteLine("BUZZER ENABLED BY LOCAL SYSTEM");
                     }
                     else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL(!IsConnected), SMOKE:{FALSE}");
-                        _sensorBuzzerService.set(false);
+                        //_sensorBuzzerService.set(false);
+                        buzzer.set(false);
                         Console.WriteLine("CLIENT:" + $"{clientUsername}" + ": BUZZER DISABLED BY LOCAL SYSTEM");
                     }
                     else
