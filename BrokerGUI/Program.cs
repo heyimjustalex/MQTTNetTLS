@@ -39,9 +39,10 @@ namespace BrokerGUI
             var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
             
-            string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
-            
-            if(brokerIP == null ) {
+           // string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
+            string brokerIP =  "192.168.23.164";
+
+            if (brokerIP == null ) {
                 brokerIP = "localhost";
             }
             //   if it has localhost and you want to use another ip just use BROKER_IP_ADRESS env variable (reset VS if it does not work after setting)
