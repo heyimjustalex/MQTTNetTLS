@@ -39,8 +39,8 @@ namespace BrokerGUI
             var certificate = PKIUtilityStatic.ReadCertificateWithPrivateKey(serverCertPath, keyCertPath, "password");
 
             
-           // string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
-            string brokerIP =  "192.168.23.164";
+            string brokerIP = Environment.GetEnvironmentVariable("BROKER_IP_ADDRESS");
+            //string brokerIP =  "192.168.23.164";
 
             if (brokerIP == null ) {
                 brokerIP = "localhost";
