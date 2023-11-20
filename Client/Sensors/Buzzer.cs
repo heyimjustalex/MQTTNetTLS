@@ -9,7 +9,7 @@ namespace Client.Sensors
     {
         // static GpioController controller;
         Process activeProcess;
-        const string buzz_script = "Sensors/square_wave.py";
+        const string buzz_script = "Client/Sensors/square_wave.py";
         const string python_path = "/usr/bin/python3.9";
         bool state_;
         public Buzzer() {

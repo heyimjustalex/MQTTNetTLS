@@ -7,9 +7,11 @@ namespace Client.Sensors
     internal class SmokeDetectorMcp3008 : ISensorGetData
     {
         dynamic mcp;
-        float threshold = 0.1f;
+        float threshold = 1f;
 
         public SmokeDetectorMcp3008(){
+            threshold = float.Parse(Environment.GetEnvironmentVariable("BUZZER_THRESHOLD"));
+            Console.WriteLine("Alarm state threshold: " + threshold.ToString());
             PythonEngine.Initialize();
             using(Py.GIL()){
                 dynamic gpiozero = Py.Import("gpiozero");
