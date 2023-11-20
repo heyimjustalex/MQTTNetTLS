@@ -29,7 +29,7 @@ namespace Client.MQTTCommunicationController
         IManagedMqttClient managedMqttClient;
         ManagedMqttClientOptions mqttManagedClientOptions;
 
-
+        Buzzer buzzer;
         public MQTTCommunicationController(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
         {
             _mqttClientConfiguration = mqttClientConfiguration;
@@ -39,6 +39,7 @@ namespace Client.MQTTCommunicationController
 
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
+            buzzer = new Buzzer();
             initConfiguration();
         }
         private void initConfiguration()
@@ -136,11 +137,14 @@ namespace Client.MQTTCommunicationController
                     string buzzerStateSetByBroker = determineBuzzerStateSentByBroker(message.SensorDatas);
                     if(buzzerStateSetByBroker != "")
                     {
-                        _sensorBuzzerService.set(bool.Parse(buzzerStateSetByBroker.ToUpper()));
+                        if(buzzerStateSetByBroker == "FALSE"){
+                            buzzer.set(false);
+                            return;
+                        }
+                        buzzer.set(true);
                     }
                 }
             }         
-            Console.WriteLine();
         }
 
         private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
@@ -247,7 +251,6 @@ namespace Client.MQTTCommunicationController
            string clientUsername = _mqttClientConfiguration.Username;
 
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
-            Buzzer buzzer = new Buzzer();
             while (true)
             {
                 System.Threading.Thread.Sleep(1000);
@@ -286,7 +289,7 @@ namespace Client.MQTTCommunicationController
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL(!IsConnected), SMOKE:{FALSE}");
                         //_sensorBuzzerService.set(false);
-                        buzzer.set(false);
+                        // buzzer.set(false);
                         Console.WriteLine("CLIENT:" + $"{clientUsername}" + ": BUZZER DISABLED BY LOCAL SYSTEM");
                     }
                     else
