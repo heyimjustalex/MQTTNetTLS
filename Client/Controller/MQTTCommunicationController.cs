@@ -250,6 +250,7 @@ namespace Client.MQTTCommunicationController
             Buzzer buzzer = new Buzzer();
             while (true)
             {
+                System.Threading.Thread.Sleep(1000);
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
