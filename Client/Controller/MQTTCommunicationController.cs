@@ -1,4 +1,4 @@
-﻿using MQTTnet.Client;
+using MQTTnet.Client;
 using MQTTnet.Exceptions;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Protocol;
@@ -9,10 +9,13 @@ using System.Text;
 using Client.SensorService;
 using Client.PKI;
 using Client.SensorBase;
+using Client.Sensors;
+
 
 using Newtonsoft.Json;
 using Client.Message;
 using Client.Configuration;
+using System.Device.Gpio;
 
 namespace Client.MQTTCommunicationController
 {
@@ -20,22 +23,23 @@ namespace Client.MQTTCommunicationController
     {
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
-        SensorSmokeDetectorService _sensorSmokeDetectorService;  
+        SensorSmokeDetectorService _sensorSmokeDetectorService;
 
         MqttFactory mqttFactory;
         IManagedMqttClient managedMqttClient;
         ManagedMqttClientOptions mqttManagedClientOptions;
 
-
+        Buzzer buzzer;
         public MQTTCommunicationController(MqttClientConfiguration mqttClientConfiguration, SensorBuzzerService sensorBuzzerService, SensorSmokeDetectorService smokeDetectorService)
         {
             _mqttClientConfiguration = mqttClientConfiguration;
             _sensorBuzzerService = sensorBuzzerService;
             _sensorSmokeDetectorService = smokeDetectorService;
-         
+
 
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
+            buzzer = new Buzzer();
             initConfiguration();
         }
         private void initConfiguration()
@@ -45,14 +49,14 @@ namespace Client.MQTTCommunicationController
         }
         private void initClientConfigurationOptions()
         {
-          
+
             var mqttClientOptions = new MqttClientOptionsBuilder()
                     .WithClientId(_mqttClientConfiguration.Id)
                     .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
                     .WithCleanSession()
                     .WithCredentials(_mqttClientConfiguration.Username,_mqttClientConfiguration.Password)
                     .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
-                    
+
                     .WithTlsOptions(new MqttClientTlsOptionsBuilder()
                                     .WithSslProtocols(SslProtocols.Tls12)
                                     .WithCertificateValidationHandler(OnCertificateValidation)
@@ -73,7 +77,7 @@ namespace Client.MQTTCommunicationController
             managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
             managedMqttClient.ConnectedAsync += OnConnectAsync;
             managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
-            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;        
+            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
 
         }
         private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
@@ -95,7 +99,7 @@ namespace Client.MQTTCommunicationController
             else
             {
                 Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
-         
+
             }
         }
 
@@ -111,7 +115,7 @@ namespace Client.MQTTCommunicationController
             return "";
         }
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
-        {         
+        {
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
@@ -123,9 +127,9 @@ namespace Client.MQTTCommunicationController
                     e.ApplicationMessage.PayloadSegment.Offset,
                     e.ApplicationMessage.PayloadSegment.Count);
 
-            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);            
+            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);
 
-            if (message != null) 
+            if (message != null)
             {
                 Console.WriteLine($"BROKER: Message from broker -> {message.ToString()}");
                 if (message.From == "broker")
@@ -133,15 +137,18 @@ namespace Client.MQTTCommunicationController
                     string buzzerStateSetByBroker = determineBuzzerStateSentByBroker(message.SensorDatas);
                     if(buzzerStateSetByBroker != "")
                     {
-                        _sensorBuzzerService.set(bool.Parse(buzzerStateSetByBroker.ToUpper()));
+                        if(buzzerStateSetByBroker == "FALSE"){
+                            buzzer.set(false);
+                            return;
+                        }
+                        buzzer.set(true);
                     }
                 }
-            }         
-            Console.WriteLine();
+            }
         }
 
         private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
-        {          
+        {
             Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
             List<SensorData> sensorDatas = new List<SensorData>
@@ -178,13 +185,13 @@ namespace Client.MQTTCommunicationController
             if (path == null)
             {
                 //means there it's not launched as container
-                path = "../../../PKI/CA/rootCA.cer";
+                path = "./Client/PKI/CA/rootCA.cer";
             }
-        
+
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
             X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile(path);
 
-        
+
             try
             {
                 args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
@@ -203,7 +210,7 @@ namespace Client.MQTTCommunicationController
                 {
                     Console.WriteLine("OnCertificateValidation: Building certificate chain FAILURE");
                     return false;
-                } 
+                }
             }
 
             catch (Exception ex)
@@ -216,18 +223,18 @@ namespace Client.MQTTCommunicationController
         }
 
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorDatas)
-        {           
+        {
 
             string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, _mqttClientConfiguration.Id, sensorDatas));
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
-         
+
             }
         }
 
         private async Task subscribeToAllSpecifiedTopics()
-        {   
+        {
             foreach (var topic in _mqttClientConfiguration.TopicsClientSubscribesTo)
             {
                 await managedMqttClient.SubscribeAsync(topic,MqttQualityOfServiceLevel.ExactlyOnce);
@@ -240,25 +247,23 @@ namespace Client.MQTTCommunicationController
         {
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
-           string clientUsername = _mqttClientConfiguration.Username;    
+           string clientUsername = _mqttClientConfiguration.Username;
            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
-         
+
             while (true)
             {
-                await Task.Delay(TimeSpan.FromSeconds(25));
-
+                System.Threading.Thread.Sleep(1000);
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
 
                 List<SensorData> sensorDatas = new List<SensorData>
-            {
-                smokeDetectorStateData
-            };
-
+                {
+                    smokeDetectorStateData
+                };
 
                 if (managedMqttClient.IsConnected)
-                {                               
+                {
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(sensorDatas);
@@ -267,21 +272,23 @@ namespace Client.MQTTCommunicationController
                     else
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": REMOTE -> Message NOT published (IsConnected), state NOT CHANGED,  SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
-                    }                   
+                    }
                 }
                 else
                 {
-                
+
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!IsConnected), SMOKE:{TRUE}");
-                        _sensorBuzzerService.set(true);
+                        //_sensorBuzzerService.set(true);
+                        buzzer.set(true);
                         Console.WriteLine("BUZZER ENABLED BY LOCAL SYSTEM");
                     }
                     else if(ParameterValueSmokeDetectedOld && !ParameterValueSmokeDetectedNew)
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL(!IsConnected), SMOKE:{FALSE}");
-                        _sensorBuzzerService.set(false);
+                        //_sensorBuzzerService.set(false);
+                        // buzzer.set(false);
                         Console.WriteLine("CLIENT:" + $"{clientUsername}" + ": BUZZER DISABLED BY LOCAL SYSTEM");
                     }
                     else
@@ -290,10 +297,8 @@ namespace Client.MQTTCommunicationController
                     }
                 }
 
-               
-
             }
-        }       
+        }
 
     }
 

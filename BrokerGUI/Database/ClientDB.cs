@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Broker.Entity;
 using System.IO;
 using BrokerGUI.Message;
+using System.Printing.IndexedProperties;
 
 namespace Broker.Database
 {
@@ -14,7 +15,7 @@ namespace Broker.Database
         public ClientDB()
         {
             //deleteDB();
-            _dataFilePath = "../../../Database/File/db.json";
+            _dataFilePath = "./BrokerGUI/Database/File/db.json";
             _clients = loadUserData();            
         }
 
@@ -110,21 +111,25 @@ namespace Broker.Database
         }
         private List<Client> loadUserData()
         {
-
+            Console.WriteLine(_dataFilePath); 
             if (File.Exists(_dataFilePath))
             {
                 try
                 {
                     string json = File.ReadAllText(_dataFilePath);
+                    Console.WriteLine(json);
                     var userData = JsonConvert.DeserializeObject<List<Client>>(json);
-                    return userData ?? new List<Client>(); 
+                        return userData ?? new List<Client>(); 
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error loading user data: {ex.Message}");
                 }
             }
-                return new List<Client>();
+            else{
+                // throw new Exception("Database could not be loaded from: " + _dataFilePath);
+            }
+            return new List<Client>();
         }
 
         private void saveClientData()

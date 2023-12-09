@@ -30,7 +30,7 @@ Write-Host "Your Wi-Fi IP Address is: $wiFiIpAddress"
 [Environment]::SetEnvironmentVariable("BROKER_IP_ADDRESS", $null ,[System.EnvironmentVariableTarget]::Machine)
 
 # Export the IP address as an environment variable
-[Environment]::SetEnvironmentVariable("BROKER_IP_ADDRESS", $wiFiIpAddress, [System.EnvironmentVariableTarget]::Machine)
+[Environment]::SetEnvironmentVariable("BROKER_IP_ADDRESS", $wiFiIpAddress)
 #refreshenv
 # Print the value of the environment variable using Write-Host
 Write-Host "Value of BROKER_IP_ADDRESS: $env:BROKER_IP_ADDRESS"

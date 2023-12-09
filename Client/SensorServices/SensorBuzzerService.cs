@@ -6,7 +6,7 @@ namespace Client.SensorService
 {
     internal class SensorBuzzerService : ISensorService
     {
-        ISensorGetSetCheckData buzzer;
+        Buzzer buzzer;
         public SensorBuzzerService() {
 
             buzzer = new Buzzer();        
@@ -14,23 +14,17 @@ namespace Client.SensorService
 
         public SensorData get()
         {
-            return buzzer.get();
+            return new SensorData("Buzzer", "Is not sensor");
         }
 
         public bool check()
         {
-            return buzzer.check();
+            return true;
         }
 
         public void set(bool state)
         {
-            if (buzzer.check() != state)
-            {
-                string isOn = state ? "TRUE" : "FALSE";
-                SensorData data = new SensorData("BUZZER", isOn);
-                buzzer.set(data);
-            }
-            
+            buzzer.set(state);
         }
     }
 }

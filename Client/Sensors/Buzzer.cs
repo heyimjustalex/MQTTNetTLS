@@ -1,46 +1,45 @@
 ﻿using Client.SensorBase;
+using System.Device.Gpio;
+using System.Diagnostics;
 
+// Buzzer is not a sensor so it shouldn't implement sensor methods
 namespace Client.Sensors
 {
-    internal class Buzzer : ISensorGetSetCheckData
+    internal class Buzzer
     {
-        String _state;
+        // static GpioController controller;
+        Process activeProcess;
+        const string buzz_script = "Client/Sensors/square_wave.py";
+        const string python_path = "/usr/bin/python3.9";
+        bool state_;
         public Buzzer() {
-            _state = "FALSE";
-
+            bool state_ = false;
             // States are supposed to be TRUE for buzzing and FALSE for no buzzing (WITH GREAT LETTERS TRUE and FALSE (and are strings))
-
         }
 
-        public bool check()
+        // Sets the buzzer on or off depending on parameter (true is on)
+        // If trying to set to the same state as before, early return
+        public void set(bool state)
         {
-            return get().ParameterValue == "TRUE";
+            Console.WriteLine("buzzer.set called");
+            if(state == state_) return;
+            state_ = state;
+            if(state){
+                send_square_wave();
+            }
+            if(!state){
+                activeProcess.Kill();
+            }
         }
-        public SensorData get()
-        {           
-            // just leave it like that
-            return new SensorData("BUZZER", _state);
-        }    
-        public void set(SensorData sensorData)
-        {   
-                // here you save your state in the object
-                // and keep it like that cuz in get you have to get this value from _state
-                _state = sensorData.ParameterValue;
 
-
-            // Here you have to implement setting the buzzer pins ON/OFF, so the buzzer starts buzzing
-            // I would do sth like
-
-            if(sensorData.ParameterValue == "TRUE")
-            {
-                // set buzzer hardware pin ON
+        private void send_square_wave(){
+            Console.WriteLine("Start python send sqr wave script");
+            try{
+                activeProcess = Process.Start(python_path, buzz_script);
             }
-            else
-            {
-                // set buzzer hardware pin off
+            catch(Exception e){
+                Console.WriteLine(e.Message);
             }
-
-            // this should be enough, cuz set and get functions are invoked within other code. No need to implement anything else in SmokeDetector
         }
     }
 }
