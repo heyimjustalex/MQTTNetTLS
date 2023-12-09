@@ -23,7 +23,7 @@ namespace Client.MQTTCommunicationController
     {
         MqttClientConfiguration _mqttClientConfiguration;
         SensorBuzzerService _sensorBuzzerService;
-        SensorSmokeDetectorService _sensorSmokeDetectorService;  
+        SensorSmokeDetectorService _sensorSmokeDetectorService;
 
         MqttFactory mqttFactory;
         IManagedMqttClient managedMqttClient;
@@ -35,7 +35,7 @@ namespace Client.MQTTCommunicationController
             _mqttClientConfiguration = mqttClientConfiguration;
             _sensorBuzzerService = sensorBuzzerService;
             _sensorSmokeDetectorService = smokeDetectorService;
-         
+
 
             mqttFactory = new MqttFactory();
             managedMqttClient = mqttFactory.CreateManagedMqttClient();
@@ -49,14 +49,14 @@ namespace Client.MQTTCommunicationController
         }
         private void initClientConfigurationOptions()
         {
-          
+
             var mqttClientOptions = new MqttClientOptionsBuilder()
                     .WithClientId(_mqttClientConfiguration.Id)
                     .WithTcpServer(_mqttClientConfiguration.IpAddress, _mqttClientConfiguration.Port)
                     .WithCleanSession()
                     .WithCredentials(_mqttClientConfiguration.Username,_mqttClientConfiguration.Password)
                     .WithKeepAlivePeriod(new TimeSpan(0, 0, 30)) // how much time before assuming connection failure
-                    
+
                     .WithTlsOptions(new MqttClientTlsOptionsBuilder()
                                     .WithSslProtocols(SslProtocols.Tls12)
                                     .WithCertificateValidationHandler(OnCertificateValidation)
@@ -77,7 +77,7 @@ namespace Client.MQTTCommunicationController
             managedMqttClient.DisconnectedAsync += OnDisconnectAsync;
             managedMqttClient.ConnectedAsync += OnConnectAsync;
             managedMqttClient.ConnectingFailedAsync += OnConnectFailedAsync;
-            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;        
+            managedMqttClient.ApplicationMessageReceivedAsync += HandleReceivedMessage;
 
         }
         private async Task OnDisconnectAsync(MqttClientDisconnectedEventArgs args)
@@ -88,7 +88,7 @@ namespace Client.MQTTCommunicationController
             {
                 if (args.Exception is MqttCommunicationException)
                 {
-                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off)");
+                    Console.WriteLine($"Task OnDisconnectAsync: Disconnected due to socket error (probably server is off or there is bad username/password)");
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Client.MQTTCommunicationController
             else
             {
                 Console.WriteLine("Task OnDisconnectAsync: Disconnected for an unknown reason.");
-         
+
             }
         }
 
@@ -115,7 +115,7 @@ namespace Client.MQTTCommunicationController
             return "";
         }
         private async Task HandleReceivedMessage(MqttApplicationMessageReceivedEventArgs e)
-        {         
+        {
             var payloadText = string.Empty;
             if (e.ApplicationMessage.PayloadSegment.Count <= 0)
             {
@@ -127,9 +127,9 @@ namespace Client.MQTTCommunicationController
                     e.ApplicationMessage.PayloadSegment.Offset,
                     e.ApplicationMessage.PayloadSegment.Count);
 
-            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);            
+            MessageMQTT message = JsonConvert.DeserializeObject<MessageMQTT>(payloadText);
 
-            if (message != null) 
+            if (message != null)
             {
                 Console.WriteLine($"BROKER: Message from broker -> {message.ToString()}");
                 if (message.From == "broker")
@@ -144,11 +144,11 @@ namespace Client.MQTTCommunicationController
                         buzzer.set(true);
                     }
                 }
-            }         
+            }
         }
 
         private async Task OnConnectAsync(MqttClientConnectedEventArgs args)
-        {          
+        {
             Console.WriteLine("Task OnConnectAsync: Success connecting to broker. ...");
             SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
             List<SensorData> sensorDatas = new List<SensorData>
@@ -165,7 +165,7 @@ namespace Client.MQTTCommunicationController
             {
                 if (args.Exception is MqttCommunicationException)
                 {
-                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off)");
+                    Console.WriteLine($"Task OnConnectFailedAsync: Disconnected due to socket error (probably server is off or there is bad username/password)");
                 }
                 else
                 {
@@ -187,11 +187,11 @@ namespace Client.MQTTCommunicationController
                 //means there it's not launched as container
                 path = "./Client/PKI/CA/rootCA.cer";
             }
-        
+
             X509Certificate2 serverCertificate = new X509Certificate2(args.Certificate);
             X509Certificate2 CACertificate = PKIUtilityStatic.ReadCertificateFromFile(path);
 
-        
+
             try
             {
                 args.Chain.ChainPolicy.TrustMode = X509ChainTrustMode.CustomRootTrust;
@@ -203,7 +203,6 @@ namespace Client.MQTTCommunicationController
                 args.Chain.ChainStatus.ToList().ForEach(x => { Console.WriteLine(x.Status.ToString()); });
                 if (chain)
                 {
-
                     Console.WriteLine("OnCertificateValidation: Building certificate chain success");
                     return true;
                 }
@@ -224,18 +223,18 @@ namespace Client.MQTTCommunicationController
         }
 
         private async Task enqueueToAllSpecifiedTopics(List<SensorData> sensorDatas)
-        {           
+        {
 
             string json = System.Text.Json.JsonSerializer.Serialize(new MessageMQTT(DateTime.Now, _mqttClientConfiguration.Id, sensorDatas));
             foreach (var topic in _mqttClientConfiguration.TopicsClientEnqueuesTo)
             {
                 await managedMqttClient.EnqueueAsync(topic, json, MqttQualityOfServiceLevel.ExactlyOnce);
-         
+
             }
         }
 
         private async Task subscribeToAllSpecifiedTopics()
-        {   
+        {
             foreach (var topic in _mqttClientConfiguration.TopicsClientSubscribesTo)
             {
                 await managedMqttClient.SubscribeAsync(topic,MqttQualityOfServiceLevel.ExactlyOnce);
@@ -249,22 +248,22 @@ namespace Client.MQTTCommunicationController
            await managedMqttClient.StartAsync(mqttManagedClientOptions);
            await subscribeToAllSpecifiedTopics();
            string clientUsername = _mqttClientConfiguration.Username;
+           SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
 
-            SensorData smokeDetectorStateData = _sensorSmokeDetectorService.get();
             while (true)
             {
                 System.Threading.Thread.Sleep(1000);
                 bool ParameterValueSmokeDetectedOld = bool.Parse(smokeDetectorStateData.ParameterValue);
                 smokeDetectorStateData = _sensorSmokeDetectorService.get();
                 bool ParameterValueSmokeDetectedNew = bool.Parse(smokeDetectorStateData.ParameterValue);
-                
+
                 List<SensorData> sensorDatas = new List<SensorData>
                 {
                     smokeDetectorStateData
                 };
 
                 if (managedMqttClient.IsConnected)
-                {                               
+                {
                     if(!(ParameterValueSmokeDetectedNew == ParameterValueSmokeDetectedOld))
                     {
                        await enqueueToAllSpecifiedTopics(sensorDatas);
@@ -273,11 +272,11 @@ namespace Client.MQTTCommunicationController
                     else
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": REMOTE -> Message NOT published (IsConnected), state NOT CHANGED,  SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
-                    }                   
+                    }
                 }
                 else
                 {
-                
+
                     if(!ParameterValueSmokeDetectedOld && ParameterValueSmokeDetectedNew)
                     {
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!IsConnected), SMOKE:{TRUE}");
@@ -297,9 +296,9 @@ namespace Client.MQTTCommunicationController
                         Console.WriteLine("CLIENT:"+$"{clientUsername}"+": LOCAL (!managedClient.IsConnected), State as previous SMOKE:{"+ParameterValueSmokeDetectedNew.ToString().ToUpper()+"}");
                     }
                 }
-               
+
             }
-        }       
+        }
 
     }
 

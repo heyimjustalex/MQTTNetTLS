@@ -20,7 +20,7 @@ namespace Client.Sensors
         // Sets the buzzer on or off depending on parameter (true is on)
         // If trying to set to the same state as before, early return
         public void set(bool state)
-        {   
+        {
             Console.WriteLine("buzzer.set called");
             if(state == state_) return;
             state_ = state;
